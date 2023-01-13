@@ -17,7 +17,7 @@ type ShortUrlResponse = {
   short_url: string;
 };
 
-export default function UrlShortner() {
+export default function UrlShortener() {
   const [url, setUrl] = useState("");
   const [shortUrl, setShortUrl] = useState("");
 
