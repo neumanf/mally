@@ -1,0 +1,15 @@
+version: '3.3'
+
+services:
+  db:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'maly_db'
+      MYSQL_USER: 'maly'
+      MYSQL_PASSWORD: 'maly'
+      MYSQL_ROOT_PASSWORD: 'maly'
+    ports:
+      - '3306:3306'
+    volumes:
+      - ./db:/var/lib/mysql
