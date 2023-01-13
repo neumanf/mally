@@ -13,7 +13,7 @@ export const DATA = [
   {
     icon: IconLink,
     title: "URL Shortening",
-    description: "Got a long URL and need a short one? We got your back.",
+    description: "Got a long URL but need a short one? We got your back.",
   },
   {
     icon: IconClock,

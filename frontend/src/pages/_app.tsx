@@ -1,6 +1,7 @@
 import { AppProps } from "next/app";
 import Head from "next/head";
 import { MantineProvider } from "@mantine/core";
+
 import { HomeHeader } from "@/components/Header";
 
 export default function App(props: AppProps) {
@@ -30,7 +31,7 @@ export default function App(props: AppProps) {
               label: "Services",
               links: [
                 {
-                  link: "http://localhost:3000/s",
+                  link: "/shortener",
                   label: "URL Shortner",
                 },
               ],

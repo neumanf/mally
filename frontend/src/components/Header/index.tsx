@@ -7,6 +7,7 @@ import {
   Burger,
   Container,
   Title,
+  Text,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconChevronDown } from "@tabler/icons";
@@ -78,7 +79,11 @@ export function HomeHeader({ links }: HeaderSearchProps) {
 
   const items = links.map((link) => {
     const menuItems = link.links?.map((item) => (
-      <Menu.Item key={item.link}>{item.label}</Menu.Item>
+      <Menu.Item key={item.link}>
+        <Text component="a" href={item.link}>
+          {item.label}
+        </Text>
+      </Menu.Item>
     ));
 
     if (menuItems) {
@@ -118,7 +123,9 @@ export function HomeHeader({ links }: HeaderSearchProps) {
       <Container>
         <div className={classes.inner}>
           <Title color="white" order={4}>
-            Maly
+            <Text component="a" href="/">
+              Maly
+            </Text>
           </Title>
           <Group spacing={5} className={classes.links}>
             {items}
