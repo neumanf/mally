@@ -1,6 +1,7 @@
 import { AppProps } from "next/app";
 import Head from "next/head";
 import { MantineProvider } from "@mantine/core";
+import { HomeHeader } from "@/components/Header";
 
 export default function App(props: AppProps) {
   const { Component, pageProps } = props;
@@ -22,6 +23,20 @@ export default function App(props: AppProps) {
           colorScheme: "light",
         }}
       >
+        <HomeHeader
+          links={[
+            {
+              link: "",
+              label: "Services",
+              links: [
+                {
+                  link: "http://localhost:3000/s",
+                  label: "URL Shortner",
+                },
+              ],
+            },
+          ]}
+        />
         <Component {...pageProps} />
       </MantineProvider>
     </>
