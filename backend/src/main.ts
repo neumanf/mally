@@ -8,6 +8,7 @@ async function bootstrap() {
     const configService = app.get(ConfigService);
 
     app.setGlobalPrefix('api');
+    app.enableCors({ origin: configService.get('frontendUrl') });
 
     await app.listen(configService.get('port'));
 }
