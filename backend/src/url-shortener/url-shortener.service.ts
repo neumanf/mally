@@ -5,7 +5,7 @@ import { PrismaService } from '../prisma/prisma.service';
 import { ConfigService } from '@nestjs/config';
 
 @Injectable()
-export class UrlShortnerService {
+export class UrlShortenerService {
     constructor(
         private readonly configService: ConfigService,
         private readonly prisma: PrismaService

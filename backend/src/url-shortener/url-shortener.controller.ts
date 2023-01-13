@@ -2,16 +2,16 @@ import { Body, Controller, Get, NotFoundException, Post, Query, Res } from '@nes
 import { Response } from 'express';
 
 import { CreateShortUrlDto } from './DTOs/create-short-url.dto';
-import { UrlShortnerService } from './url-shortner.service';
+import { UrlShortenerService } from './url-shortener.service';
 
-@Controller('url-shortner')
-export class UrlShortnerController {
-    constructor(private readonly urlShortnerService: UrlShortnerService) {}
+@Controller('url-shortener')
+export class UrlShortenerController {
+    constructor(private readonly urlShortnerService: UrlShortenerService) {}
 
     @Post()
     async createShortUrl(@Body() createShortUrlDto: CreateShortUrlDto) {
         const url = await this.urlShortnerService.createShortUrl(createShortUrlDto.url);
-        return { 'short-url': url };
+        return { short_url: url };
     }
 
     @Get()

@@ -36,7 +36,7 @@ $ npm run test:cov
 
 ### URL Shortner
 
-- **POST** `/api/url-shortner` - creates a new shortned url
+- **POST** `/api/url-shortener` - creates a new shortened url
 
 **Request**
 
@@ -50,11 +50,11 @@ $ npm run test:cov
 
 ```json
 {
-  "short-url": "string"
+  "short_url": "string"
 }
 ```
 
-- **GET** `/api/url-shortner?url=<short-url>` - redirects the user to the original url from the shortned version
+- **GET** `/api/url-shortener?url=<short-url>` - redirects the user to the original url from the shortened version
 
 **Response**
 
