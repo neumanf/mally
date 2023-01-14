@@ -12,9 +12,15 @@ import {
 import { IconCheck, IconLink } from "@tabler/icons";
 
 import { requestApi } from "@/helpers/requestApi";
+import { showNotification } from "@mantine/notifications";
 
 type ShortUrlResponse = {
   short_url: string;
+};
+type ErrorResponse = {
+  statusCode: 400;
+  message: string[];
+  error: string;
 };
 
 export default function UrlShortener() {
@@ -23,14 +29,27 @@ export default function UrlShortener() {
 
   async function shortenUrl() {
     try {
-      const data = await requestApi<ShortUrlResponse>(
+      const data = await requestApi<Partial<ShortUrlResponse & ErrorResponse>>(
         "/api/url-shortener",
         "POST",
         JSON.stringify({ url })
       );
-      setShortUrl(data.short_url);
+
+      if (data?.statusCode === 400) {
+        showNotification({
+          title: "Something went wrong.",
+          message: data?.message?.join(",") ?? "",
+          color: "red",
+        });
+      }
+
+      if (data.short_url) setShortUrl(data.short_url);
     } catch (e) {
-      console.error(e);
+      showNotification({
+        title: "Something went wrong",
+        message: "An unexpected error occurred.",
+        color: "red",
+      });
     }
   }
 

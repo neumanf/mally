@@ -1,6 +1,7 @@
 import { AppProps } from "next/app";
 import Head from "next/head";
 import { MantineProvider } from "@mantine/core";
+import { NotificationsProvider } from "@mantine/notifications";
 
 import { HomeHeader } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -27,31 +28,36 @@ export default function App(props: AppProps) {
           primaryColor: "red",
         }}
       >
-        <HomeHeader
-          links={[
-            {
-              link: "",
-              label: "Services",
-              links: [
-                {
-                  link: "/shortener",
-                  label: "URL Shortner",
-                },
-              ],
-            },
-          ]}
-        />
-        <Component {...pageProps} />
-        <Footer
-          data={[
-            {
-              title: "Home",
-              links: [
-                { label: "Services", link: "http://localhost:3000/#services" },
-              ],
-            },
-          ]}
-        />
+        <NotificationsProvider>
+          <HomeHeader
+            links={[
+              {
+                link: "",
+                label: "Services",
+                links: [
+                  {
+                    link: "/shortener",
+                    label: "URL Shortener",
+                  },
+                ],
+              },
+            ]}
+          />
+          <Component {...pageProps} />
+          <Footer
+            data={[
+              {
+                title: "Home",
+                links: [
+                  {
+                    label: "Services",
+                    link: "http://localhost:3000/#services",
+                  },
+                ],
+              },
+            ]}
+          />
+        </NotificationsProvider>
       </MantineProvider>
     </>
   );
