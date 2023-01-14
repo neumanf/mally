@@ -20,6 +20,6 @@ export class UrlShortenerController {
 
         if (!url) throw new NotFoundException('URL not found.');
 
-        return response.redirect(url);
+        return response.status(303).redirect(url);
     }
 }
