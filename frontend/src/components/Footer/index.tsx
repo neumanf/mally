@@ -145,7 +145,7 @@ export function Footer({ data }: FooterLinksProps) {
     <footer className={classes.footer}>
       <Container className={classes.inner}>
         <div className={classes.logo}>
-          <Title>Maly</Title>
+          <Title>Mally</Title>
           <Text size="xs" color="dimmed" className={classes.description}>
             Services for the impatient
           </Text>
@@ -154,7 +154,7 @@ export function Footer({ data }: FooterLinksProps) {
       </Container>
       <Container className={classes.afterFooter}>
         <Text color="dimmed" size="sm">
-          © 2023 Maly. All rights reserved.
+          © 2023 Mally. All rights reserved.
         </Text>
 
         <Group spacing={0} className={classes.social} position="right" noWrap>

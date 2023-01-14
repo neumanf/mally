@@ -6,7 +6,7 @@
 </p>
 
 <h1 align="center">
-Maly
+Mally
 </h1>
 <h4 align="center">
 A collection of open source web services 
@@ -23,4 +23,4 @@ A collection of open source web services
 
 ## License
 
-Maly is licensed under the [MIT License](LICENSE).
+Mally is licensed under the [MIT License](LICENSE).

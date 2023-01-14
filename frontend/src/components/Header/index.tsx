@@ -124,7 +124,7 @@ export function HomeHeader({ links }: HeaderSearchProps) {
         <div className={classes.inner}>
           <Title color="white" order={4}>
             <Text component="a" href="/">
-              Maly
+              Mally
             </Text>
           </Title>
           <Group spacing={5} className={classes.links}>
