@@ -3,6 +3,8 @@ import Head from "next/head";
 import { MantineProvider } from "@mantine/core";
 
 import { HomeHeader } from "@/components/Header";
+import { Footer } from "@/components/Footer";
+import React from "react";
 
 export default function App(props: AppProps) {
   const { Component, pageProps } = props;
@@ -22,6 +24,7 @@ export default function App(props: AppProps) {
         withNormalizeCSS
         theme={{
           colorScheme: "light",
+          primaryColor: "red",
         }}
       >
         <HomeHeader
@@ -39,6 +42,16 @@ export default function App(props: AppProps) {
           ]}
         />
         <Component {...pageProps} />
+        <Footer
+          data={[
+            {
+              title: "Home",
+              links: [
+                { label: "Services", link: "http://localhost:3000/#services" },
+              ],
+            },
+          ]}
+        />
       </MantineProvider>
     </>
   );

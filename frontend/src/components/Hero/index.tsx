@@ -1,11 +1,20 @@
-import { createStyles, Title, Text, Button, Container } from "@mantine/core";
+import {
+  createStyles,
+  Title,
+  Text,
+  Button,
+  Container,
+  Center,
+} from "@mantine/core";
 
 import { Dots } from "./dots";
+import Image from "next/image";
+import React from "react";
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
     position: "relative",
-    paddingTop: 120,
+    paddingTop: 50,
     paddingBottom: 80,
 
     "@media (max-width: 755px)": {
@@ -103,6 +112,10 @@ export function HeroText() {
       <Dots className={classes.dots} style={{ right: 0, top: 60 }} />
 
       <div className={classes.inner}>
+        <Center style={{ marginBottom: "1em" }}>
+          <Image src="/logo.svg" alt="logo" width={200} height={300} />
+        </Center>
+
         <Title className={classes.title}>
           <Text component="span" className={classes.highlight} inherit>
             Services

@@ -1,7 +1,7 @@
 <!--suppress HtmlDeprecatedAttribute -->
 <p align="center">
   <a href="">
-    <img src="./.github/logo.png" height="220">
+    <img src="./frontend/public/logo.svg" height="220">
   </a>
 </p>
 

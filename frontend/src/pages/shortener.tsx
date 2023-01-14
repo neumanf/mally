@@ -35,7 +35,7 @@ export default function UrlShortener() {
   }
 
   return (
-    <Container>
+    <Container h={500}>
       <Title>URL Shortener</Title>
       <Container py={20} />
       <Group position="center">
