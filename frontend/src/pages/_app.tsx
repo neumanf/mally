@@ -6,9 +6,37 @@ import { NotificationsProvider } from "@mantine/notifications";
 import { HomeHeader } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import React from "react";
+import { QueryClient } from "@tanstack/query-core";
+import { QueryClientProvider } from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
 
 export default function App(props: AppProps) {
   const { Component, pageProps } = props;
+
+  const headerLinks = [
+    {
+      link: "",
+      label: "Services",
+      links: [
+        {
+          link: "/shortener",
+          label: "URL Shortener",
+        },
+      ],
+    },
+  ];
+  const footerLinks = [
+    {
+      title: "Home",
+      links: [
+        {
+          label: "Services",
+          link: "http://localhost:3000/#services",
+        },
+      ],
+    },
+  ];
 
   return (
     <>
@@ -20,45 +48,22 @@ export default function App(props: AppProps) {
         />
       </Head>
 
-      <MantineProvider
-        withGlobalStyles
-        withNormalizeCSS
-        theme={{
-          colorScheme: "light",
-          primaryColor: "red",
-        }}
-      >
-        <NotificationsProvider>
-          <HomeHeader
-            links={[
-              {
-                link: "",
-                label: "Services",
-                links: [
-                  {
-                    link: "/shortener",
-                    label: "URL Shortener",
-                  },
-                ],
-              },
-            ]}
-          />
-          <Component {...pageProps} />
-          <Footer
-            data={[
-              {
-                title: "Home",
-                links: [
-                  {
-                    label: "Services",
-                    link: "http://localhost:3000/#services",
-                  },
-                ],
-              },
-            ]}
-          />
-        </NotificationsProvider>
-      </MantineProvider>
+      <QueryClientProvider client={queryClient}>
+        <MantineProvider
+          withGlobalStyles
+          withNormalizeCSS
+          theme={{
+            colorScheme: "light",
+            primaryColor: "red",
+          }}
+        >
+          <NotificationsProvider>
+            <HomeHeader links={headerLinks} />
+            <Component {...pageProps} />
+            <Footer data={footerLinks} />
+          </NotificationsProvider>
+        </MantineProvider>
+      </QueryClientProvider>
     </>
   );
 }

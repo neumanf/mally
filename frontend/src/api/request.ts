@@ -1,3 +1,15 @@
+import { ErrorResponse } from "@/interfaces/api";
+
+export class ApiError extends Error {
+  readonly statusCode: number;
+
+  constructor(data: ErrorResponse) {
+    super(data.message.join(","));
+    this.statusCode = data.statusCode;
+    this.name = data.error;
+  }
+}
+
 export async function requestApi<TResponse>(
   path: string,
   method = "GET",
@@ -10,7 +22,12 @@ export async function requestApi<TResponse>(
       "Content-Type": "application/json",
       Accept: "application/json",
     },
-  })
-    .then((response) => response.json())
-    .then((data) => data as TResponse);
+  }).then((response) =>
+    response.json().then((data) => {
+      if (!response.ok) {
+        throw new ApiError(data);
+      }
+      return data as TResponse;
+    })
+  );
 }

@@ -1,9 +1,13 @@
+export type ShortUrlRequest = {
+  url: string;
+};
+
 export type ShortUrlResponse = {
   short_url: string;
 };
 
 export type ErrorResponse = {
-  statusCode: 400;
+  statusCode: number;
   message: string[];
   error: string;
 };
