@@ -10,18 +10,11 @@ import {
   ThemeIcon,
 } from "@mantine/core";
 import { IconCheck, IconLink } from "@tabler/icons";
-
-import { requestApi } from "@/helpers/requestApi";
 import { showNotification } from "@mantine/notifications";
 
-type ShortUrlResponse = {
-  short_url: string;
-};
-type ErrorResponse = {
-  statusCode: 400;
-  message: string[];
-  error: string;
-};
+import { requestApi } from "@/api/request";
+import { ErrorResponse, ShortUrlResponse } from "@/interfaces/api";
+import { ENDPOINTS } from "@/api/endpoints";
 
 export default function UrlShortener() {
   const [url, setUrl] = useState("");
@@ -30,7 +23,7 @@ export default function UrlShortener() {
   async function shortenUrl() {
     try {
       const data = await requestApi<Partial<ShortUrlResponse & ErrorResponse>>(
-        "/api/url-shortener",
+        ENDPOINTS.urlShortener,
         "POST",
         JSON.stringify({ url })
       );

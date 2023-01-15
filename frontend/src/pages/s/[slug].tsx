@@ -1,13 +1,13 @@
 import { GetServerSidePropsContext } from "next";
 
+import { ENDPOINTS } from "@/api/endpoints";
+
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   try {
     const url = `${process.env.NEXT_PUBLIC_FRONTEND_URL}/s/${context.query.slug}`;
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/url-shortener?url=${url}`
+      `${ENDPOINTS.baseUrl}${ENDPOINTS.urlShortener}?url=${url}`
     );
-
-    console.log(res);
 
     if (!res.redirected) {
       return {
