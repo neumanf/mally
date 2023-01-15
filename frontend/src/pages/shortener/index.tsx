@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import {
   Text,
   Button,
@@ -10,48 +10,46 @@ import {
   ThemeIcon,
 } from "@mantine/core";
 import { IconCheck, IconLink } from "@tabler/icons";
-
-import { requestApi } from "@/helpers/requestApi";
 import { showNotification } from "@mantine/notifications";
 
-type ShortUrlResponse = {
-  short_url: string;
-};
-type ErrorResponse = {
-  statusCode: 400;
-  message: string[];
-  error: string;
-};
+import { ApiError } from "@/api/request";
+import { useCreateShortUrlMutation } from "@/hooks/mutations";
 
 export default function UrlShortener() {
   const [url, setUrl] = useState("");
   const [shortUrl, setShortUrl] = useState("");
 
-  async function shortenUrl() {
-    try {
-      const data = await requestApi<Partial<ShortUrlResponse & ErrorResponse>>(
-        "/api/url-shortener",
-        "POST",
-        JSON.stringify({ url })
-      );
+  const shortenUrl = useCreateShortUrlMutation();
 
-      if (data?.statusCode === 400) {
-        showNotification({
-          title: "Something went wrong.",
-          message: data?.message?.join(",") ?? "",
-          color: "red",
-        });
+  const handleShortenUrl = useCallback(() => {
+    shortenUrl.mutate(
+      { url },
+      {
+        onSuccess: (data) => {
+          setShortUrl(data.short_url);
+        },
+        onError: (error) => {
+          const message =
+            error instanceof ApiError && error.statusCode === 400
+              ? error.message
+              : "An unexpected error occurred.";
+
+          showNotification({
+            title: "Something went wrong.",
+            message: message,
+            color: "red",
+          });
+        },
       }
+    );
+  }, []);
 
-      if (data.short_url) setShortUrl(data.short_url);
-    } catch (e) {
-      showNotification({
-        title: "Something went wrong",
-        message: "An unexpected error occurred.",
-        color: "red",
-      });
-    }
-  }
+  const handleInputChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setUrl(e.target.value);
+    },
+    []
+  );
 
   return (
     <Container h={500}>
@@ -62,9 +60,9 @@ export default function UrlShortener() {
           icon={<IconLink />}
           placeholder="Enter the URL"
           size="lg"
-          onChange={(e) => setUrl(e.target.value)}
+          onChange={handleInputChange}
         />
-        <Button size="lg" onClick={shortenUrl}>
+        <Button size="lg" onClick={handleShortenUrl}>
           Shorten
         </Button>
       </Group>
