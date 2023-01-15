@@ -1,1 +1,2 @@
-export * from './useCreateShortUrlMutation';
+export * from "./useCreateShortUrlMutation";
+export * from "./useCreatePasteMutation";

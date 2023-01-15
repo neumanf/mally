@@ -7,13 +7,18 @@ import {
   useMantineTheme,
   createStyles,
 } from "@mantine/core";
-import { IconClock, IconLink, TablerIcon } from "@tabler/icons";
+import { IconClipboard, IconClock, IconLink, TablerIcon } from "@tabler/icons";
 
 export const DATA = [
   {
     icon: IconLink,
     title: "URL Shortening",
     description: "Got a long URL but need a short one? We got your back.",
+  },
+  {
+    icon: IconClipboard,
+    title: "Pastebin",
+    description: "Share any text or code over the web with ease.",
   },
   {
     icon: IconClock,
