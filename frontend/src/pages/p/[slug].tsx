@@ -1,21 +1,21 @@
 import {
   ActionIcon,
-  Container,
   Group,
   Paper,
   ScrollArea,
   Skeleton,
   Text,
   ThemeIcon,
-  Title,
   Tooltip,
 } from "@mantine/core";
 import { Prism } from "@mantine/prism";
 import React from "react";
-import { useGetPasteQuery } from "@/hooks/queries";
 import { useRouter } from "next/router";
 import { IconCheck, IconClipboardCopy, IconError404 } from "@tabler/icons";
 import { useClipboard } from "@mantine/hooks";
+
+import { useGetPasteQuery } from "@/hooks/queries";
+import { PageContainer } from "@/components/PageContainer";
 
 export default function PastebinContent() {
   const clipboard = useClipboard({ timeout: 1500 });
@@ -25,19 +25,16 @@ export default function PastebinContent() {
 
   if (pastebin.isLoading) {
     return (
-      <Container h={500}>
-        <Title>Pastebin</Title>
-        <Container py={20} />
+      <PageContainer title="Pastebin">
         <Skeleton visible={true} height={300} />
-      </Container>
+      </PageContainer>
     );
   }
 
   if (pastebin.isError) {
     return (
-      <Container h={500}>
-        <Title>Pastebin</Title>
-        <Container py={20} />
+      <PageContainer title="Pastebin">
+        <Skeleton visible={true} height={300} />
         <Paper radius="xs" p="lg" withBorder>
           <Group mb={5}>
             <ThemeIcon variant="light" color="red">
@@ -54,14 +51,12 @@ export default function PastebinContent() {
             one.
           </Text>
         </Paper>
-      </Container>
+      </PageContainer>
     );
   }
 
   return (
-    <Container h={500}>
-      <Title>Pastebin</Title>
-      <Container py={20} />
+    <PageContainer title="Pastebin">
       {pastebin?.data?.syntax === "text" ? (
         <>
           <Group position="right">
@@ -81,6 +76,6 @@ export default function PastebinContent() {
       ) : (
         <Prism language={"tsx"}>{pastebin?.data?.content ?? ""}</Prism>
       )}
-    </Container>
+    </PageContainer>
   );
 }
