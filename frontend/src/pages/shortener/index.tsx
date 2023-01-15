@@ -62,7 +62,11 @@ export default function UrlShortener() {
           size="lg"
           onChange={handleInputChange}
         />
-        <Button size="lg" onClick={handleShortenUrl}>
+        <Button
+          size="lg"
+          onClick={handleShortenUrl}
+          loading={shortenUrl.isLoading}
+        >
           Shorten
         </Button>
       </Group>
