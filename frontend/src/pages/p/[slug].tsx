@@ -34,7 +34,6 @@ export default function PastebinContent() {
   if (pastebin.isError) {
     return (
       <PageContainer title="Pastebin">
-        <Skeleton visible={true} height={300} />
         <Paper radius="xs" p="lg" withBorder>
           <Group mb={5}>
             <ThemeIcon variant="light" color="red">
