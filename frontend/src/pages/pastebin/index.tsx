@@ -12,7 +12,7 @@ import {
 import { Prism } from "@mantine/prism";
 import { IconCheck, IconChevronDown } from "@tabler/icons";
 
-import { SYNTAX_LIST } from "@/pages/pastebin/syntaxList";
+import { SYNTAX_LIST } from "@/constants/syntaxList";
 import { useCreatePasteMutation } from "@/hooks/mutations/useCreatePasteMutation";
 import { ApiError } from "@/api/request";
 import { showNotification } from "@mantine/notifications";
