@@ -23,6 +23,10 @@ export default function App(props: AppProps) {
           link: "/shortener",
           label: "URL Shortener",
         },
+        {
+          link: "/pastebin",
+          label: "Pastebin",
+        },
       ],
     },
   ];

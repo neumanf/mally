@@ -16,3 +16,11 @@ model Url {
   url       String
   shortUrl  String   @unique
 }
+
+model Paste {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  content   String   @db.MediumText
+  syntax    String
+  slug      String   @unique
+}

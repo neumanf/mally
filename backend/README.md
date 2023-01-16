@@ -59,7 +59,42 @@ $ npm run test:cov
 **Response**
 
 ```json
+303 REDIRECT
+```
+
+### Pastebin
+
+- **POST** `/api/pastebin` - creates a new paste
+
+**Request**
+
+```json
 {
-  "ok": "boolean"
+  "content": "string",
+  "syntax": "string"
+}
+```
+
+**Response**
+
+```json
+{
+  "id": "string",
+  "content": "string",
+  "syntax": "string",
+  "slug": "string"
+}
+```
+
+- **GET** `/api/pastebin?slug=<slug>` - gets a specific paste
+
+**Response**
+
+```json
+{
+  "id": "string",
+  "content": "string",
+  "syntax": "string",
+  "slug": "string"
 }
 ```
