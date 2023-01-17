@@ -9,12 +9,13 @@ import { CreatePasteDto } from './DTOs/create-paste.dto';
 export class PastebinService {
     constructor(private readonly prisma: PrismaService) {}
 
-    async createPaste(paste: CreatePasteDto): Promise<Paste> {
+    async createPaste(paste: CreatePasteDto, userId: number): Promise<Paste> {
         return this.prisma.paste.create({
             data: {
                 content: paste.content,
                 syntax: paste.syntax,
                 slug: cuid(),
+                userId: userId,
             },
         });
     }

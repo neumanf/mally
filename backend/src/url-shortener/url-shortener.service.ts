@@ -11,7 +11,7 @@ export class UrlShortenerService {
         private readonly prisma: PrismaService
     ) {}
 
-    async createShortUrl(url: string): Promise<string> {
+    async createShortUrl(url: string, userId?: number): Promise<string> {
         const slug = cuid.slug();
         const baseUrl = this.configService.get('frontendUrl');
         const shortUrl = `${baseUrl}/s/${slug}`;
@@ -20,6 +20,7 @@ export class UrlShortenerService {
             data: {
                 url,
                 shortUrl,
+                userId,
             },
         });
 
