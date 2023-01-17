@@ -29,6 +29,14 @@ export default function App(props: AppProps) {
         },
       ],
     },
+    {
+      link: "/login",
+      label: "Log In",
+    },
+    {
+      link: "/signup",
+      label: "Sign Up",
+    },
   ];
   const footerLinks = [
     {

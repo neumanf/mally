@@ -1,15 +1,20 @@
 import { useMutation } from "@tanstack/react-query";
-import { LoginRequest, LoginResponse } from "@/interfaces/api";
+
+import { SignUpRequest, SignUpResponse } from "@/interfaces/api";
 import { requestApi } from "@/api/request";
 import { ENDPOINTS } from "@/api/endpoints";
 
-export const useLoginMutation = () => {
+export const useSignUpMutation = () => {
   return useMutation({
-    mutationFn: (body: LoginRequest) =>
-      requestApi<LoginResponse>(
-        ENDPOINTS.login,
+    mutationFn: (body: SignUpRequest) =>
+      requestApi<SignUpResponse>(
+        ENDPOINTS.signUp,
         "POST",
-        JSON.stringify({ username: body.username, password: body.password })
+        JSON.stringify({
+          name: body.name,
+          email: body.email,
+          password: body.password,
+        })
       ),
   });
 };

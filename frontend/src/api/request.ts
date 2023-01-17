@@ -4,7 +4,7 @@ export class ApiError extends Error {
   readonly statusCode: number;
 
   constructor(data: ErrorResponse) {
-    super(data.message.join(","));
+    super(Array.isArray(data.message) ? data.message.join(",") : data.message);
     this.statusCode = data.statusCode;
     this.name = data.error;
   }
@@ -22,6 +22,7 @@ export async function requestApi<TResponse>(
       "Content-Type": "application/json",
       Accept: "application/json",
     },
+    credentials: "include",
   }).then((response) =>
     response.json().then((data) => {
       if (!response.ok) {

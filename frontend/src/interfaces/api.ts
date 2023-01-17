@@ -1,7 +1,26 @@
 export type ErrorResponse = {
   statusCode: number;
-  message: string[];
+  message: string[] | string;
   error: string;
+};
+
+export type LoginRequest = {
+  username: string;
+  password: string;
+};
+
+export type LoginResponse = {
+  access_token: string;
+};
+
+export type SignUpRequest = {
+  name: string;
+  email: string;
+  password: string;
+};
+
+export type SignUpResponse = {
+  ok: boolean;
 };
 
 export type ShortUrlRequest = {
