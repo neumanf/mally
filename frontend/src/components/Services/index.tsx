@@ -4,8 +4,8 @@ import {
   Title,
   Container,
   SimpleGrid,
-  useMantineTheme,
   createStyles,
+  Stack,
 } from "@mantine/core";
 import { IconClipboard, IconClock, IconLink, TablerIcon } from "@tabler/icons";
 
@@ -13,11 +13,13 @@ export const DATA = [
   {
     icon: IconLink,
     title: "URL Shortening",
-    description: "Got a long URL but need a short one? We got your back.",
+    link: "/shortener",
+    description: "Reduce massive links into a short, comprehensive link.",
   },
   {
     icon: IconClipboard,
     title: "Pastebin",
+    link: "/pastebin",
     description: "Share any text or code over the web with ease.",
   },
   {
@@ -30,23 +32,28 @@ export const DATA = [
 interface FeatureProps {
   icon: TablerIcon;
   title: React.ReactNode;
+  link?: string;
   description: React.ReactNode;
 }
 
-export function Feature({ icon: Icon, title, description }: FeatureProps) {
-  const theme = useMantineTheme();
+export function Feature({
+  icon: Icon,
+  title,
+  link,
+  description,
+}: FeatureProps) {
   return (
-    <div>
+    <Stack>
       <ThemeIcon variant="light" size={40} radius={40}>
         <Icon size={20} stroke={1.5} />
       </ThemeIcon>
-      <Text style={{ marginTop: theme.spacing.sm, marginBottom: 7 }}>
+      <Text component="a" href={link}>
         {title}
       </Text>
       <Text size="sm" color="dimmed" style={{ lineHeight: 1.6 }}>
         {description}
       </Text>
-    </div>
+    </Stack>
   );
 }
 
