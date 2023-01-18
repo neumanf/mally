@@ -8,6 +8,7 @@ import {
   Textarea,
   ScrollArea,
   Text,
+  Transition,
 } from "@mantine/core";
 import { Prism } from "@mantine/prism";
 import { IconCheck, IconChevronDown } from "@tabler/icons";
@@ -100,13 +101,22 @@ export default function Pastebin({ accessToken }: { accessToken: string }) {
       <Button onClick={handleSubmit} loading={pastebin.isLoading}>
         Submit
       </Button>
-      {pasteUrl && (
-        <Info title="Paste URL" Icon={IconCheck} color="green">
-          <Text component="a" href={pasteUrl} color="green">
-            {pasteUrl}
-          </Text>
-        </Info>
-      )}
+      <Transition
+        mounted={!!pasteUrl}
+        transition="fade"
+        duration={500}
+        timingFunction="ease"
+      >
+        {(styles) => (
+          <div style={styles}>
+            <Info title="Paste URL" Icon={IconCheck} color="green">
+              <Text component="a" href={pasteUrl} color="green">
+                {pasteUrl}
+              </Text>
+            </Info>
+          </div>
+        )}
+      </Transition>
     </PageContainer>
   );
 }

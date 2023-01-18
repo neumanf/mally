@@ -31,9 +31,7 @@ const useStyles = createStyles((theme) => ({
   dots: {
     position: "absolute",
     color:
-      theme.colorScheme === "dark"
-        ? theme.colors.dark[5]
-        : theme.colors.gray[1],
+      theme.colorScheme === "dark" ? theme.colors.dark[5] : theme.colors.red[1],
 
     "@media (max-width: 755px)": {
       display: "none",

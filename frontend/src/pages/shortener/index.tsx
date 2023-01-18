@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { Text, Button, Container, Group, Input } from "@mantine/core";
+import {
+  Text,
+  Button,
+  Container,
+  Group,
+  Input,
+  Transition,
+} from "@mantine/core";
 import { IconCheck, IconLink } from "@tabler/icons";
 import { showNotification } from "@mantine/notifications";
 import { GetServerSidePropsContext } from "next";
@@ -60,13 +67,22 @@ export default function UrlShortener({ accessToken }: UrlShortenerProps) {
         </Button>
       </Group>
       <Container py={20} />
-      {shortUrl && (
-        <Info title={"Shortened URL"} Icon={IconCheck} color={"green"}>
-          <Text component="a" href={shortUrl} color="green">
-            {shortUrl}
-          </Text>
-        </Info>
-      )}
+      <Transition
+        mounted={!!shortUrl}
+        transition="fade"
+        duration={500}
+        timingFunction="ease"
+      >
+        {(styles) => (
+          <div style={styles}>
+            <Info title={"Shortened URL"} Icon={IconCheck} color={"green"}>
+              <Text component="a" href={shortUrl} color="green">
+                {shortUrl}
+              </Text>
+            </Info>
+          </div>
+        )}
+      </Transition>
     </PageContainer>
   );
 }

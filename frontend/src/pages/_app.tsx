@@ -1,55 +1,20 @@
+import "./global.css";
+
+import React from "react";
 import { AppProps } from "next/app";
 import Head from "next/head";
 import { MantineProvider } from "@mantine/core";
 import { NotificationsProvider } from "@mantine/notifications";
+import { QueryClient } from "@tanstack/query-core";
+import { QueryClientProvider } from "@tanstack/react-query";
 
 import { HomeHeader } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import React from "react";
-import { QueryClient } from "@tanstack/query-core";
-import { QueryClientProvider } from "@tanstack/react-query";
-import { GetServerSidePropsContext } from "next";
 
 const queryClient = new QueryClient();
 
 export default function App(props: AppProps) {
   const { Component, pageProps } = props;
-
-  const headerLinks = [
-    {
-      link: "",
-      label: "Services",
-      links: [
-        {
-          link: "/shortener",
-          label: "URL Shortener",
-        },
-        {
-          link: "/pastebin",
-          label: "Pastebin",
-        },
-      ],
-    },
-    {
-      link: "/login",
-      label: "Log In",
-    },
-    {
-      link: "/signup",
-      label: "Sign Up",
-    },
-  ];
-  const footerLinks = [
-    {
-      title: "Home",
-      links: [
-        {
-          label: "Services",
-          link: "http://localhost:3000/#services",
-        },
-      ],
-    },
-  ];
 
   return (
     <>
@@ -71,9 +36,9 @@ export default function App(props: AppProps) {
           }}
         >
           <NotificationsProvider>
-            <HomeHeader links={headerLinks} />
+            <HomeHeader />
             <Component {...pageProps} />
-            <Footer data={footerLinks} />
+            <Footer />
           </NotificationsProvider>
         </MantineProvider>
       </QueryClientProvider>
