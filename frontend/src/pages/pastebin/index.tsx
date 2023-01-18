@@ -11,6 +11,7 @@ import {
 } from "@mantine/core";
 import { Prism } from "@mantine/prism";
 import { IconCheck, IconChevronDown } from "@tabler/icons";
+import { GetServerSidePropsContext } from "next";
 
 import { SYNTAX_LIST } from "@/constants/syntaxList";
 import { useCreatePasteMutation } from "@/hooks/mutations/useCreatePasteMutation";
@@ -19,12 +20,12 @@ import { showNotification } from "@mantine/notifications";
 import { Info } from "@/components/Info";
 import { PageContainer } from "@/components/PageContainer";
 
-export default function Pastebin() {
+export default function Pastebin({ accessToken }: { accessToken: string }) {
   const [content, setContent] = useState("");
   const [syntax, setSyntax] = useState("text");
   const [pasteUrl, setPasteUrl] = useState("");
 
-  const pastebin = useCreatePasteMutation();
+  const pastebin = useCreatePasteMutation({ accessToken });
 
   const handleSubmit = () => {
     pastebin.mutate(
@@ -108,4 +109,20 @@ export default function Pastebin() {
       )}
     </PageContainer>
   );
+}
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const accessToken = context.req.cookies.accessToken;
+  if (!accessToken) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: "/login",
+      },
+    };
+  }
+
+  return {
+    props: { accessToken },
+  };
 }

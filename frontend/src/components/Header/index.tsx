@@ -69,7 +69,7 @@ interface HeaderSearchProps {
   links: {
     link: string;
     label: string;
-    links: { link: string; label: string }[];
+    links?: { link: string; label: string }[];
   }[];
 }
 
@@ -107,14 +107,14 @@ export function HomeHeader({ links }: HeaderSearchProps) {
     }
 
     return (
-      <a
+      <Text
+        component="a"
         key={link.label}
         href={link.link}
         className={classes.link}
-        onClick={(event) => event.preventDefault()}
       >
         {link.label}
-      </a>
+      </Text>
     );
   });
 

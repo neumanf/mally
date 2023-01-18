@@ -2,17 +2,22 @@ import React, { useState } from "react";
 import { Text, Button, Container, Group, Input } from "@mantine/core";
 import { IconCheck, IconLink } from "@tabler/icons";
 import { showNotification } from "@mantine/notifications";
+import { GetServerSidePropsContext } from "next";
 
 import { ApiError } from "@/api/request";
 import { useCreateShortUrlMutation } from "@/hooks/mutations";
 import { Info } from "@/components/Info";
 import { PageContainer } from "@/components/PageContainer";
 
-export default function UrlShortener() {
+type UrlShortenerProps = {
+  accessToken: string;
+};
+
+export default function UrlShortener({ accessToken }: UrlShortenerProps) {
   const [url, setUrl] = useState("");
   const [shortUrl, setShortUrl] = useState("");
 
-  const shortenUrl = useCreateShortUrlMutation();
+  const shortenUrl = useCreateShortUrlMutation({ accessToken });
 
   const handleShortenUrl = () => {
     shortenUrl.mutate(
@@ -64,4 +69,20 @@ export default function UrlShortener() {
       )}
     </PageContainer>
   );
+}
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const accessToken = context.req.cookies.accessToken;
+  if (!accessToken) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: "/login",
+      },
+    };
+  }
+
+  return {
+    props: { accessToken },
+  };
 }

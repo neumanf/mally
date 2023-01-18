@@ -4,7 +4,7 @@ export class ApiError extends Error {
   readonly statusCode: number;
 
   constructor(data: ErrorResponse) {
-    super(data.message.join(","));
+    super(Array.isArray(data.message) ? data.message.join(",") : data.message);
     this.statusCode = data.statusCode;
     this.name = data.error;
   }
@@ -13,7 +13,8 @@ export class ApiError extends Error {
 export async function requestApi<TResponse>(
   path: string,
   method = "GET",
-  body?: any
+  body?: any,
+  token?: string
 ): Promise<TResponse> {
   return fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}${path}`, {
     method,
@@ -21,7 +22,9 @@ export async function requestApi<TResponse>(
     headers: {
       "Content-Type": "application/json",
       Accept: "application/json",
+      Authorization: "Bearer " + token,
     },
+    credentials: "include",
   }).then((response) =>
     response.json().then((data) => {
       if (!response.ok) {

@@ -2,6 +2,10 @@ import { GetServerSidePropsContext } from "next";
 
 import { ENDPOINTS } from "@/api/endpoints";
 
+export default function UrlShortenerRedirect() {
+  return <></>;
+}
+
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   try {
     const url = `${process.env.NEXT_PUBLIC_FRONTEND_URL}/s/${context.query.slug}`;
@@ -32,8 +36,4 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
       },
     };
   }
-}
-
-export default function UrlShortenerRedirect() {
-  return <></>;
 }
