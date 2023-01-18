@@ -8,6 +8,7 @@ import { Footer } from "@/components/Footer";
 import React from "react";
 import { QueryClient } from "@tanstack/query-core";
 import { QueryClientProvider } from "@tanstack/react-query";
+import { GetServerSidePropsContext } from "next";
 
 const queryClient = new QueryClient();
 
