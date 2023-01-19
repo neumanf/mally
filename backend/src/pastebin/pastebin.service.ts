@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import * as cuid from 'cuid';
+import cuid = require('cuid');
 import { Paste } from '@prisma/client';
 
 import { PrismaService } from '../prisma/prisma.service';
