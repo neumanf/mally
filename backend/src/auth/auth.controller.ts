@@ -18,7 +18,11 @@ export class AuthController {
     @Post('login')
     async login(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
         const login = await this.authService.login(req.user as JwtResponse);
-        res.cookie('accessToken', login.access_token, { maxAge: 1000 * 60 * 60, httpOnly: true });
+        res.cookie('accessToken', login.access_token, {
+            maxAge: 1000 * 60 * 60,
+            httpOnly: true,
+            sameSite: 'none',
+        });
         return login;
     }
 
