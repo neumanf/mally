@@ -16,7 +16,7 @@ export async function requestApi<TResponse>(
   body?: any,
   token?: string
 ): Promise<TResponse> {
-  return fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}${path}`, {
+  return fetch(`${process.env.NEXT_PUBLIC_FRONTEND_URL}/api/proxy${path}`, {
     method,
     body,
     headers: {
