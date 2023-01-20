@@ -26,7 +26,7 @@ export class AuthController {
             httpOnly: true,
             sameSite: 'none',
             secure: isProd ? true : undefined,
-            domain: isProd ? '.vercel.app' : 'localhost'
+            domain: isProd ? 'vercel.app' : 'localhost'
         });
         return login;
     }
