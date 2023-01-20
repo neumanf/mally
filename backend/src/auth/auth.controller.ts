@@ -1,19 +1,19 @@
 import { Controller, Post, UseGuards, Req, Res, Body } from '@nestjs/common';
 import { Request, Response } from 'express';
+import { ConfigService } from '@nestjs/config';
 
 import { SignUpDto } from './DTOs/signUpDto';
 import { UsersService } from '../users/users.service';
 import { AuthService } from './auth.service';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { JwtResponse } from './strategies/jwt.strategy';
-import {ConfigService} from "@nestjs/config";
 
 @Controller('auth')
 export class AuthController {
     constructor(
         private readonly authService: AuthService,
         private readonly userService: UsersService,
-        private readonly configService: ConfigService,
+        private readonly configService: ConfigService
     ) {}
 
     @UseGuards(LocalAuthGuard)
@@ -25,8 +25,29 @@ export class AuthController {
             maxAge: 1000 * 60 * 60,
             httpOnly: true,
             sameSite: 'none',
-            secure: isProd ? true : undefined,
-            domain: isProd ? 'vercel.app' : 'localhost'
+            secure: isProd,
+            domain: isProd ? 'vercel.app' : 'localhost',
+        });
+        res.cookie('test1', 'test1', {
+            maxAge: 1000 * 60 * 60,
+            httpOnly: true,
+            sameSite: 'none',
+            secure: isProd,
+            domain: isProd ? '.vercel.app' : 'localhost',
+        });
+        res.cookie('test2', 'test2', {
+            maxAge: 1000 * 60 * 60,
+            httpOnly: true,
+            sameSite: 'none',
+            secure: isProd,
+            domain: isProd ? 'mally.vercel.app' : 'localhost',
+        });
+        res.cookie('test3', 'test3', {
+            maxAge: 1000 * 60 * 60,
+            httpOnly: true,
+            sameSite: 'none',
+            secure: isProd,
+            domain: isProd ? 'https://mally.vercel.app' : 'localhost',
         });
         return login;
     }
