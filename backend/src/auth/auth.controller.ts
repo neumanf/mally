@@ -49,6 +49,13 @@ export class AuthController {
             secure: isProd,
             domain: isProd ? 'https://mally.vercel.app' : 'localhost',
         });
+        res.cookie('test4', 'test4', {
+            maxAge: 1000 * 60 * 60,
+            httpOnly: true,
+            sameSite: 'none',
+            secure: isProd,
+            domain: isProd ? 'vercel.app' : 'localhost',
+        });
         return login;
     }
 
