@@ -15,6 +15,11 @@ export type Url = {
   userId: number;
 };
 
+export type User = {
+  id: number;
+  email: string;
+};
+
 export type ErrorResponse = {
   statusCode: number;
   message: string[] | string;
@@ -27,7 +32,7 @@ export type LoginRequest = {
 };
 
 export type LoginResponse = {
-  access_token: string;
+  accessToken: string;
 };
 
 export type SignUpRequest = {

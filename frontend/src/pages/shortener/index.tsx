@@ -16,15 +16,11 @@ import { useCreateShortUrlMutation } from "@/hooks/mutations";
 import { Info } from "@/components/Info";
 import { PageContainer } from "@/components/PageContainer";
 
-type UrlShortenerProps = {
-  accessToken: string;
-};
-
-export default function UrlShortener({ accessToken }: UrlShortenerProps) {
+export default function UrlShortener() {
   const [url, setUrl] = useState("");
   const [shortUrl, setShortUrl] = useState("");
 
-  const shortenUrl = useCreateShortUrlMutation({ accessToken });
+  const shortenUrl = useCreateShortUrlMutation();
 
   const handleShortenUrl = () => {
     shortenUrl.mutate(
@@ -88,8 +84,7 @@ export default function UrlShortener({ accessToken }: UrlShortenerProps) {
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const accessToken = context.req.cookies.accessToken;
-  if (!accessToken) {
+  if (!context.req.cookies.accessToken) {
     return {
       redirect: {
         permanent: false,
@@ -99,6 +94,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   }
 
   return {
-    props: { accessToken },
+    props: {},
   };
 }

@@ -49,10 +49,6 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-type DashboardProps = {
-  accessToken: string;
-};
-
 type StatsData = {
   title: string;
   icon: TablerIcon;
@@ -65,7 +61,7 @@ const statsData: StatsData = [
   { title: "Total pastes", icon: IconClipboard, value: 23 },
 ];
 
-export default function Dashboard({ accessToken }: DashboardProps) {
+export default function Dashboard() {
   const { classes } = useStyles();
   const stats = statsData.map((stat) => {
     const Icon = stat.icon;
@@ -127,8 +123,7 @@ Dashboard.getLayout = (page: ReactElement) => {
 };
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const accessToken = context.req.cookies.accessToken;
-  if (!accessToken) {
+  if (!context.req.cookies.accessToken) {
     return {
       redirect: {
         permanent: false,
@@ -138,6 +133,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   }
 
   return {
-    props: { accessToken },
+    props: {},
   };
 }

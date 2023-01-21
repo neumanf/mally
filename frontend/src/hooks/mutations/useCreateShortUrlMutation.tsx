@@ -7,20 +7,13 @@ import {
 import { requestApi } from "@/api/request";
 import { ENDPOINTS } from "@/api/endpoints";
 
-type UseCreateShortUrlMutation = {
-  accessToken: string;
-};
-
-export const useCreateShortUrlMutation = ({
-  accessToken,
-}: UseCreateShortUrlMutation) => {
+export const useCreateShortUrlMutation = () => {
   return useMutation({
     mutationFn: (body: CreateShortUrlRequest) =>
       requestApi<CreateShortUrlResponse>(
         ENDPOINTS.urlShortener + "/redirect",
         "POST",
-        JSON.stringify({ url: body.url }),
-        accessToken
+        JSON.stringify({ url: body.url })
       ),
   });
 };

@@ -28,7 +28,7 @@ export default function Login() {
     login.mutate(
       { username: email, password: password },
       {
-        onSuccess: async () => {
+        onSuccess: async (data) => {
           await router.push("/");
         },
         onError: (error) => {

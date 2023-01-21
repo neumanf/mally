@@ -1,33 +1,31 @@
 import React, { ReactElement } from "react";
 import { GetServerSidePropsContext } from "next";
-import { Title, Container } from "@mantine/core";
+import { Title, Container, Skeleton, Stack } from "@mantine/core";
 
 import DashboardLayout from "@/pages/dashboard/_layout";
 import { ContentTable } from "@/components/ContentTable";
 import { useGetPastesQuery } from "@/hooks/queries/useGetPastesQuery";
 
-type PastesProps = {
-  accessToken: string;
-};
-
-export default function Pastes({ accessToken }: PastesProps) {
-  const { data, isLoading } = useGetPastesQuery({ accessToken });
-
-  if (isLoading || !data) return <>Loading...</>;
+export default function Pastes() {
+  const { data, isLoading } = useGetPastesQuery();
 
   return (
     <>
       <Title order={2}>Pastes</Title>
       <Container py={10} />
-      <ContentTable
-        data={data}
-        columns={[
-          { label: "Content", type: "", key: "content" },
-          { label: "Syntax", type: "", key: "syntax" },
-          { label: "URL", type: "slug", key: "slug" },
-          { label: "Date", type: "date", key: "createdAt" },
-        ]}
-      />
+      {isLoading || !data ? (
+        <>Loading...</>
+      ) : (
+        <ContentTable
+          data={data}
+          columns={[
+            { label: "Content", type: "", key: "content" },
+            { label: "Syntax", type: "", key: "syntax" },
+            { label: "URL", type: "slug", key: "slug" },
+            { label: "Date", type: "date", key: "createdAt" },
+          ]}
+        />
+      )}
     </>
   );
 }
@@ -37,8 +35,7 @@ Pastes.getLayout = (page: ReactElement) => {
 };
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const accessToken = context.req.cookies.accessToken;
-  if (!accessToken) {
+  if (!context.req.cookies.accessToken) {
     return {
       redirect: {
         permanent: false,
@@ -48,6 +45,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   }
 
   return {
-    props: { accessToken },
+    props: {},
   };
 }

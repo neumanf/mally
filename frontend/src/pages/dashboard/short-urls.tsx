@@ -6,27 +6,25 @@ import DashboardLayout from "@/pages/dashboard/_layout";
 import { useGetShortUrlQuery } from "@/hooks/queries/useGetShortUrlsQuery";
 import { ContentTable } from "@/components/ContentTable";
 
-type ShortURLsProps = {
-  accessToken: string;
-};
-
-export default function ShortURLs({ accessToken }: ShortURLsProps) {
-  const { data, isLoading } = useGetShortUrlQuery({ accessToken });
-
-  if (isLoading || !data) return <>Loading...</>;
+export default function ShortURLs() {
+  const { data, isLoading } = useGetShortUrlQuery();
 
   return (
     <>
       <Title order={2}>Short URLs</Title>
       <Container py={10} />
-      <ContentTable
-        data={data}
-        columns={[
-          { label: "Short URL", type: "url", key: "shortUrl" },
-          { label: "URL", type: "url", key: "url" },
-          { label: "Date", type: "date", key: "createdAt" },
-        ]}
-      />
+      {isLoading || !data ? (
+        <>Loading...</>
+      ) : (
+        <ContentTable
+          data={data}
+          columns={[
+            { label: "Short URL", type: "url", key: "shortUrl" },
+            { label: "URL", type: "url", key: "url" },
+            { label: "Date", type: "date", key: "createdAt" },
+          ]}
+        />
+      )}
     </>
   );
 }
@@ -36,8 +34,7 @@ ShortURLs.getLayout = (page: ReactElement) => {
 };
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const accessToken = context.req.cookies.accessToken;
-  if (!accessToken) {
+  if (!context.req.cookies.accessToken) {
     return {
       redirect: {
         permanent: false,
@@ -47,6 +44,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   }
 
   return {
-    props: { accessToken },
+    props: {},
   };
 }

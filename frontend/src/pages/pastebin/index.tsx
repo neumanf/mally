@@ -21,12 +21,12 @@ import { showNotification } from "@mantine/notifications";
 import { Info } from "@/components/Info";
 import { PageContainer } from "@/components/PageContainer";
 
-export default function Pastebin({ accessToken }: { accessToken: string }) {
+export default function Pastebin() {
   const [content, setContent] = useState("");
   const [syntax, setSyntax] = useState("text");
   const [pasteUrl, setPasteUrl] = useState("");
 
-  const pastebin = useCreatePasteMutation({ accessToken });
+  const pastebin = useCreatePasteMutation();
 
   const handleSubmit = () => {
     pastebin.mutate(
@@ -122,8 +122,7 @@ export default function Pastebin({ accessToken }: { accessToken: string }) {
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const accessToken = context.req.cookies.accessToken;
-  if (!accessToken) {
+  if (!context.req.cookies.accessToken) {
     return {
       redirect: {
         permanent: false,
@@ -133,6 +132,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   }
 
   return {
-    props: { accessToken },
+    props: {},
   };
 }
