@@ -132,8 +132,8 @@ export function HomeHeader() {
   ));
 
   return (
-    <Box pb={120}>
-      <Header height={60} px="md">
+    <Box>
+      <Header height="6vh" px="md">
         <Container style={{ padding: "0.7em" }}>
           <Group position="apart" sx={{ height: "100%" }}>
             <Text fw={600} component="a" href="/">

@@ -10,6 +10,7 @@ import {
     UseGuards,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
+import { Url } from '@prisma/client';
 
 import { CreateShortUrlDto } from './DTOs/create-short-url.dto';
 import { UrlShortenerService } from './url-shortener.service';
@@ -29,7 +30,14 @@ export class UrlShortenerController {
         return { short_url: url };
     }
 
+    @UseGuards(JwtAuthGuard)
     @Get()
+    async findShortUrls(@Req() request: Request): Promise<Url[]> {
+        const user = request.user as JwtResponse;
+        return this.urlShortnerService.findShortUrlsByUserId(user.id);
+    }
+
+    @Get('/redirect')
     async redirectUrl(@Res() response: Response, @Query('url') shortUrl: string) {
         const url = await this.urlShortnerService.findLongUrl(shortUrl);
 

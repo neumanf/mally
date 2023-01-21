@@ -27,4 +27,12 @@ export class PastebinService {
             },
         });
     }
+
+    async findPastesByUserId(id: number): Promise<Paste[]> {
+        return this.prisma.paste.findMany({
+            where: {
+                userId: id,
+            },
+        });
+    }
 }

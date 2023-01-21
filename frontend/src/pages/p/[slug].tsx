@@ -19,9 +19,8 @@ import { PageContainer } from "@/components/PageContainer";
 
 export default function PastebinContent() {
   const clipboard = useClipboard({ timeout: 1500 });
-
   const router = useRouter();
-  const pastebin = useGetPasteQuery({ slug: router.query.slug as string });
+  const pastebin = useGetPasteQuery({ slug: router.query.slug });
 
   if (pastebin.isLoading) {
     return (
