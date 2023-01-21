@@ -69,3 +69,12 @@ export type CreatePastebinResponse = {
 export type GetPastesResponse = Paste[];
 
 export type GetShortUrlsResponse = Url[];
+
+export type GetStatsResponse = {
+  urls: {
+    count: number;
+  };
+  pastes: {
+    count: number;
+  };
+};

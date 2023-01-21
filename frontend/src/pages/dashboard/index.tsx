@@ -1,5 +1,5 @@
 import { GetServerSidePropsContext } from "next";
-import React, { ReactElement } from "react";
+import React, { ReactElement, useEffect, useState } from "react";
 import {
   createStyles,
   Group,
@@ -17,6 +17,7 @@ import {
 } from "@tabler/icons";
 
 import DashboardLayout from "@/pages/dashboard/_layout";
+import { useGetStatsQuery } from "@/hooks/queries/useGetStatsQuery";
 
 const useStyles = createStyles((theme) => ({
   root: {
@@ -57,12 +58,28 @@ type StatsData = {
 }[];
 
 const statsData: StatsData = [
-  { title: "Total short URLs", icon: IconLink, value: 12 },
-  { title: "Total pastes", icon: IconClipboard, value: 23 },
+  { title: "Total short URLs", icon: IconLink, value: 0 },
+  { title: "Total pastes", icon: IconClipboard, value: 0 },
 ];
 
 export default function Dashboard() {
   const { classes } = useStyles();
+  const [statsData, setStatsData] = useState<StatsData>([
+    { title: "Total short URLs", icon: IconLink, value: 0 },
+    { title: "Total pastes", icon: IconClipboard, value: 0 },
+  ]);
+
+  const { data } = useGetStatsQuery();
+
+  useEffect(() => {
+    if (!data) return;
+
+    setStatsData((stats) => [
+      { ...stats[0], value: data.urls.count },
+      { ...stats[1], value: data.pastes.count },
+    ]);
+  }, [data]);
+
   const stats = statsData.map((stat) => {
     const Icon = stat.icon;
     const DiffIcon =

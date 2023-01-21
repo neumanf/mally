@@ -4,5 +4,6 @@ export const ENDPOINTS = {
   signUp: "/api/auth/signup",
   urlShortener: "/api/url-shortener",
   pastebin: "/api/pastebin",
+  stats: "/api/stats",
   me: "/api/users/me",
 };
