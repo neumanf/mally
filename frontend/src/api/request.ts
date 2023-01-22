@@ -13,8 +13,7 @@ export class ApiError extends Error {
 export async function requestApi<TResponse>(
   path: string,
   method = "GET",
-  body?: any,
-  token?: string
+  body?: any
 ): Promise<TResponse> {
   return fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}${path}`, {
     method,
@@ -22,7 +21,6 @@ export async function requestApi<TResponse>(
     headers: {
       "Content-Type": "application/json",
       Accept: "application/json",
-      Authorization: "Bearer " + token,
     },
     credentials: "include",
   }).then((response) =>

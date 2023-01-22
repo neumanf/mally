@@ -16,10 +16,13 @@ import {
   Collapse,
   ScrollArea,
   Container,
+  Skeleton,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconChevronDown, IconLink, IconClipboard } from "@tabler/icons";
 import Link from "next/link";
+import { GetServerSidePropsContext } from "next";
+import useAuth from "@/hooks/useAuth";
 
 const useStyles = createStyles((theme) => ({
   link: {
@@ -90,7 +93,7 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-const mockdata = [
+const data = [
   {
     icon: IconLink,
     title: "URL Shortener",
@@ -110,8 +113,9 @@ export function HomeHeader() {
     useDisclosure(false);
   const [linksOpened, { toggle: toggleLinks }] = useDisclosure(false);
   const { classes, theme } = useStyles();
+  const { isAuthLoading, isAuthenticated } = useAuth();
 
-  const links = mockdata.map((item) => (
+  const links = data.map((item) => (
     <Link href={item.link} key={item.title}>
       <UnstyledButton className={classes.subLink}>
         <Group noWrap align="flex-start">
@@ -132,8 +136,8 @@ export function HomeHeader() {
   ));
 
   return (
-    <Box pb={120}>
-      <Header height={60} px="md">
+    <Box>
+      <Header height="6vh" px="md">
         <Container style={{ padding: "0.7em" }}>
           <Group position="apart" sx={{ height: "100%" }}>
             <Text fw={600} component="a" href="/">
@@ -184,14 +188,24 @@ export function HomeHeader() {
               </HoverCard>
             </Group>
 
-            <Group className={classes.hiddenMobile}>
-              <Button component="a" href="/login" variant="default">
-                Log in
+            {isAuthLoading ? (
+              <Button variant="default" disabled>
+                Dashboard
               </Button>
-              <Button component="a" href="/signup">
-                Sign up
+            ) : isAuthenticated ? (
+              <Button component="a" href="/dashboard" variant="default">
+                Dashboard
               </Button>
-            </Group>
+            ) : (
+              <Group className={classes.hiddenMobile}>
+                <Button component="a" href="/login" variant="default">
+                  Log in
+                </Button>
+                <Button component="a" href="/signup">
+                  Sign up
+                </Button>
+              </Group>
+            )}
 
             <Burger
               opened={drawerOpened}

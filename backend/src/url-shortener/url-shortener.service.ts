@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import * as cuid from 'cuid';
+import { Url } from '@prisma/client';
+import { ConfigService } from '@nestjs/config';
 
 import { PrismaService } from '../prisma/prisma.service';
-import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class UrlShortenerService {
@@ -35,5 +36,21 @@ export class UrlShortenerService {
         });
 
         return !!result ? result.url : '';
+    }
+
+    async findShortUrlsByUserId(id: number): Promise<Url[]> {
+        return this.prisma.url.findMany({
+            where: {
+                userId: id,
+            },
+        });
+    }
+
+    async deleteShortUrl(id: number) {
+        return this.prisma.url.delete({
+            where: {
+                id: id,
+            },
+        });
     }
 }

@@ -14,6 +14,7 @@ import { useRouter } from "next/router";
 import { ApiError } from "@/api/request";
 import { showNotification } from "@mantine/notifications";
 import { useSignUpMutation } from "@/hooks/mutations/useSignUpMutation";
+import { GetServerSidePropsContext } from "next";
 
 export default function SignUp() {
   const [name, setName] = useState("");
@@ -97,4 +98,19 @@ export default function SignUp() {
       </Paper>
     </Container>
   );
+}
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  if (context.req.cookies.accessToken) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: "/",
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
 }

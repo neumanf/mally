@@ -1,3 +1,25 @@
+export type Paste = {
+  id: number;
+  createdAt: string;
+  content: string;
+  syntax: string;
+  slug: string;
+  userId: number;
+};
+
+export type Url = {
+  id: number;
+  createdAt: string;
+  url: string;
+  shortUrl: string;
+  userId: number;
+};
+
+export type User = {
+  id: number;
+  email: string;
+};
+
 export type ErrorResponse = {
   statusCode: number;
   message: string[] | string;
@@ -10,7 +32,9 @@ export type LoginRequest = {
 };
 
 export type LoginResponse = {
-  access_token: string;
+  sub: number;
+  email: string;
+  accessToken: string;
 };
 
 export type SignUpRequest = {
@@ -23,23 +47,44 @@ export type SignUpResponse = {
   ok: boolean;
 };
 
-export type ShortUrlRequest = {
+export type CreateShortUrlRequest = {
   url: string;
 };
 
-export type ShortUrlResponse = {
+export type CreateShortUrlResponse = {
   short_url: string;
 };
 
-export type PastebinRequest = {
+export type GetShortUrlsResponse = Url[];
+
+export type DeleteShortUrlRequest = {
+  id: number;
+};
+
+export type CreatePastebinRequest = {
   content: string;
   syntax: string;
 };
 
-export type PastebinResponse = {
+export type CreatePastebinResponse = {
   id: number;
   createdAt: Date;
   content: string;
   syntax: string;
   slug: string;
+};
+
+export type GetPastesResponse = Paste[];
+
+export type DeletePastebinRequest = {
+  id: number;
+};
+
+export type GetStatsResponse = {
+  urls: {
+    count: number;
+  };
+  pastes: {
+    count: number;
+  };
 };

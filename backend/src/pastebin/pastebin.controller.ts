@@ -1,10 +1,11 @@
 import {
     Body,
     Controller,
+    Delete,
     Get,
     NotFoundException,
+    Param,
     Post,
-    Query,
     Req,
     UseGuards,
 } from '@nestjs/common';
@@ -30,12 +31,25 @@ export class PastebinController {
         return this.pastebinService.createPaste(createPasteDto, user.id);
     }
 
+    @UseGuards(JwtAuthGuard)
     @Get()
-    async findPaste(@Query('slug') slug: string): Promise<Paste> {
+    async findPastes(@Req() request: Request): Promise<Paste[]> {
+        const user = request.user as JwtResponse;
+        return this.pastebinService.findPastesByUserId(user.id);
+    }
+
+    @Get(':slug')
+    async findPaste(@Param('slug') slug: string): Promise<Paste> {
         const paste = await this.pastebinService.findPaste(slug);
 
         if (!paste) throw new NotFoundException('Paste not found.');
 
         return paste;
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Delete(':id')
+    async deletePaste(@Param('id') id: string) {
+        return this.pastebinService.deletePaste(+id);
     }
 }
