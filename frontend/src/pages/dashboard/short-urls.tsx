@@ -5,9 +5,11 @@ import { Title, Container } from "@mantine/core";
 import DashboardLayout from "@/pages/dashboard/_layout";
 import { useGetShortUrlQuery } from "@/hooks/queries/useGetShortUrlsQuery";
 import { ContentTable } from "@/components/ContentTable";
+import { useDeleteShortUrlMutation } from "@/hooks/mutations/useDeleteShortUrlMutation";
 
 export default function ShortURLs() {
   const { data, isLoading } = useGetShortUrlQuery();
+  const deleteShortUrl = useDeleteShortUrlMutation();
 
   return (
     <>
@@ -23,6 +25,7 @@ export default function ShortURLs() {
             { label: "URL", type: "url", key: "url" },
             { label: "Date", type: "date", key: "createdAt" },
           ]}
+          deleteItem={deleteShortUrl}
         />
       )}
     </>

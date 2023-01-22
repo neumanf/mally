@@ -1,6 +1,7 @@
 import {
     Body,
     Controller,
+    Delete,
     Get,
     NotFoundException,
     Param,
@@ -44,5 +45,11 @@ export class PastebinController {
         if (!paste) throw new NotFoundException('Paste not found.');
 
         return paste;
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Delete(':id')
+    async deletePaste(@Param('id') id: string) {
+        return this.pastebinService.deletePaste(+id);
     }
 }

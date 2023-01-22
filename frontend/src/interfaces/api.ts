@@ -55,6 +55,12 @@ export type CreateShortUrlResponse = {
   short_url: string;
 };
 
+export type GetShortUrlsResponse = Url[];
+
+export type DeleteShortUrlRequest = {
+  id: number;
+};
+
 export type CreatePastebinRequest = {
   content: string;
   syntax: string;
@@ -70,7 +76,9 @@ export type CreatePastebinResponse = {
 
 export type GetPastesResponse = Paste[];
 
-export type GetShortUrlsResponse = Url[];
+export type DeletePastebinRequest = {
+  id: number;
+};
 
 export type GetStatsResponse = {
   urls: {

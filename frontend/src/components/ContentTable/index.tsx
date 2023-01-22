@@ -8,6 +8,8 @@ import {
   Text,
   Center,
   TextInput,
+  ActionIcon,
+  Tooltip,
 } from "@mantine/core";
 import { keys } from "@mantine/utils";
 import {
@@ -15,7 +17,10 @@ import {
   IconChevronDown,
   IconChevronUp,
   IconSearch,
+  IconTrash,
 } from "@tabler/icons";
+import { UseMutationResult } from "@tanstack/react-query";
+import { showNotification } from "@mantine/notifications";
 
 const useStyles = createStyles((theme) => ({
   th: {
@@ -51,6 +56,7 @@ interface TableSortProps<
     type: string;
     key: K;
   }[];
+  deleteItem: UseMutationResult<any, unknown, any, unknown>;
 }
 
 interface ThProps {
@@ -117,6 +123,7 @@ function sortData<T>(
 export function ContentTable<T extends Record<string, string | number>>({
   data,
   columns,
+  deleteItem,
 }: TableSortProps<T, string>) {
   const [search, setSearch] = useState("");
   const [sortedData, setSortedData] = useState(data);
@@ -135,6 +142,22 @@ export function ContentTable<T extends Record<string, string | number>>({
     setSearch(value);
     setSortedData(
       sortData(data, { sortBy, reversed: reverseSortDirection, search: value })
+    );
+  };
+
+  const handleDeleteItem = (id: number) => {
+    deleteItem.mutate(
+      { id: id },
+      {
+        onSuccess: () =>
+          setSortedData((data) => data.filter((d) => d.id !== id)),
+        onError: () =>
+          showNotification({
+            title: "Something went wrong",
+            message: "Error while trying to delete item",
+            color: "red",
+          }),
+      }
     );
   };
 
@@ -176,6 +199,18 @@ export function ContentTable<T extends Record<string, string | number>>({
             );
         }
       })}
+      <td style={{ display: "flex", justifyContent: "center", width: "20%" }}>
+        <Tooltip label="Delete">
+          <ActionIcon
+            color="red"
+            variant="light"
+            loading={deleteItem.isLoading}
+            onClick={() => handleDeleteItem(+row.id)}
+          >
+            <IconTrash size={18} />
+          </ActionIcon>
+        </Tooltip>
+      </td>
     </tr>
   ));
 
@@ -189,10 +224,17 @@ export function ContentTable<T extends Record<string, string | number>>({
         onChange={handleSearchChange}
       />
       <Table
+        withBorder
         horizontalSpacing="md"
         verticalSpacing="xs"
         sx={{ tableLayout: "fixed", minWidth: 700 }}
       >
+        <colgroup>
+          {columns.map(
+            (c, i) => i < columns.length && <col key={i} span={1} />
+          )}
+          <col span={1} style={{ width: "5%" }} />
+        </colgroup>
         <thead>
           <tr>
             {columns.map((c, i) => (
@@ -205,6 +247,7 @@ export function ContentTable<T extends Record<string, string | number>>({
                 {c.label}
               </Th>
             ))}
+            <th></th>
           </tr>
         </thead>
         <tbody>

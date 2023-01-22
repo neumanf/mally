@@ -8,6 +8,8 @@ import {
     Res,
     Req,
     UseGuards,
+    Delete,
+    Param,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { Url } from '@prisma/client';
@@ -44,5 +46,11 @@ export class UrlShortenerController {
         if (!url) throw new NotFoundException('URL not found.');
 
         return response.status(303).redirect(url);
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Delete(':id')
+    async deleteShortUrl(@Param('id') id: string) {
+        return this.urlShortnerService.deleteShortUrl(+id);
     }
 }

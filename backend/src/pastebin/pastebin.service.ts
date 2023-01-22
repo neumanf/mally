@@ -35,4 +35,8 @@ export class PastebinService {
             },
         });
     }
+
+    async deletePaste(id: number) {
+        return this.prisma.paste.delete({ where: { id: id } });
+    }
 }

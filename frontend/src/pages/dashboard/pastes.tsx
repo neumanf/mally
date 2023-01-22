@@ -1,13 +1,15 @@
 import React, { ReactElement } from "react";
 import { GetServerSidePropsContext } from "next";
-import { Title, Container, Skeleton, Stack } from "@mantine/core";
+import { Title, Container } from "@mantine/core";
 
 import DashboardLayout from "@/pages/dashboard/_layout";
 import { ContentTable } from "@/components/ContentTable";
 import { useGetPastesQuery } from "@/hooks/queries/useGetPastesQuery";
+import { useDeletePasteMutation } from "@/hooks/mutations/useDeletePasteMutation";
 
 export default function Pastes() {
   const { data, isLoading } = useGetPastesQuery();
+  const deletePaste = useDeletePasteMutation();
 
   return (
     <>
@@ -24,6 +26,7 @@ export default function Pastes() {
             { label: "URL", type: "slug", key: "slug" },
             { label: "Date", type: "date", key: "createdAt" },
           ]}
+          deleteItem={deletePaste}
         />
       )}
     </>
