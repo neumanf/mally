@@ -19,7 +19,7 @@ export class AuthController {
     async login(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
         const login = await this.authService.login(req.user as JwtResponse);
         res.cookie('accessToken', login.accessToken, {
-            maxAge: 1000 * 60 * 60,
+            maxAge: 1000 * 60 * 60, // 1h
             httpOnly: true,
             sameSite: 'none',
             secure: true,
@@ -30,6 +30,17 @@ export class AuthController {
     @Post('signup')
     async signUp(@Body() signUpDto: SignUpDto) {
         await this.userService.create(signUpDto);
+        return { ok: true };
+    }
+
+    @Post('logout')
+    async logout(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
+        res.cookie('accessToken', req.cookies.accessToken, {
+            maxAge: 0,
+            httpOnly: true,
+            sameSite: 'none',
+            secure: true,
+        });
         return { ok: true };
     }
 }

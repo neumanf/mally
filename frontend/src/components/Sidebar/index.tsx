@@ -1,20 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { createStyles, Navbar, Group, Code, Text } from "@mantine/core";
+import { createStyles, Navbar } from "@mantine/core";
 import {
-  IconBellRinging,
-  IconFingerprint,
-  IconKey,
-  IconSettings,
-  Icon2fa,
-  IconDatabaseImport,
-  IconReceipt2,
-  IconSwitchHorizontal,
   IconLogout,
   IconClipboard,
   IconLink,
   IconDashboard,
 } from "@tabler/icons";
 import { useRouter } from "next/router";
+
+import { useLogoutMutation } from "@/hooks/mutations/useLogoutMutation";
+import { showNotification } from "@mantine/notifications";
+import useAuth from "@/hooks/useAuth";
 
 const useStyles = createStyles((theme, _params, getRef) => {
   const icon = getRef("icon");
@@ -103,12 +99,31 @@ const data = [
 export function Sidebar() {
   const { classes, cx } = useStyles();
   const [active, setActive] = useState("Dashboard");
+
+  const { setUser } = useAuth();
   const router = useRouter();
+  const logout = useLogoutMutation();
 
   useEffect(
     () => data.forEach((d) => router.asPath === d.link && setActive(d.label)),
     [router.asPath]
   );
+
+  const handleLogout = () => {
+    logout.mutate(undefined, {
+      onSuccess: () => {
+        setUser(undefined);
+        router.push("/");
+      },
+      onError: () =>
+        showNotification({
+          title: "Something went wrong",
+          message:
+            "An error occurred while trying to logout. Please try again.",
+          color: "red",
+        }),
+    });
+  };
 
   const links = data.map((item) => (
     <a
@@ -129,11 +144,7 @@ export function Sidebar() {
       <Navbar.Section grow>{links}</Navbar.Section>
 
       <Navbar.Section className={classes.footer}>
-        <a
-          href="/logout"
-          className={classes.link}
-          onClick={(event) => event.preventDefault()}
-        >
+        <a className={classes.link} onClick={handleLogout}>
           <IconLogout className={classes.linkIcon} stroke={1.5} />
           <span>Logout</span>
         </a>

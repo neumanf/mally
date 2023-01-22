@@ -32,6 +32,8 @@ export type LoginRequest = {
 };
 
 export type LoginResponse = {
+  sub: number;
+  email: string;
   accessToken: string;
 };
 

@@ -16,11 +16,14 @@ import { showNotification } from "@mantine/notifications";
 
 import { useLoginMutation } from "@/hooks/mutations/useLoginMutation";
 import { ApiError } from "@/api/request";
+import { GetServerSidePropsContext } from "next";
+import useAuth from "@/hooks/useAuth";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const { setUser } = useAuth();
   const router = useRouter();
   const login = useLoginMutation();
 
@@ -29,6 +32,7 @@ export default function Login() {
       { username: email, password: password },
       {
         onSuccess: async (data) => {
+          setUser({ id: data.sub, email: data.email });
           await router.push("/");
         },
         onError: (error) => {
@@ -101,4 +105,19 @@ export default function Login() {
       </Paper>
     </Container>
   );
+}
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  if (context.req.cookies.accessToken) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: "/",
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
 }
