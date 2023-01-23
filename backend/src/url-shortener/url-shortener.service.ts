@@ -46,11 +46,16 @@ export class UrlShortenerService {
         });
     }
 
-    async deleteShortUrl(id: number) {
-        return this.prisma.url.delete({
-            where: {
-                id: id,
-            },
-        });
+    async deleteShortUrl(id: number): Promise<boolean> {
+        try {
+            await this.prisma.url.delete({
+                where: {
+                    id: id,
+                },
+            });
+            return true;
+        } catch (e) {
+            return false;
+        }
     }
 }

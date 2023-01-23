@@ -1,4 +1,4 @@
-import { Controller, Post, UseGuards, Req, Res, Body } from '@nestjs/common';
+import { Controller, Post, UseGuards, Req, Res, Body, HttpStatus, HttpCode } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { ConfigService } from '@nestjs/config';
 
@@ -18,6 +18,7 @@ export class AuthController {
 
     @UseGuards(LocalAuthGuard)
     @Post('login')
+    @HttpCode(HttpStatus.OK)
     async login(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
         const login = await this.authService.login(req.user as JwtResponse);
         const cookieDomain = this.configService.get('cookieDomain');
@@ -38,6 +39,7 @@ export class AuthController {
     }
 
     @Post('logout')
+    @HttpCode(HttpStatus.OK)
     async logout(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
         res.cookie('accessToken', req.cookies.accessToken, {
             maxAge: 0,

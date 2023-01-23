@@ -36,7 +36,12 @@ export class PastebinService {
         });
     }
 
-    async deletePaste(id: number) {
-        return this.prisma.paste.delete({ where: { id: id } });
+    async deletePaste(id: number): Promise<boolean> {
+        try {
+            await this.prisma.paste.delete({ where: { id: id } });
+            return true;
+        } catch (e) {
+            return false;
+        }
     }
 }

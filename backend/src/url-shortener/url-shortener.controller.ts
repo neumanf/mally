@@ -51,6 +51,10 @@ export class UrlShortenerController {
     @UseGuards(JwtAuthGuard)
     @Delete(':id')
     async deleteShortUrl(@Param('id') id: string) {
-        return this.urlShortnerService.deleteShortUrl(+id);
+        const deleted = await this.urlShortnerService.deleteShortUrl(+id);
+
+        if (!deleted) throw new NotFoundException();
+
+        return { ok: true };
     }
 }
