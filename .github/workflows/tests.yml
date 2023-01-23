@@ -7,7 +7,7 @@ on:
     branches: [ "main" ]
 
 env:
-  JWT_SECRET: {{ vars.JWT_SECRET }}
+  JWT_SECRET: ${{ vars.JWT_SECRET }}
 
 jobs:
   build:
