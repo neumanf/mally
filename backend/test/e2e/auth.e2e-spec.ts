@@ -1,10 +1,11 @@
 import { HttpStatus, INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
-import { MySqlContainer, StartedMySqlContainer } from 'testcontainers';
+import { StartedMySqlContainer } from 'testcontainers';
 import { PrismaClient } from '@prisma/client';
 
 import { getDatabaseUrl } from './utils/database';
 import { createAppFixture } from './utils/app';
+import { mySqlContainer } from './utils/container';
 
 describe('AuthController (e2e)', () => {
     let app: INestApplication;
@@ -12,7 +13,7 @@ describe('AuthController (e2e)', () => {
     let prisma: PrismaClient;
 
     beforeAll(async () => {
-        container = await new MySqlContainer('mysql:8.0').start();
+        container = await mySqlContainer.start();
         const databaseUrl = getDatabaseUrl(container);
         prisma = new PrismaClient({ datasources: { db: { url: databaseUrl } } });
     });

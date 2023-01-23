@@ -7,7 +7,7 @@ import { getDatabaseUrl } from './utils/database';
 import { createAppFixture, getAuthCookie } from './utils/app';
 import { mySqlContainer } from './utils/container';
 
-describe('PastebinController (e2e)', () => {
+describe('UrlShortenerController (e2e)', () => {
     let app: INestApplication;
     let container: StartedMySqlContainer;
     let prisma: PrismaClient;
@@ -45,11 +45,10 @@ describe('PastebinController (e2e)', () => {
         ]);
     });
 
-    describe('POST /api/pastebin', () => {
+    describe('POST /api/url-shortener', () => {
         it('should return unauthorized when user is not logged in', async () => {
-            const response = await request(app.getHttpServer()).post('/api/pastebin').send({
-                content: "console.log('hello, world')",
-                syntax: 'javascript',
+            const response = await request(app.getHttpServer()).post('/api/url-shortener').send({
+                url: 'http://any-url.com',
             });
 
             expect(response.status).toEqual(HttpStatus.UNAUTHORIZED);
@@ -57,93 +56,93 @@ describe('PastebinController (e2e)', () => {
 
         it('should create pastebin when data is valid and user is logged in', async () => {
             const response = await request(app.getHttpServer())
-                .post('/api/pastebin')
+                .post('/api/url-shortener')
                 .send({
-                    content: "console.log('hello, world')",
-                    syntax: 'javascript',
+                    url: 'http://any-url.com',
                 })
                 .set('Cookie', await getAuthCookie(app));
-            const pastesCount = await prisma.paste.count();
+            const pastesCount = await prisma.url.count();
 
             expect(response.status).toEqual(HttpStatus.CREATED);
             expect(pastesCount).toEqual(1);
         });
     });
 
-    describe('GET /api/pastebin', () => {
+    describe('GET /api/url-shortener', () => {
         it('should return unauthorized when user is not logged in', async () => {
-            const response = await request(app.getHttpServer()).get('/api/pastebin');
+            const response = await request(app.getHttpServer()).get('/api/url-shortener');
 
             expect(response.status).toEqual(HttpStatus.UNAUTHORIZED);
         });
 
-        it('should return all pastes when user is logged in', async () => {
-            const paste = {
-                content: "console.log('hello, world')",
-                syntax: 'javascript',
-                slug: 'any-slug',
+        it('should return all short urls when user is logged in', async () => {
+            const url = {
+                url: 'http://any-url.com',
+                shortUrl: 'http://website.com/s/any-slug',
                 userId: user.id,
             };
-            await prisma.paste.create({
-                data: paste,
+            await prisma.url.create({
+                data: url,
             });
             const response = await request(app.getHttpServer())
-                .get('/api/pastebin')
+                .get('/api/url-shortener')
                 .set('Cookie', await getAuthCookie(app));
 
             expect(response.status).toEqual(HttpStatus.OK);
             expect(response.body.length).toEqual(1);
-            expect(response.body[0]).toMatchObject(paste);
+            expect(response.body[0]).toMatchObject(url);
         });
     });
 
-    describe('GET /api/pastebin/:slug', () => {
-        it('should return paste when it exists', async () => {
-            const paste = {
-                content: "console.log('hello, world')",
-                syntax: 'javascript',
-                slug: 'any-slug',
+    describe('GET /api/url-shortener/redirect', () => {
+        it('should redirect user to the original url', async () => {
+            const url = {
+                url: 'http://any-url.com',
+                shortUrl: 'http://website.com/s/any-slug',
                 userId: user.id,
             };
-            await prisma.paste.create({
-                data: paste,
+            await prisma.url.create({
+                data: url,
             });
-            const response = await request(app.getHttpServer()).get('/api/pastebin/any-slug');
+            const response = await request(app.getHttpServer()).get(
+                '/api/url-shortener/redirect?url=http://website.com/s/any-slug'
+            );
 
-            expect(response.status).toEqual(HttpStatus.OK);
-            expect(response.body).toMatchObject(paste);
+            expect(response.status).toEqual(HttpStatus.FOUND);
+            expect(response.redirect).toBeDefined();
         });
 
-        it('should return not found when paste does not exists', async () => {
-            const response = await request(app.getHttpServer()).get('/api/pastebin/any-slug');
+        it('should return not found when url does not exists', async () => {
+            const response = await request(app.getHttpServer()).get(
+                '/api/url-shortener/redirect?url=http://not-existing-url.com'
+            );
 
             expect(response.status).toEqual(HttpStatus.NOT_FOUND);
         });
     });
 
-    describe('DELETE /api/pastebin/:id', () => {
-        it('should delete paste when it exists', async () => {
-            const paste = {
-                content: "console.log('hello, world')",
-                syntax: 'javascript',
-                slug: 'any-slug',
+    describe('DELETE /api/url-shortener/:id', () => {
+        it('should delete url when it exists', async () => {
+            const url = {
+                url: 'http://any-url.com',
+                shortUrl: 'http://website.com/s/any-slug',
                 userId: user.id,
             };
-            const createdPaste = await prisma.paste.create({
-                data: paste,
+            const createdUrl = await prisma.url.create({
+                data: url,
             });
             const response = await request(app.getHttpServer())
-                .delete(`/api/pastebin/${createdPaste.id}`)
+                .delete(`/api/url-shortener/${createdUrl.id}`)
                 .set('Cookie', await getAuthCookie(app));
-            const pastesCount = await prisma.paste.count();
+            const urlCount = await prisma.url.count();
 
             expect(response.status).toEqual(HttpStatus.OK);
-            expect(pastesCount).toEqual(0);
+            expect(urlCount).toEqual(0);
         });
 
         it('should return not found when it does not exists', async () => {
             const response = await request(app.getHttpServer())
-                .delete('/api/pastebin/1')
+                .delete('/api/url-shortener/1')
                 .set('Cookie', await getAuthCookie(app));
 
             expect(response.status).toEqual(HttpStatus.NOT_FOUND);
