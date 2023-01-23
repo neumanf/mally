@@ -50,6 +50,10 @@ export class PastebinController {
     @UseGuards(JwtAuthGuard)
     @Delete(':id')
     async deletePaste(@Param('id') id: string) {
-        return this.pastebinService.deletePaste(+id);
+        const deleted = await this.pastebinService.deletePaste(+id);
+
+        if (!deleted) throw new NotFoundException();
+
+        return { ok: true };
     }
 }

@@ -1,12 +1,10 @@
-import { Test } from '@nestjs/testing';
-import { HttpStatus, INestApplication, ValidationPipe } from '@nestjs/common';
+import { HttpStatus, INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
-import * as cookieParser from 'cookie-parser';
 import { MySqlContainer, StartedMySqlContainer } from 'testcontainers';
 import { PrismaClient } from '@prisma/client';
 
-import { AppModule } from '../../src/app.module';
 import { getDatabaseUrl } from './utils/database';
+import { createAppFixture } from './utils/app';
 
 describe('AuthController (e2e)', () => {
     let app: INestApplication;
@@ -15,18 +13,8 @@ describe('AuthController (e2e)', () => {
 
     beforeAll(async () => {
         container = await new MySqlContainer('mysql:8.0').start();
-
         const databaseUrl = getDatabaseUrl(container);
-
         prisma = new PrismaClient({ datasources: { db: { url: databaseUrl } } });
-
-        await prisma.user.create({
-            data: {
-                name: 'user1',
-                email: 'user1@mail.com',
-                password: '$2b$10$znjV3GXrzpBVLbz.5XX22.Xl.BNFjzurs1ap50dBV5jNuHNg2zN4K',
-            },
-        });
     });
 
     afterAll(async () => {
@@ -36,17 +24,23 @@ describe('AuthController (e2e)', () => {
     });
 
     beforeEach(async () => {
-        const moduleFixture = await Test.createTestingModule({
-            imports: [AppModule],
-        }).compile();
-
-        app = moduleFixture.createNestApplication();
-
-        app.useGlobalPipes(new ValidationPipe());
-        app.setGlobalPrefix('api');
-        app.use(cookieParser());
-
+        app = await createAppFixture();
         await app.init();
+        await prisma.user.create({
+            data: {
+                name: 'user1',
+                email: 'user1@mail.com',
+                password: '$2b$10$znjV3GXrzpBVLbz.5XX22.Xl.BNFjzurs1ap50dBV5jNuHNg2zN4K',
+            },
+        });
+    });
+
+    afterEach(async () => {
+        await prisma.$transaction([
+            prisma.user.deleteMany(),
+            prisma.paste.deleteMany(),
+            prisma.url.deleteMany(),
+        ]);
     });
 
     describe('POST /api/auth/login', () => {
