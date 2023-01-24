@@ -11,7 +11,7 @@ export const useCreateShortUrlMutation = () => {
   return useMutation({
     mutationFn: (body: CreateShortUrlRequest) =>
       requestApi<CreateShortUrlResponse>(
-        ENDPOINTS.urlShortener + "/redirect",
+        ENDPOINTS.urlShortener,
         "POST",
         JSON.stringify({ url: body.url })
       ),

@@ -8,7 +8,7 @@ export function getDatabaseUrl(container: StartedMySqlContainer) {
     const database = container.getDatabase();
     const databaseUrl = `mysql://root:${password}@${host}:${port}/${database}`;
 
-    execSync(`export DATABASE_URL=${databaseUrl} && npx prisma migrate deploy`, {
+    execSync(`export DATABASE_URL=${databaseUrl} && npx prisma migrate deploy > /dev/null`, {
         stdio: 'inherit',
     });
 
