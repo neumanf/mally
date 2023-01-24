@@ -14,7 +14,10 @@ A collection of open source web services
 
 ## Features
 
-- URL Shortener
+- URL Shortener and Pastebin services
+- Authentication with JWT
+- User dashboard
+- CI/CD
 
 ## Stack
 
