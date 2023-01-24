@@ -18,6 +18,7 @@ A collection of open source web services
 - Authentication with JWT
 - User dashboard
 - CI/CD
+- Tests
 
 ## Stack
 
