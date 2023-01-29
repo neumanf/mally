@@ -1,12 +1,13 @@
 import { execSync } from 'child_process';
-import { StartedMySqlContainer } from 'testcontainers';
+import { StartedPostgreSqlContainer } from 'testcontainers';
 
-export function getDatabaseUrl(container: StartedMySqlContainer) {
-    const password = container.getRootPassword();
+export function getDatabaseUrl(container: StartedPostgreSqlContainer) {
+    const username = container.getUsername();
+    const password = container.getPassword();
     const host = container.getHost();
     const port = container.getPort();
     const database = container.getDatabase();
-    const databaseUrl = `mysql://root:${password}@${host}:${port}/${database}`;
+    const databaseUrl = `postgresql://${username}:${password}@${host}:${port}/${database}?schema=public`;
 
     execSync(`export DATABASE_URL=${databaseUrl} && npx prisma migrate deploy > /dev/null`, {
         stdio: 'inherit',
