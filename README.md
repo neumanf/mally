@@ -23,7 +23,7 @@ A collection of open source web services
 ## Stack
 
 - **Frontend:** React, Next.js and Mantine
-- **Backend:** Nest.js, Prisma and MySQL
+- **Backend:** Nest.js, Prisma and PostgreSQL
 
 ## License
 

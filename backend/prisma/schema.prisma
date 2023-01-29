@@ -6,7 +6,7 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -15,17 +15,17 @@ model Url {
   createdAt DateTime @default(now())
   url       String
   shortUrl  String   @unique
-  user      User?     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  user      User?    @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   userId    Int?
 }
 
 model Paste {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
-  content   String   @db.MediumText
+  content   String   @db.Text
   syntax    String
   slug      String   @unique
-  user      User?     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  user      User?    @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   userId    Int?
 }
 

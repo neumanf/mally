@@ -1,3 +1,3 @@
-import { MySqlContainer } from 'testcontainers';
+import { PostgreSqlContainer } from 'testcontainers';
 
-export const mySqlContainer = new MySqlContainer('mysql:8.0');
+export const postgresContainer = new PostgreSqlContainer('postgres:15.1-alpine');

@@ -2,14 +2,13 @@ version: '3.3'
 
 services:
   db:
-    image: mysql:8.0
+    image: postgres:15.1
     restart: always
     environment:
-      MYSQL_DATABASE: 'maly_db'
-      MYSQL_USER: 'maly'
-      MYSQL_PASSWORD: 'maly'
-      MYSQL_ROOT_PASSWORD: 'maly'
+      POSTGRES_DB: 'maly_db'
+      POSTGRES_USER: 'maly'
+      POSTGRES_PASSWORD: 'maly'
     ports:
-      - '3306:3306'
+      - '5432:5432'
     volumes:
-      - ./db:/var/lib/mysql
+      - ./db:/var/lib/postgresql/data
