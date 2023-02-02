@@ -57,7 +57,7 @@ describe('StatsController', () => {
                 prisma.url.create({
                     data: {
                         url: 'http://any-url.com',
-                        shortUrl: 'http://website.com/s/any-slug',
+                        slug: 'any-slug',
                         userId: user.id,
                     },
                 }),

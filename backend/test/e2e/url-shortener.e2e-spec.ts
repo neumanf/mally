@@ -65,6 +65,7 @@ describe('UrlShortenerController', () => {
 
             expect(response.status).toEqual(HttpStatus.CREATED);
             expect(pastesCount).toEqual(1);
+            expect(response.body.slug).toBeDefined();
         });
     });
 
@@ -78,7 +79,7 @@ describe('UrlShortenerController', () => {
         it('should return all short urls when user is logged in', async () => {
             const url = {
                 url: 'http://any-url.com',
-                shortUrl: 'http://website.com/s/any-slug',
+                slug: 'any-slug',
                 userId: user.id,
             };
             await prisma.url.create({
@@ -98,23 +99,23 @@ describe('UrlShortenerController', () => {
         it('should redirect user to the original url', async () => {
             const url = {
                 url: 'http://any-url.com',
-                shortUrl: 'http://website.com/s/any-slug',
+                slug: 'any-slug',
                 userId: user.id,
             };
             await prisma.url.create({
                 data: url,
             });
             const response = await request(app.getHttpServer()).get(
-                '/api/url-shortener/redirect?url=http://website.com/s/any-slug'
+                '/api/url-shortener/redirect?slug=any-slug'
             );
 
             expect(response.status).toEqual(HttpStatus.FOUND);
             expect(response.redirect).toBeDefined();
         });
 
-        it('should return not found when url does not exists', async () => {
+        it('should return not found when slug does not exists', async () => {
             const response = await request(app.getHttpServer()).get(
-                '/api/url-shortener/redirect?url=http://not-existing-url.com'
+                '/api/url-shortener/redirect?slug=slug-does-not-exist'
             );
 
             expect(response.status).toEqual(HttpStatus.NOT_FOUND);
@@ -125,7 +126,7 @@ describe('UrlShortenerController', () => {
         it('should delete url when it exists', async () => {
             const url = {
                 url: 'http://any-url.com',
-                shortUrl: 'http://website.com/s/any-slug',
+                slug: 'any-slug',
                 userId: user.id,
             };
             const createdUrl = await prisma.url.create({

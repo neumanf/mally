@@ -11,7 +11,7 @@ export type Url = {
   id: number;
   createdAt: string;
   url: string;
-  shortUrl: string;
+  slug: string;
   userId: number;
 };
 
@@ -51,9 +51,7 @@ export type CreateShortUrlRequest = {
   url: string;
 };
 
-export type CreateShortUrlResponse = {
-  short_url: string;
-};
+export type CreateShortUrlResponse = Url;
 
 export type GetShortUrlsResponse = Url[];
 

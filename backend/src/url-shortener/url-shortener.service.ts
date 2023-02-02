@@ -1,37 +1,29 @@
 import { Injectable } from '@nestjs/common';
 import * as cuid from 'cuid';
 import { Url } from '@prisma/client';
-import { ConfigService } from '@nestjs/config';
 
 import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
 export class UrlShortenerService {
-    constructor(
-        private readonly configService: ConfigService,
-        private readonly prisma: PrismaService
-    ) {}
+    constructor(private readonly prisma: PrismaService) {}
 
-    async createShortUrl(url: string, userId?: number): Promise<string> {
+    async createShortUrl(url: string, userId?: number): Promise<Url> {
         const slug = cuid.slug();
-        const baseUrl = this.configService.get('frontendUrl');
-        const shortUrl = `${baseUrl}/s/${slug}`;
 
-        await this.prisma.url.create({
+        return this.prisma.url.create({
             data: {
                 url,
-                shortUrl,
+                slug,
                 userId,
             },
         });
-
-        return shortUrl;
     }
 
-    async findLongUrl(shortUrl: string): Promise<string> {
+    async findLongUrl(slug: string): Promise<string> {
         const result = await this.prisma.url.findUnique({
             where: {
-                shortUrl: shortUrl,
+                slug: slug,
             },
         });
 
