@@ -15,6 +15,7 @@ import { ApiError } from "@/api/request";
 import { useCreateShortUrlMutation } from "@/hooks/mutations";
 import { Info } from "@/components/Info";
 import { PageContainer } from "@/components/PageContainer";
+import * as process from "process";
 
 export default function UrlShortener() {
   const [url, setUrl] = useState("");
@@ -27,7 +28,8 @@ export default function UrlShortener() {
       { url },
       {
         onSuccess: (data) => {
-          setShortUrl(data.short_url);
+          const shortUrl = `${process.env.NEXT_PUBLIC_FRONTEND_URL}/s/${data.slug}`;
+          setShortUrl(shortUrl);
         },
         onError: (error) => {
           const message =

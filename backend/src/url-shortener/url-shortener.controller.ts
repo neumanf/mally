@@ -27,9 +27,7 @@ export class UrlShortenerController {
     @Post()
     async createShortUrl(@Req() request: Request, @Body() createShortUrlDto: CreateShortUrlDto) {
         const user = request.user as JwtResponse;
-        const url = await this.urlShortnerService.createShortUrl(createShortUrlDto.url, user.id);
-
-        return { short_url: url };
+        return this.urlShortnerService.createShortUrl(createShortUrlDto.url, user.id);
     }
 
     @UseGuards(JwtAuthGuard)
@@ -40,8 +38,8 @@ export class UrlShortenerController {
     }
 
     @Get('/redirect')
-    async redirectUrl(@Res() response: Response, @Query('url') shortUrl: string) {
-        const url = await this.urlShortnerService.findLongUrl(shortUrl);
+    async redirectUrl(@Res() response: Response, @Query('slug') slug: string) {
+        const url = await this.urlShortnerService.findLongUrl(slug);
 
         if (!url) throw new NotFoundException('URL not found.');
 

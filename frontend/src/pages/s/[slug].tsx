@@ -8,9 +8,8 @@ export default function UrlShortenerRedirect() {
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   try {
-    const url = `${process.env.NEXT_PUBLIC_FRONTEND_URL}/s/${context.query.slug}`;
     const res = await fetch(
-      `${ENDPOINTS.baseUrl}${ENDPOINTS.urlShortener}/redirect?url=${url}`
+      `${ENDPOINTS.baseUrl}${ENDPOINTS.urlShortener}/redirect?slug=${context.query.slug}`
     );
 
     if (!res.redirected) {
