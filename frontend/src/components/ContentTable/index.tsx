@@ -10,6 +10,7 @@ import {
   TextInput,
   ActionIcon,
   Tooltip,
+  Pagination,
 } from "@mantine/core";
 import { keys } from "@mantine/utils";
 import {
@@ -19,8 +20,10 @@ import {
   IconSearch,
   IconTrash,
 } from "@tabler/icons";
-import { UseMutationResult } from "@tanstack/react-query";
+import { UseMutationResult, useQueryClient } from "@tanstack/react-query";
 import { showNotification } from "@mantine/notifications";
+import { usePagination } from "@mantine/hooks";
+import { useRouter } from "next/router";
 
 const useStyles = createStyles((theme) => ({
   th: {
@@ -55,7 +58,12 @@ interface TableSortProps<
     label: string;
     type: string;
     key: K;
+    path?: string;
   }[];
+  paginationData: {
+    total: number;
+    page: number;
+  };
   deleteItem: UseMutationResult<any, unknown, any, unknown>;
 }
 
@@ -124,11 +132,17 @@ export function ContentTable<T extends Record<string, string | number>>({
   data,
   columns,
   deleteItem,
+  paginationData,
 }: TableSortProps<T, string>) {
   const [search, setSearch] = useState("");
   const [sortedData, setSortedData] = useState(data);
   const [sortBy, setSortBy] = useState<keyof T | null>(null);
   const [reverseSortDirection, setReverseSortDirection] = useState(false);
+  const pagination = usePagination({
+    total: paginationData.total,
+    page: paginationData.page,
+  });
+  const router = useRouter();
 
   const setSorting = (field: keyof T) => {
     const reversed = field === sortBy ? !reverseSortDirection : false;
@@ -161,7 +175,16 @@ export function ContentTable<T extends Record<string, string | number>>({
     );
   };
 
-  const rows = sortedData.map((row, i) => (
+  const handlePagination = async (page: number) => {
+    await router.push({
+      pathname: "/dashboard/pastes",
+      query: {
+        page,
+      },
+    });
+  };
+
+  const rows = data.map((row, i) => (
     <tr key={i}>
       {columns.map((c, j) => {
         const value = row[c.key];
@@ -182,7 +205,7 @@ export function ContentTable<T extends Record<string, string | number>>({
               </td>
             );
           case "slug": {
-            const url = `${process.env.NEXT_PUBLIC_FRONTEND_URL}/p/${value}`;
+            const url = `${process.env.NEXT_PUBLIC_FRONTEND_URL}/${c.path}/${value}`;
             return (
               <td key={j}>
                 <Text component="a" href={url} color="red" lineClamp={1}>
@@ -264,6 +287,14 @@ export function ContentTable<T extends Record<string, string | number>>({
           )}
         </tbody>
       </Table>
+      <Center py={20}>
+        <Pagination
+          page={pagination.active}
+          total={paginationData.total ?? 1}
+          onChange={handlePagination}
+          color="red"
+        />
+      </Center>
     </ScrollArea>
   );
 }

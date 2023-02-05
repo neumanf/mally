@@ -30,11 +30,13 @@ export class UrlShortenerService {
         return !!result ? result.url : '';
     }
 
-    async findShortUrlsByUserId(id: number): Promise<Url[]> {
+    async findShortUrlsByUserId(id: number, page: number, take: number): Promise<Url[]> {
         return this.prisma.url.findMany({
             where: {
                 userId: id,
             },
+            take,
+            skip: (page - 1) * take,
         });
     }
 

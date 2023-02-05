@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import cuid = require('cuid');
-import { Paste } from '@prisma/client';
+import { Paste, Prisma } from '@prisma/client';
 
 import { PrismaService } from '../prisma/prisma.service';
 import { CreatePasteDto } from './DTOs/create-paste.dto';
@@ -28,11 +28,13 @@ export class PastebinService {
         });
     }
 
-    async findPastesByUserId(id: number): Promise<Paste[]> {
+    async findPastesByUserId(id: number, page: number, take: number): Promise<Paste[]> {
         return this.prisma.paste.findMany({
             where: {
                 userId: id,
             },
+            take,
+            skip: (page - 1) * take,
         });
     }
 

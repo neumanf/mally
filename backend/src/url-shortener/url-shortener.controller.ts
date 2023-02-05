@@ -18,6 +18,7 @@ import { CreateShortUrlDto } from './DTOs/create-short-url.dto';
 import { UrlShortenerService } from './url-shortener.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { JwtResponse } from '../auth/strategies/jwt.strategy';
+import { FindShortUrlsByUserIdDto } from './DTOs/find-short-urls-by-user-id.dto';
 
 @Controller('url-shortener')
 export class UrlShortenerController {
@@ -32,9 +33,12 @@ export class UrlShortenerController {
 
     @UseGuards(JwtAuthGuard)
     @Get()
-    async findShortUrls(@Req() request: Request): Promise<Url[]> {
+    async findShortUrls(
+        @Req() request: Request,
+        @Query() { page = '1', take = '10' }: FindShortUrlsByUserIdDto
+    ): Promise<Url[]> {
         const user = request.user as JwtResponse;
-        return this.urlShortnerService.findShortUrlsByUserId(user.id);
+        return this.urlShortnerService.findShortUrlsByUserId(user.id, +page, +take);
     }
 
     @Get('/redirect')
