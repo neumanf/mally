@@ -28,11 +28,24 @@ export class PastebinService {
         });
     }
 
-    async findPastesByUserId(id: number, page: number, take: number): Promise<Paste[]> {
+    async findPastesByUserId(
+        id: number,
+        page: number,
+        take: number,
+        search: string
+    ): Promise<Paste[]> {
+        const query: Prisma.PasteWhereInput = {
+            userId: id,
+        };
+
+        if (search) {
+            query.content = {
+                search,
+            };
+        }
+
         return this.prisma.paste.findMany({
-            where: {
-                userId: id,
-            },
+            where: query,
             take,
             skip: (page - 1) * take,
         });

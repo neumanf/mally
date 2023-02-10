@@ -37,10 +37,10 @@ export class PastebinController {
     @Get()
     async findPastes(
         @Req() request: Request,
-        @Query() { page = '1', take = '10' }: FindPastesByUserIdDto
+        @Query() { page = '1', take = '10', search = '' }: FindPastesByUserIdDto
     ): Promise<Paste[]> {
         const user = request.user as JwtResponse;
-        return this.pastebinService.findPastesByUserId(user.id, +page, +take);
+        return this.pastebinService.findPastesByUserId(user.id, +page, +take, search);
     }
 
     @Get(':slug')

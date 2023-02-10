@@ -35,10 +35,10 @@ export class UrlShortenerController {
     @Get()
     async findShortUrls(
         @Req() request: Request,
-        @Query() { page = '1', take = '10' }: FindShortUrlsByUserIdDto
+        @Query() { page = '1', take = '10', search = '' }: FindShortUrlsByUserIdDto
     ): Promise<Url[]> {
         const user = request.user as JwtResponse;
-        return this.urlShortnerService.findShortUrlsByUserId(user.id, +page, +take);
+        return this.urlShortnerService.findShortUrlsByUserId(user.id, +page, +take, search);
     }
 
     @Get('/redirect')
