@@ -11,8 +11,7 @@ env:
   DATABASE_URL: ${{ vars.DATABASE_URL }}
 
 jobs:
-  build:
-
+  tests:
     runs-on: ubuntu-latest
     defaults:
       run:
