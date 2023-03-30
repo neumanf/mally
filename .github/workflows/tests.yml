@@ -7,8 +7,7 @@ on:
     branches: [ "main" ]
 
 env:
-  JWT_SECRET: ${{ vars.JWT_SECRET }}
-  DATABASE_URL: ${{ vars.DATABASE_URL }}
+  JWT_SECRET: ${{ secrets.JWT_SECRET }}
 
 jobs:
   tests:
@@ -24,5 +23,4 @@ jobs:
           node-version: '16.x'
       - run: npm ci
       - run: npm run build --if-present
-      - run: npm run migrate:prod
       - run: npm run test:e2e
