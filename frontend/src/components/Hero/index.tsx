@@ -115,15 +115,17 @@ export function HeroText() {
         </Center>
 
         <Title className={classes.title}>
+          The{" "}
           <Text component="span" className={classes.highlight} inherit>
-            Services
+            all-in-one
           </Text>{" "}
-          for the impatient
+          web services platform
         </Title>
 
         <Container p={0} size={600}>
           <Text size="lg" color="dimmed" className={classes.description}>
-            Solve what you have to do, faster and better.
+            Streamline your online sharing with our powerful URL shortener and
+            secure pastebin solutions
           </Text>
         </Container>
 
