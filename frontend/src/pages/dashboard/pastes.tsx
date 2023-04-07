@@ -1,34 +1,51 @@
 import React, { ReactElement } from "react";
 import { GetServerSidePropsContext } from "next";
-import { Title, Container } from "@mantine/core";
+import { Title, Container, Text } from "@mantine/core";
+import { useRouter } from "next/router";
 
 import DashboardLayout from "@/pages/dashboard/_layout";
 import { ContentTable } from "@/components/ContentTable";
 import { useGetPastesQuery } from "@/hooks/queries/useGetPastesQuery";
 import { useDeletePasteMutation } from "@/hooks/mutations/useDeletePasteMutation";
+import { useGetStatsQuery } from "@/hooks/queries/useGetStatsQuery";
 
 export default function Pastes() {
-  const { data, isLoading } = useGetPastesQuery();
+  const router = useRouter();
+  const { data: statsData } = useGetStatsQuery();
+  const { data, isLoading } = useGetPastesQuery({ page: router.query.page });
   const deletePaste = useDeletePasteMutation();
+
+  if (isLoading || !statsData || !data) {
+    return (
+      <>
+        <Title order={2}>Pastes</Title>
+        <Container py={10} />
+        <Text>Loading...</Text>
+      </>
+    );
+  }
+
+  const pageCount = Math.ceil(statsData.pastes.count / 10);
+  const currentPage = Number(router.query.page) || 1;
 
   return (
     <>
       <Title order={2}>Pastes</Title>
       <Container py={10} />
-      {isLoading || !data ? (
-        <>Loading...</>
-      ) : (
-        <ContentTable
-          data={data}
-          columns={[
-            { label: "Content", type: "", key: "content" },
-            { label: "Syntax", type: "", key: "syntax" },
-            { label: "URL", type: "slug", key: "slug" },
-            { label: "Date", type: "date", key: "createdAt" },
-          ]}
-          deleteItem={deletePaste}
-        />
-      )}
+      <ContentTable
+        data={data}
+        columns={[
+          { label: "Content", type: "", key: "content" },
+          { label: "Syntax", type: "", key: "syntax" },
+          { label: "URL", type: "slug", key: "slug", path: "p" },
+          { label: "Date", type: "date", key: "createdAt" },
+        ]}
+        paginationData={{
+          total: pageCount,
+          page: currentPage,
+        }}
+        deleteItem={deletePaste}
+      />
     </>
   );
 }

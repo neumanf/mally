@@ -6,6 +6,7 @@ import {
     NotFoundException,
     Param,
     Post,
+    Query,
     Req,
     UseGuards,
 } from '@nestjs/common';
@@ -16,6 +17,7 @@ import { CreatePasteDto } from './DTOs/create-paste.dto';
 import { Request } from 'express';
 import { JwtResponse } from '../auth/strategies/jwt.strategy';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { FindPastesByUserIdDto } from './DTOs/find-pastes-by-user-id.dto';
 
 @Controller('pastebin')
 export class PastebinController {
@@ -33,9 +35,12 @@ export class PastebinController {
 
     @UseGuards(JwtAuthGuard)
     @Get()
-    async findPastes(@Req() request: Request): Promise<Paste[]> {
+    async findPastes(
+        @Req() request: Request,
+        @Query() { page = '1', take = '10', search = '' }: FindPastesByUserIdDto
+    ): Promise<Paste[]> {
         const user = request.user as JwtResponse;
-        return this.pastebinService.findPastesByUserId(user.id);
+        return this.pastebinService.findPastesByUserId(user.id, +page, +take, search);
     }
 
     @Get(':slug')
