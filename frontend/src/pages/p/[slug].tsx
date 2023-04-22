@@ -67,12 +67,16 @@ export default function PastebinContent() {
               </ActionIcon>
             </Tooltip>
           </Group>
-          <ScrollArea h={239} style={{ whiteSpace: "pre-wrap" }}>
+          <ScrollArea h={550} style={{ whiteSpace: "pre-wrap" }}>
             {pastebin.data.content}
           </ScrollArea>
         </>
       ) : (
-        <Prism language={"tsx"}>{pastebin?.data?.content ?? ""}</Prism>
+        <ScrollArea h={550}>
+          <Prism withLineNumbers language={"tsx"}>
+            {pastebin?.data?.content ?? ""}
+          </Prism>
+        </ScrollArea>
       )}
     </PageContainer>
   );
