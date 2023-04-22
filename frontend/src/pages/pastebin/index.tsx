@@ -52,7 +52,7 @@ export default function Pastebin() {
   };
 
   return (
-    <PageContainer title="Pastebin" height={600}>
+    <PageContainer title="Pastebin" height={700}>
       <Group grow>
         <Tabs defaultValue="content">
           <Tabs.List grow>
@@ -63,7 +63,7 @@ export default function Pastebin() {
           <Tabs.Panel value="content" pt="xs">
             <Textarea
               placeholder="Your paste"
-              minRows={10}
+              minRows={20}
               value={content}
               onChange={(e) => setContent(e.target.value)}
             />
@@ -71,11 +71,19 @@ export default function Pastebin() {
 
           <Tabs.Panel value="preview" pt="xs">
             {syntax === "text" ? (
-              <ScrollArea h={239} style={{ whiteSpace: "pre-wrap" }}>
+              <ScrollArea h={450} style={{ whiteSpace: "pre-wrap" }}>
                 {content}
               </ScrollArea>
             ) : (
-              <Prism language={"tsx"}>{content}</Prism>
+              <ScrollArea h={450}>
+                <Prism
+                  withLineNumbers
+                  language={"tsx"}
+                  scrollAreaComponent="div"
+                >
+                  {content}
+                </Prism>
+              </ScrollArea>
             )}
           </Tabs.Panel>
         </Tabs>

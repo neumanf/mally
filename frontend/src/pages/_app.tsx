@@ -31,9 +31,9 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
         Component.getLayout(page)
       ) : (
         <>
-          <Container py={80} />
+          <Container py={30} />
           {page}
-          <Container py={80} />
+          <Container py={100} />
           <Footer />
         </>
       )}
