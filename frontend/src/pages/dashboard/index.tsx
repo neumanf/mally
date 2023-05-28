@@ -57,11 +57,6 @@ type StatsData = {
   diff?: number;
 }[];
 
-const statsData: StatsData = [
-  { title: "Total short URLs", icon: IconLink, value: 0 },
-  { title: "Total pastes", icon: IconClipboard, value: 0 },
-];
-
 export default function Dashboard() {
   const { classes } = useStyles();
   const [statsData, setStatsData] = useState<StatsData>([
