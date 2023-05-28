@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   TextInput,
   PasswordInput,
@@ -18,6 +18,7 @@ import { useLoginMutation } from "@/hooks/mutations/useLoginMutation";
 import { ApiError } from "@/api/request";
 import { GetServerSidePropsContext } from "next";
 import useAuth from "@/hooks/useAuth";
+import { changePageTitle } from "@/utils";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -51,11 +52,15 @@ export default function Login() {
     );
   };
 
+  useEffect(() => {
+    changePageTitle("Log In - Mally");
+  }, []);
+
   return (
     <Container size={420} my={100}>
       <Title
         align="center"
-        sx={(theme) => ({
+        sx={() => ({
           fontWeight: 900,
         })}
       >

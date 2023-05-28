@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   Container,
@@ -20,6 +20,7 @@ import { ApiError } from "@/api/request";
 import { showNotification } from "@mantine/notifications";
 import { Info } from "@/components/Info";
 import { PageContainer } from "@/components/PageContainer";
+import { changePageTitle } from "@/utils";
 
 export default function Pastebin() {
   const [content, setContent] = useState("");
@@ -50,6 +51,10 @@ export default function Pastebin() {
       }
     );
   };
+
+  useEffect(() => {
+    changePageTitle("Pastebin - Mally");
+  }, []);
 
   return (
     <PageContainer title="Pastebin" height={700}>

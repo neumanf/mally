@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Text,
   Button,
@@ -16,6 +16,7 @@ import { useCreateShortUrlMutation } from "@/hooks/mutations";
 import { Info } from "@/components/Info";
 import { PageContainer } from "@/components/PageContainer";
 import * as process from "process";
+import { changePageTitle } from "@/utils";
 
 export default function UrlShortener() {
   const [url, setUrl] = useState("");
@@ -46,6 +47,10 @@ export default function UrlShortener() {
       }
     );
   };
+
+  useEffect(() => {
+    changePageTitle("URL Shortener - Mally");
+  }, []);
 
   return (
     <PageContainer title="URL Shortener">

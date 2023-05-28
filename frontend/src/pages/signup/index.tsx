@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   TextInput,
   PasswordInput,
@@ -15,6 +15,7 @@ import { ApiError } from "@/api/request";
 import { showNotification } from "@mantine/notifications";
 import { useSignUpMutation } from "@/hooks/mutations/useSignUpMutation";
 import { GetServerSidePropsContext } from "next";
+import { changePageTitle } from "@/utils";
 
 export default function SignUp() {
   const [name, setName] = useState("");
@@ -47,11 +48,15 @@ export default function SignUp() {
     );
   };
 
+  useEffect(() => {
+    changePageTitle("Sign Up - Mally");
+  }, []);
+
   return (
     <Container size={420} my={100}>
       <Title
         align="center"
-        sx={(theme) => ({
+        sx={() => ({
           fontWeight: 900,
         })}
       >
