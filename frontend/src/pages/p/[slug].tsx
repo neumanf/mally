@@ -9,18 +9,23 @@ import {
   Tooltip,
 } from "@mantine/core";
 import { Prism } from "@mantine/prism";
-import React from "react";
+import React, { useEffect } from "react";
 import { useRouter } from "next/router";
 import { IconCheck, IconClipboardCopy, IconError404 } from "@tabler/icons";
 import { useClipboard } from "@mantine/hooks";
 
 import { useGetPasteQuery } from "@/hooks/queries";
 import { PageContainer } from "@/components/PageContainer";
+import { changePageTitle } from "@/utils";
 
 export default function PastebinContent() {
   const clipboard = useClipboard({ timeout: 1500 });
   const router = useRouter();
   const pastebin = useGetPasteQuery({ slug: router.query.slug });
+
+  useEffect(() => {
+    changePageTitle(`${pastebin?.data?.title ?? "Pastebin"} - Mally`);
+  }, [pastebin?.data?.title]);
 
   if (pastebin.isLoading) {
     return (
@@ -54,7 +59,7 @@ export default function PastebinContent() {
   }
 
   return (
-    <PageContainer title="Pastebin">
+    <PageContainer title={pastebin?.data?.title ?? "Pastebin"}>
       {pastebin?.data?.syntax === "text" ? (
         <>
           <Group position="right">

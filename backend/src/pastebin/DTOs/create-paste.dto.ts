@@ -1,6 +1,11 @@
-import { IsString, Length, Matches } from 'class-validator';
+import { IsOptional, IsString, Length, Matches } from 'class-validator';
 
 export class CreatePasteDto {
+    @IsOptional()
+    @IsString()
+    @Length(0, 15)
+    title?: string;
+
     @IsString()
     @Length(5)
     content: string;

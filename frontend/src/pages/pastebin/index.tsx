@@ -9,6 +9,7 @@ import {
   ScrollArea,
   Text,
   Transition,
+  Stack,
 } from "@mantine/core";
 import { Prism } from "@mantine/prism";
 import { IconCheck, IconChevronDown } from "@tabler/icons";
@@ -24,6 +25,7 @@ import { changePageTitle } from "@/utils";
 
 export default function Pastebin() {
   const [content, setContent] = useState("");
+  const [title, setTitle] = useState<string | undefined>();
   const [syntax, setSyntax] = useState("text");
   const [pasteUrl, setPasteUrl] = useState("");
 
@@ -31,7 +33,7 @@ export default function Pastebin() {
 
   const handleSubmit = () => {
     pastebin.mutate(
-      { content, syntax },
+      { title, content, syntax },
       {
         onSuccess: (data) => {
           setPasteUrl(`${process.env.NEXT_PUBLIC_FRONTEND_URL}/p/${data.slug}`);
@@ -57,7 +59,7 @@ export default function Pastebin() {
   }, []);
 
   return (
-    <PageContainer title="Pastebin" height={700}>
+    <PageContainer title="Pastebin" height={800}>
       <Group grow>
         <Tabs defaultValue="content">
           <Tabs.List grow>
@@ -67,7 +69,7 @@ export default function Pastebin() {
 
           <Tabs.Panel value="content" pt="xs">
             <Textarea
-              placeholder="Your paste"
+              placeholder="Enter the content"
               minRows={20}
               value={content}
               onChange={(e) => setContent(e.target.value)}
@@ -94,7 +96,14 @@ export default function Pastebin() {
         </Tabs>
       </Group>
       <Container py={20} />
-      <Group>
+      <Stack>
+        <Input.Wrapper label="Title">
+          <Input
+            placeholder="Enter a title"
+            w={200}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+        </Input.Wrapper>
         <Input.Wrapper label="Syntax" required>
           <Input
             component="select"
@@ -109,7 +118,7 @@ export default function Pastebin() {
             ))}
           </Input>
         </Input.Wrapper>
-      </Group>
+      </Stack>
       <Container py={10} />
       <Button onClick={handleSubmit} loading={pastebin.isLoading}>
         Submit

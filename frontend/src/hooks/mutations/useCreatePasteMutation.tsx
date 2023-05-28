@@ -13,7 +13,7 @@ export const useCreatePasteMutation = () => {
       requestApi<CreatePastebinResponse>(
         ENDPOINTS.pastebin,
         "POST",
-        JSON.stringify({ content: body.content, syntax: body.syntax })
+        JSON.stringify(body)
       ),
   });
 };
