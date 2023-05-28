@@ -12,6 +12,7 @@ export class PastebinService {
     async createPaste(paste: CreatePasteDto, userId: number): Promise<Paste> {
         return this.prisma.paste.create({
             data: {
+                title: paste.title,
                 content: paste.content,
                 syntax: paste.syntax,
                 slug: cuid(),

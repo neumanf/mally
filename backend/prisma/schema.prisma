@@ -23,6 +23,7 @@ model Url {
 model Paste {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
+  title     String?
   content   String   @db.Text
   syntax    String
   slug      String   @unique

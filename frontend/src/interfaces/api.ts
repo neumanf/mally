@@ -60,6 +60,7 @@ export type DeleteShortUrlRequest = {
 };
 
 export type CreatePastebinRequest = {
+  title?: string;
   content: string;
   syntax: string;
 };
@@ -67,6 +68,7 @@ export type CreatePastebinRequest = {
 export type CreatePastebinResponse = {
   id: number;
   createdAt: Date;
+  title?: string;
   content: string;
   syntax: string;
   slug: string;

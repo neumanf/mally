@@ -68,6 +68,25 @@ describe('PastebinController', () => {
             expect(response.status).toEqual(HttpStatus.CREATED);
             expect(pastesCount).toEqual(1);
         });
+
+        it('should create a paste with title when title is provided', async () => {
+            const response = await request(app.getHttpServer())
+                .post('/api/pastebin')
+                .send({
+                    title: 'my title',
+                    content: 'paste with title',
+                    syntax: 'text',
+                })
+                .set('Cookie', await getAuthCookie(app));
+            const pasteExists = await prisma.paste.findFirst({
+                where: {
+                    title: 'my title',
+                },
+            });
+
+            expect(response.status).toEqual(HttpStatus.CREATED);
+            expect(pasteExists).toBeTruthy();
+        });
     });
 
     describe('GET /api/pastebin', () => {
