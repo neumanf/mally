@@ -83,11 +83,7 @@ export default function Pastebin() {
               </ScrollArea>
             ) : (
               <ScrollArea h={450}>
-                <Prism
-                  withLineNumbers
-                  language={"tsx"}
-                  scrollAreaComponent="div"
-                >
+                <Prism language={"tsx"} scrollAreaComponent="div">
                   {content}
                 </Prism>
               </ScrollArea>

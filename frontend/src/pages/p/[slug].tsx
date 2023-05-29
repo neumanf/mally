@@ -78,9 +78,7 @@ export default function PastebinContent() {
         </>
       ) : (
         <ScrollArea h={550}>
-          <Prism withLineNumbers language={"tsx"}>
-            {pastebin?.data?.content ?? ""}
-          </Prism>
+          <Prism language={"tsx"}>{pastebin?.data?.content ?? ""}</Prism>
         </ScrollArea>
       )}
     </PageContainer>
