@@ -38,7 +38,12 @@ export default function Pastes() {
           { label: "Content", type: "", key: "content" },
           { label: "Syntax", type: "", key: "syntax" },
           { label: "URL", type: "slug", key: "slug", path: "p" },
-          { label: "Date", type: "date", key: "createdAt" },
+          { label: "Created at", type: "date", key: "createdAt" },
+          {
+            label: "Expiration time",
+            type: "humanized-date",
+            key: "expiresAt",
+          },
         ]}
         paginationData={{
           total: pageCount,

@@ -1,4 +1,4 @@
-import { IsOptional, IsString, Length, Matches } from 'class-validator';
+import { IsDateString, IsOptional, IsString, Length, Matches } from 'class-validator';
 
 export class CreatePasteDto {
     @IsOptional()
@@ -18,4 +18,8 @@ export class CreatePasteDto {
         }
     )
     syntax: string;
+
+    @IsOptional()
+    @IsDateString()
+    expiresAt?: Date;
 }

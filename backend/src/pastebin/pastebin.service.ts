@@ -15,6 +15,7 @@ export class PastebinService {
                 title: paste.title,
                 content: paste.content,
                 syntax: paste.syntax,
+                expiresAt: paste.expiresAt,
                 slug: cuid(),
                 userId: userId,
             },
@@ -22,11 +23,15 @@ export class PastebinService {
     }
 
     async findPaste(slug: string): Promise<Paste> {
-        return this.prisma.paste.findUnique({
+        const paste = await this.prisma.paste.findUnique({
             where: {
                 slug: slug,
             },
         });
+
+        if (paste && paste.expiresAt && paste.expiresAt < new Date()) return null;
+
+        return paste;
     }
 
     async findPastesByUserId(
@@ -37,6 +42,18 @@ export class PastebinService {
     ): Promise<Paste[]> {
         const query: Prisma.PasteWhereInput = {
             userId: id,
+            OR: [
+                {
+                    expiresAt: {
+                        equals: null,
+                    },
+                },
+                {
+                    expiresAt: {
+                        gte: new Date(),
+                    },
+                },
+            ],
         };
 
         if (search) {

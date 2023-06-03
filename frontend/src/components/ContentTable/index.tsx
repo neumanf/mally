@@ -20,10 +20,13 @@ import {
   IconSearch,
   IconTrash,
 } from "@tabler/icons";
-import { UseMutationResult, useQueryClient } from "@tanstack/react-query";
+import { UseMutationResult } from "@tanstack/react-query";
 import { showNotification } from "@mantine/notifications";
 import { usePagination } from "@mantine/hooks";
 import { useRouter } from "next/router";
+import { DateTime } from "luxon";
+
+const formatter = new Intl.RelativeTimeFormat("en", { numeric: "auto" });
 
 const useStyles = createStyles((theme) => ({
   th: {
@@ -189,8 +192,27 @@ export function ContentTable<T extends Record<string, string | number>>({
       {columns.map((c, j) => {
         const value = row[c.key];
         switch (c.type) {
+          case "humanized-date": {
+            if (!value) return <td key={j}>—</td>;
+            const diff =
+              DateTime.fromISO(String(value)).toJSDate().getTime() -
+              new Date().getTime();
+            return (
+              <td key={j}>
+                {formatter.format(Math.round(diff / 86400000), "day")}
+              </td>
+            );
+          }
           case "date":
-            return <td key={j}>{new Date(value).toDateString()}</td>;
+            return (
+              <td key={j}>
+                {value
+                  ? DateTime.fromISO(String(value)).toLocaleString(
+                      DateTime.DATETIME_FULL
+                    )
+                  : "—"}
+              </td>
+            );
           case "url":
             return (
               <td key={j}>
@@ -278,7 +300,7 @@ export function ContentTable<T extends Record<string, string | number>>({
             rows
           ) : (
             <tr>
-              <td colSpan={3}>
+              <td colSpan={6}>
                 <Text weight={500} align="center">
                   Nothing found
                 </Text>
