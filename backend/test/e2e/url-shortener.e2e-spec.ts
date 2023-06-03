@@ -54,7 +54,7 @@ describe('UrlShortenerController', () => {
             expect(response.status).toEqual(HttpStatus.UNAUTHORIZED);
         });
 
-        it('should create pastebin when data is valid and user is logged in', async () => {
+        it('should create short url when data is valid and user is logged in', async () => {
             const response = await request(app.getHttpServer())
                 .post('/api/url-shortener')
                 .send({
