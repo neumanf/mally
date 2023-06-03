@@ -29,7 +29,7 @@ export class PastebinService {
             },
         });
 
-        if (paste.expiresAt < new Date()) return null;
+        if (paste && paste.expiresAt && paste.expiresAt < new Date()) return null;
 
         return paste;
     }
