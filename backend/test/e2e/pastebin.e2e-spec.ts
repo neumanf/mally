@@ -138,6 +138,43 @@ describe('PastebinController', () => {
 
             expect(response.status).toEqual(HttpStatus.NOT_FOUND);
         });
+
+        it('should return a paste with expiration time when it has not expired yet', async () => {
+            const expirationDate = new Date();
+            expirationDate.setDate(expirationDate.getDate() + 1);
+            const paste = {
+                content: "console.log('hello, world')",
+                syntax: 'javascript',
+                slug: 'any-slug',
+                expiresAt: expirationDate.toISOString(),
+                userId: user.id,
+            };
+            await prisma.paste.create({
+                data: paste,
+            });
+            const response = await request(app.getHttpServer()).get('/api/pastebin/any-slug');
+
+            expect(response.status).toEqual(HttpStatus.OK);
+            expect(response.body).toMatchObject(paste);
+        });
+
+        it('should not return a paste that has expired', async () => {
+            const expirationDate = new Date();
+            expirationDate.setDate(expirationDate.getDate() - 1);
+            const paste = {
+                content: "console.log('hello, world')",
+                syntax: 'javascript',
+                slug: 'any-slug',
+                expiresAt: expirationDate,
+                userId: user.id,
+            };
+            await prisma.paste.create({
+                data: paste,
+            });
+            const response = await request(app.getHttpServer()).get('/api/pastebin/any-slug');
+
+            expect(response.status).toEqual(HttpStatus.NOT_FOUND);
+        });
     });
 
     describe('DELETE /api/pastebin/:id', () => {
