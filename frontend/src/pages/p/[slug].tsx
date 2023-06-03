@@ -43,7 +43,7 @@ export default function PastebinContent() {
             <ThemeIcon variant="light" color="red">
               <IconError404 />
             </ThemeIcon>
-            <Text fw={700}>Paste not found</Text>
+            <Text fw={700}>Paste does not exist or has expired.</Text>
           </Group>
 
           <Text>

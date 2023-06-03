@@ -1,3 +1,5 @@
+import { DateTime } from "luxon";
+
 export type Paste = {
   id: number;
   createdAt: string;
@@ -63,11 +65,12 @@ export type CreatePastebinRequest = {
   title?: string;
   content: string;
   syntax: string;
+  expiresAt?: DateTime;
 };
 
 export type CreatePastebinResponse = {
   id: number;
-  createdAt: Date;
+  createdAt: string;
   title?: string;
   content: string;
   syntax: string;
