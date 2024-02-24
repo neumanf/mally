@@ -6,8 +6,16 @@
   "targetDefaults": {
     "@angular-devkit/build-angular:browser": {
       "cache": true,
-      "dependsOn": ["^build"],
-      "inputs": ["default", "^default"]
+      "dependsOn": [
+        "^build"
+      ],
+      "inputs": [
+        "default",
+        "^default"
+      ]
+    },
+    "install": {
+      "cache": true
     }
   },
   "plugins": [
@@ -22,7 +30,8 @@
       "options": {
         "targetName": "test"
       }
-    }
+    },
+    "@nxrocks/nx-spring-boot"
   ],
   "generators": {
     "@nx/angular:application": {
