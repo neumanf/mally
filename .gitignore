@@ -1,2 +1,9 @@
 .idea/
 .vercel/
+.nx/installation
+.nx/cache
+.nx/installation
+.nx/cache
+.angular
+dist/
+node_modules/
