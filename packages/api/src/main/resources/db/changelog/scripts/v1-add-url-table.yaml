@@ -1,0 +1,23 @@
+databaseChangeLog:
+    - changeSet:
+        id: 1-1
+        author: Neuman F.
+        changes:
+          - createTable:
+              columns:
+                  - column:
+                      constraints:
+                        primaryKey: true
+                        primaryKeyName: url_id_pkey
+                      name: id
+                      type: SERIAL
+                  - column:
+                      name: url
+                      type: TEXT
+                  - column:
+                      name: slug
+                      type: VARCHAR(255)
+                  - column:
+                      name: created_at
+                      type: datetime
+              tableName: url
