@@ -1,0 +1,81 @@
+<div class="bg-white">
+    <p-sidebar [(visible)]="isSidebarOpen" position="right" appendTo="body">
+        <nav class="gap-4 flex flex-col">
+            <a
+                href="/"
+                class="text-lg font-semibold text-black transition duration-100 hover:text-red-500 active:text-red-700"
+            >Home
+            </a>
+
+            <a
+                class="text-lg font-semibold text-black transition duration-100"
+            >Features
+            </a>
+
+            <a
+                href="/url-shortener"
+                class="pl-4 text-lg font-semibold text-black transition duration-100 hover:text-red-500 active:text-red-700"
+            >URL Shortener
+            </a>
+        </nav>
+    </p-sidebar>
+</div>
+
+<div class="mx-auto max-w-screen-2xl px-4 md:px-8">
+    <header class="flex items-center justify-between py-4">
+        <a
+            href="/"
+            class="inline-flex items-center gap-2.5 text-2xl font-bold text-red-500 md:text-3xl"
+            aria-label="logo"
+        >
+            Mally
+        </a>
+
+        <nav class="hidden gap-12 lg:flex">
+            <a
+                href="/"
+                class="text-lg font-semibold text-white transition duration-100 hover:text-red-500 active:text-red-700"
+                >Home</a
+            >
+            <a
+                #featuresButton
+                class="cursor-pointer inline-flex items-center gap-1 text-lg font-semibold hover:text-red-500 {{
+                    isFeaturesMenuOpen ? 'text-red-500' : ''
+                }}"
+                (mouseenter)="openFeatures()"
+            >
+                Features
+
+                <i class="ti ti-chevron-down"></i>
+            </a>
+        </nav>
+
+        <div
+            class="-ml-8 hidden flex-col gap-2.5 sm:flex-row sm:justify-center lg:flex lg:justify-start"
+        >
+            <a
+                href="#"
+                class="inline-block rounded-lg px-4 py-3 text-center text-sm font-semibold text-white outline-none ring-red-300 transition duration-100 hover:text-red-500 focus-visible:ring active:text-red-600 md:text-base"
+                >Sign in</a
+            >
+
+            <a
+                href="#"
+                class="inline-block rounded-lg bg-red-500 px-8 py-3 text-center text-sm font-semibold text-white outline-none ring-red-300 transition duration-100 hover:bg-red-600 focus-visible:ring active:bg-red-700 md:text-base"
+                >Sign up</a
+            >
+        </div>
+
+        <button
+            (click)="openSidebar()"
+            type="button"
+            class="inline-flex items-center gap-2 rounded-lg px-2.5 py-2 text-sm font-semibold text-white ring-red-300 focus-visible:ring active:text-gray-200 lg:hidden"
+        >
+            <i class="ti ti-menu-2 text-2xl"></i>
+        </button>
+    </header>
+
+    <div *ngIf="isFeaturesMenuOpen" (mouseleave)="closeFeatures()">
+        <app-features-menu #featuresMenu></app-features-menu>
+    </div>
+</div>

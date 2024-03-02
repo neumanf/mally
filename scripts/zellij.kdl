@@ -1,0 +1,16 @@
+layout {
+	pane split_direction="vertical" {
+		pane {
+			command "npm"
+			args "run" "start:ui"
+		}
+		pane {
+			command "docker-compose"
+			args "-f" "../docker/docker-compose.yml" "up"
+		}
+	}
+	pane {
+		command "npm"
+		args "run" "start:api"
+	}
+}

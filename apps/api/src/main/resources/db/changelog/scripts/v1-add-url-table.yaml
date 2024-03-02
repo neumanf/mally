@@ -1,0 +1,49 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1-1
+      author: Neuman F.
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: url_id_pkey
+                  name: id
+                  type: SERIAL
+              - column:
+                  name: url
+                  type: TEXT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: slug
+                  type: VARCHAR(255)
+                  constraints:
+                    unique: true
+                    nullable: false
+              - column:
+                  name: custom
+                  type: BOOLEAN
+                  constraints:
+                    nullable: false
+                  defaultValue: "false"
+              - column:
+                  name: created_at
+                  type: DATETIME
+                  constraints:
+                    nullable: false
+                  defaultValueComputed: "CURRENT_TIMESTAMP"
+              - column:
+                  name: expires_at
+                  type: DATETIME
+                  constraints:
+                    nullable: false
+            tableName: url
+        - createIndex:
+            indexName: idx_url_slug
+            tableName: url
+            columns:
+              - column:
+                  name: slug
+            unique: true

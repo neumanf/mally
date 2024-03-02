@@ -1,0 +1,18 @@
+version: '3.3'
+
+services:
+  postgres:
+    container_name: mally-postgres
+    image: postgres:15.1
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: 'mally'
+      POSTGRES_USER: 'mally'
+      POSTGRES_PASSWORD: 'mally'
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres:/var/lib/postgresql/data
+
+volumes:
+  postgres:
