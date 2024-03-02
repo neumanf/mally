@@ -1,0 +1,46 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/mally
+    username: mally
+    password: mally
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+  main:
+    allow-bean-definition-overriding: true
+
+  cache:
+    jcache:
+      provider: com.hazelcast.cache.impl.HazelcastServerCachingProvider
+      config: classpath:hazelcast.xml
+
+bucket4j:
+  enabled: true
+  filter-config-caching-enabled: true
+  filter-config-cache-name: filterConfigCache
+  filters:
+    - id: url_shortener_redirect
+      cache-name: buckets
+      http-response-body: '{ "status": "error", "message": "Too many requests", "data": null, "errors": [] }'
+      url: /url-shortener/redirect/.*
+      rate-limits:
+        - cache-key: getRemoteAddr()
+          bandwidths:
+            - capacity: 15
+              time: 1
+              unit: minutes
+    - id: url_shortener_shorten
+      cache-name: buckets
+      http-response-body: '{ "status": "error", "message": "Too many requests", "data": null, "errors": [] }'
+      url: /url-shortener/shorten
+      rate-limits:
+        - cache-key: getRemoteAddr()
+          bandwidths:
+            - capacity: 10
+              time: 1
+              unit: hours
+
+mally:
+  client:
+    url: 'http://localhost:4200'

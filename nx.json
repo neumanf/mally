@@ -1,44 +1,42 @@
 {
-  "$schema": "./node_modules/nx/schemas/nx-schema.json",
-  "affected": {
-    "defaultBase": "main"
-  },
-  "targetDefaults": {
-    "@angular-devkit/build-angular:browser": {
-      "cache": true,
-      "dependsOn": [
-        "^build"
-      ],
-      "inputs": [
-        "default",
-        "^default"
-      ]
+    "$schema": "./node_modules/nx/schemas/nx-schema.json",
+    "affected": {
+        "defaultBase": "main"
     },
-    "install": {
-      "cache": true
+    "targetDefaults": {
+        "@angular-devkit/build-angular:browser": {
+            "cache": true,
+            "dependsOn": ["^build"],
+            "inputs": ["default", "^default"]
+        },
+        "install": {
+            "cache": true
+        }
+    },
+    "plugins": [
+        {
+            "plugin": "@nx/eslint/plugin",
+            "options": {
+                "targetName": "lint"
+            }
+        },
+        {
+            "plugin": "@nx/jest/plugin",
+            "options": {
+                "targetName": "test"
+            }
+        },
+        "@nxrocks/nx-spring-boot"
+    ],
+    "generators": {
+        "@nx/angular:application": {
+            "e2eTestRunner": "none",
+            "linter": "eslint",
+            "style": "scss",
+            "unitTestRunner": "jest"
+        },
+        "@nx/angular:component": {
+            "style": "css"
+        }
     }
-  },
-  "plugins": [
-    {
-      "plugin": "@nx/eslint/plugin",
-      "options": {
-        "targetName": "lint"
-      }
-    },
-    {
-      "plugin": "@nx/jest/plugin",
-      "options": {
-        "targetName": "test"
-      }
-    },
-    "@nxrocks/nx-spring-boot"
-  ],
-  "generators": {
-    "@nx/angular:application": {
-      "e2eTestRunner": "none",
-      "linter": "eslint",
-      "style": "scss",
-      "unitTestRunner": "jest"
-    }
-  }
 }

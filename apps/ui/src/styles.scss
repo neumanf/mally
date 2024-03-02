@@ -1,0 +1,27 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+@import "@tabler/icons-webfont/tabler-icons.min.css";
+
+@import "tailwindcss/base" layer(tailwindcss);
+@import "tailwindcss/components" layer(tailwindcss);
+@import "tailwindcss/utilities" layer(tailwindcss);
+@import "themes/lara-light-red/theme.css";
+@import "primeng/resources/primeng.css";
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    font-family: "Montserrat", sans-serif;
+
+    background-color: #151515;
+    color: white;
+}
+
+.ti {
+    font-size: 18px;
+}
