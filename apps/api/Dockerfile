@@ -12,8 +12,6 @@ RUN chown -R gradle /home/gradle/src
 
 COPY . .
 
-RUN ls -al /home/gradle/src
-
 RUN gradle clean build --no-daemon
 
 # Use an official OpenJDK runtime as a parent image

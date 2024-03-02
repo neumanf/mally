@@ -43,4 +43,4 @@ bucket4j:
 
 mally:
   client:
-    url: ${CLIENT_URL}
+    url: ${FRONTEND_URL}
