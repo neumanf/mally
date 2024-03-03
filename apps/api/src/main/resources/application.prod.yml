@@ -27,10 +27,30 @@ bucket4j:
       rate-limits:
         - cache-key: getRemoteAddr()
           bandwidths:
-            - capacity: 15
+            - capacity: 20
               time: 1
               unit: minutes
     - id: url_shortener_shorten
+      cache-name: buckets
+      http-response-body: '{ "status": "error", "message": "Too many requests", "data": null, "errors": [] }'
+      url: /url-shortener/shorten
+      rate-limits:
+        - cache-key: getRemoteAddr()
+          bandwidths:
+            - capacity: 10
+              time: 1
+              unit: hours
+    - id: pastebin_get_paste
+      cache-name: buckets
+      http-response-body: '{ "status": "error", "message": "Too many requests", "data": null, "errors": [] }'
+      url: /pastebin/paste/.*
+      rate-limits:
+        - cache-key: getRemoteAddr()
+          bandwidths:
+            - capacity: 20
+              time: 1
+              unit: minutes
+    - id: pastebin_paste
       cache-name: buckets
       http-response-body: '{ "status": "error", "message": "Too many requests", "data": null, "errors": [] }'
       url: /url-shortener/shorten
