@@ -12,8 +12,9 @@
   },
   "homepage": "https://github.com/neumanf/mally#readme",
   "scripts": {
-    "build:ui": "nx build ui",
+    "build:ui": "nx build ui --prod",
     "start:ui": "nx serve ui",
+    "start:ui:prod": "nx serve ui --configuration=production",
     "format:ui": "nx format:write ui",
     "start:api": "nx serve api",
     "lint": "nx lint"
