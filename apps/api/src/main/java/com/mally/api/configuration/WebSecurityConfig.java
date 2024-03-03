@@ -29,6 +29,7 @@ public class WebSecurityConfig {
                 .cors(httpSecurityCorsConfigurer -> httpSecurityCorsConfigurer.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/url-shortener/**").permitAll()
+                        .requestMatchers("/pastebin/paste/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .build();

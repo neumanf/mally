@@ -10,6 +10,8 @@
 @import "themes/lara-light-red/theme.css";
 @import "primeng/resources/primeng.css";
 
+@import '~highlight.js/styles/tokyo-night-dark.min.css';
+
 html {
     scroll-behavior: smooth;
 }

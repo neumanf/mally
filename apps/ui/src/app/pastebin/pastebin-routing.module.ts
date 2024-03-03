@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
-import { UrlShortenerIndexComponent } from './pages/index/url-shortener-index.component';
 import { RouterModule, Routes } from '@angular/router';
+import { PastebinComponent } from './pages/index/pastebin.component';
 
 const routes: Routes = [
     {
-        title: 'URL Shortener - Mally',
         path: '',
-        component: UrlShortenerIndexComponent,
+        title: 'Pastebin - Mally',
+        component: PastebinComponent,
     },
 ];
 
