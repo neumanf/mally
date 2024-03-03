@@ -1,41 +1,41 @@
 databaseChangeLog:
-  - changeSet:
-      id: 2-1
-      author: Neuman F.
-      changes:
-        - createTable:
-            columns:
-              - column:
-                  constraints:
-                    primaryKey: true
-                    primaryKeyName: paste_id_pkey
-                  name: id
-                  type: SERIAL
-              - column:
-                  name: text
-                  type: TEXT
-                  constraints:
-                    nullable: false
-              - column:
-                  name: slug
-                  type: VARCHAR(255)
-                  constraints:
-                    unique: true
-                    nullable: false
-              - column:
-                  name: syntax
-                  type: VARCHAR(50)
-                  constraints:
-                    nullable: false
-              - column:
-                  name: created_at
-                  type: DATETIME
-                  constraints:
-                    nullable: false
-                  defaultValueComputed: "CURRENT_TIMESTAMP"
-              - column:
-                  name: expires_at
-                  type: DATETIME
-                  constraints:
-                    nullable: false
-            tableName: paste
+    - changeSet:
+          id: 2-1
+          author: Neuman F.
+          changes:
+              - createTable:
+                    columns:
+                        - column:
+                              constraints:
+                                  primaryKey: true
+                                  primaryKeyName: paste_id_pkey
+                              name: id
+                              type: SERIAL
+                        - column:
+                              name: text
+                              type: TEXT
+                              constraints:
+                                  nullable: false
+                        - column:
+                              name: slug
+                              type: VARCHAR(255)
+                              constraints:
+                                  unique: true
+                                  nullable: false
+                        - column:
+                              name: syntax
+                              type: VARCHAR(50)
+                              constraints:
+                                  nullable: false
+                        - column:
+                              name: created_at
+                              type: DATETIME
+                              constraints:
+                                  nullable: false
+                              defaultValueComputed: 'CURRENT_TIMESTAMP'
+                        - column:
+                              name: expires_at
+                              type: DATETIME
+                              constraints:
+                                  nullable: false
+                    tableName: paste

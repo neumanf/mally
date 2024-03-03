@@ -1,66 +1,66 @@
 spring:
-  datasource:
-    url: jdbc:${DATABASE_URL}
-    username: ${DATABASE_USERNAME}
-    password: ${DATABASE_PASSWORD}
+    datasource:
+        url: jdbc:${DATABASE_URL}
+        username: ${DATABASE_USERNAME}
+        password: ${DATABASE_PASSWORD}
 
-  jpa:
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    jpa:
+        database-platform: org.hibernate.dialect.PostgreSQLDialect
 
-  main:
-    allow-bean-definition-overriding: true
+    main:
+        allow-bean-definition-overriding: true
 
-  cache:
-    jcache:
-      provider: com.hazelcast.cache.impl.HazelcastServerCachingProvider
-      config: classpath:hazelcast.xml
+    cache:
+        jcache:
+            provider: com.hazelcast.cache.impl.HazelcastServerCachingProvider
+            config: classpath:hazelcast.xml
 
 bucket4j:
-  enabled: true
-  filter-config-caching-enabled: true
-  filter-config-cache-name: filterConfigCache
-  filters:
-    - id: url_shortener_redirect
-      cache-name: buckets
-      http-response-body: '{ "status": "error", "message": "Too many requests", "data": null, "errors": [] }'
-      url: /url-shortener/redirect/.*
-      rate-limits:
-        - cache-key: getRemoteAddr()
-          bandwidths:
-            - capacity: 20
-              time: 1
-              unit: minutes
-    - id: url_shortener_shorten
-      cache-name: buckets
-      http-response-body: '{ "status": "error", "message": "Too many requests", "data": null, "errors": [] }'
-      url: /url-shortener/shorten
-      rate-limits:
-        - cache-key: getRemoteAddr()
-          bandwidths:
-            - capacity: 10
-              time: 1
-              unit: hours
-    - id: pastebin_get_paste
-      cache-name: buckets
-      http-response-body: '{ "status": "error", "message": "Too many requests", "data": null, "errors": [] }'
-      url: /pastebin/paste/.*
-      rate-limits:
-        - cache-key: getRemoteAddr()
-          bandwidths:
-            - capacity: 20
-              time: 1
-              unit: minutes
-    - id: pastebin_paste
-      cache-name: buckets
-      http-response-body: '{ "status": "error", "message": "Too many requests", "data": null, "errors": [] }'
-      url: /url-shortener/shorten
-      rate-limits:
-        - cache-key: getRemoteAddr()
-          bandwidths:
-            - capacity: 10
-              time: 1
-              unit: hours
+    enabled: true
+    filter-config-caching-enabled: true
+    filter-config-cache-name: filterConfigCache
+    filters:
+        - id: url_shortener_redirect
+          cache-name: buckets
+          http-response-body: '{ "status": "error", "message": "Too many requests", "data": null, "errors": [] }'
+          url: /url-shortener/redirect/.*
+          rate-limits:
+              - cache-key: getRemoteAddr()
+                bandwidths:
+                    - capacity: 20
+                      time: 1
+                      unit: minutes
+        - id: url_shortener_shorten
+          cache-name: buckets
+          http-response-body: '{ "status": "error", "message": "Too many requests", "data": null, "errors": [] }'
+          url: /url-shortener/shorten
+          rate-limits:
+              - cache-key: getRemoteAddr()
+                bandwidths:
+                    - capacity: 10
+                      time: 1
+                      unit: hours
+        - id: pastebin_get_paste
+          cache-name: buckets
+          http-response-body: '{ "status": "error", "message": "Too many requests", "data": null, "errors": [] }'
+          url: /pastebin/paste/.*
+          rate-limits:
+              - cache-key: getRemoteAddr()
+                bandwidths:
+                    - capacity: 20
+                      time: 1
+                      unit: minutes
+        - id: pastebin_paste
+          cache-name: buckets
+          http-response-body: '{ "status": "error", "message": "Too many requests", "data": null, "errors": [] }'
+          url: /url-shortener/shorten
+          rate-limits:
+              - cache-key: getRemoteAddr()
+                bandwidths:
+                    - capacity: 10
+                      time: 1
+                      unit: hours
 
 mally:
-  client:
-    url: ${FRONTEND_URL}
+    client:
+        url: ${FRONTEND_URL}
