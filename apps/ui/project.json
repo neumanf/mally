@@ -18,7 +18,13 @@
         "inlineStyleLanguage": "scss",
         "assets": ["apps/ui/src/favicon.ico", "apps/ui/src/assets"],
         "styles": ["apps/ui/src/styles.scss"],
-        "scripts": []
+        "scripts": [],
+        "fileReplacements": [
+          {
+            "replace": "apps/ui/src/environment/environment.ts",
+            "with": "apps/ui/src/environment/environment.prod.ts"
+          }
+        ]
       },
       "configurations": {
         "production": {
