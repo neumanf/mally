@@ -1,25 +1,25 @@
 spring:
-  datasource:
-    url: jdbc:postgresql://localhost:5432/mally
-    username: mally
-    password: mally
+    datasource:
+        url: jdbc:postgresql://localhost:5432/mally
+        username: mally
+        password: mally
 
-  jpa:
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    jpa:
+        database-platform: org.hibernate.dialect.PostgreSQLDialect
 
-  main:
-    allow-bean-definition-overriding: true
+    main:
+        allow-bean-definition-overriding: true
 
-  cache:
-    jcache:
-      provider: com.hazelcast.cache.impl.HazelcastServerCachingProvider
-      config: classpath:hazelcast.xml
+    cache:
+        jcache:
+            provider: com.hazelcast.cache.impl.HazelcastServerCachingProvider
+            config: classpath:hazelcast.xml
 
 bucket4j:
-  enabled: true
-  filter-config-caching-enabled: true
-  filter-config-cache-name: filterConfigCache
+    enabled: true
+    filter-config-caching-enabled: true
+    filter-config-cache-name: filterConfigCache
 
 mally:
-  client:
-    url: 'http://localhost:4200'
+    client:
+        url: 'http://localhost:4200'

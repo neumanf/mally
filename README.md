@@ -1,7 +1,7 @@
 <!--suppress HtmlDeprecatedAttribute -->
 <p align="center">
   <a href="">
-    <img src="./frontend/public/logo.svg" height="220">
+    <img src="./apps/ui/src/assets/logo.svg" height="220">
   </a>
 </p>
 
@@ -14,16 +14,43 @@ A collection of open source web services
 
 ## Features
 
-- URL Shortener and Pastebin services
-- Authentication with JWT
-- User dashboard
-- CI/CD
-- Tests
+-   URL Shortener and Pastebin services
+-   CI/CD
+-   Tests
 
 ## Stack
 
-- **Frontend:** React, Next.js and Mantine
-- **Backend:** Nest.js, Prisma and PostgreSQL
+-   **Frontend:** Angular and PrimeNG.
+-   **Backend:** Springboot, RabbitMQ, PostgreSQL and Redis.
+
+## Architecture
+
+```mermaid
+---
+title: Mally Architecture
+---
+flowchart LR
+%% Styles
+    classDef app fill:#f7e081,stroke:#333,stroke-width:1px
+
+%% Entities
+    UI[UI - Angular]
+    POSTGRES[(PostgreSQL)]
+    API[API - Springboot]
+    RMQ[RabbitMQ]
+    REDIS[(Redis)]
+
+%% Flow
+    UI -->|HTTP|BACKEND
+    RMQ <-->|AMQP|BACKEND
+
+    subgraph BACKEND [API]
+        direction LR
+        API --> POSTGRES
+        API --> REDIS
+    end
+
+```
 
 ## License
 
