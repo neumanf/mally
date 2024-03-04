@@ -43,4 +43,8 @@ public class UrlShortenerService {
 
         return urlShortenerRepository.save(url);
     }
+
+    public void deleteExpiredURLs() {
+        urlShortenerRepository.deleteExpiredURLs(ZonedDateTime.now());
+    }
 }
