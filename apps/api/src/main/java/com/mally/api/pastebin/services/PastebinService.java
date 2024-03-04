@@ -35,4 +35,8 @@ public class PastebinService {
 
         return pastebinRepository.save(paste);
     }
+
+    public void deleteExpiredPastes() {
+        pastebinRepository.deleteExpiredPastes(ZonedDateTime.now());
+    }
 }
