@@ -34,6 +34,11 @@ public class Paste {
     @NotNull
     private PasteSyntax syntax;
 
+    @Column
+    @ColumnDefault("false")
+    @NotNull
+    private boolean encrypted;
+
     @Column(name = "created_at")
     @CreatedDate
     @NotNull

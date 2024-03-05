@@ -3,3 +3,5 @@ databaseChangeLog:
           file: 'db/changelog/scripts/v1-add-url-table.yaml'
     - include:
           file: 'db/changelog/scripts/v2-add-paste-table.yaml'
+    - include:
+          file: 'db/changelog/scripts/v3-add-encrypted-field-to-paste.yaml'

@@ -8,12 +8,14 @@ export type Paste = {
     text: string;
     syntax: string;
     slug: string;
+    encrypted: boolean;
     createdAt: string;
     expiresAt: string;
 };
 export type PasteRequest = {
     text: string;
     syntax: string;
+    encrypted: boolean;
 };
 
 export type PasteResponse = ApiResponse<Paste>;

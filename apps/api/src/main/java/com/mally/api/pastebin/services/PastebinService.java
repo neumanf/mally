@@ -29,6 +29,7 @@ public class PastebinService {
                 .text(dto.getText())
                 .syntax(dto.getSyntax())
                 .slug(slug.toString())
+                .encrypted(dto.isEncrypted())
                 .createdAt(now)
                 .expiresAt(now.plusDays(EXPIRES_IN_DAYS))
                 .build();
