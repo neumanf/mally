@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 public class ExpiredRecordsPurger {
-    static private final String AT_MIDNIGHT_CRON = "0 0 * * * *";
+    static private final String AT_MIDNIGHT_CRON = "0 0 0 * * *";
 
     private final UrlShortenerService urlShortenerService;
 
