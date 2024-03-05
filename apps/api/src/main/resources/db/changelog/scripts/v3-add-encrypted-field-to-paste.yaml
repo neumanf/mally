@@ -1,0 +1,14 @@
+databaseChangeLog:
+    - changeSet:
+          id: 3-1
+          author: Neuman F.
+          changes:
+              - addColumn:
+                  tableName: paste
+                  columns:
+                    - column:
+                        name: encrypted
+                        type: BOOLEAN
+                        defaultValue: 'false'
+                        constraints:
+                          nullable: false

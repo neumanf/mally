@@ -12,7 +12,7 @@
     <code
         *ngIf="paste; else loading"
         class="my-5"
-        [highlight]="paste.text"
+        [highlight]="text"
         [languages]="[paste.syntax]"
         [lineNumbers]="true"
         style="white-space: pre-wrap"
@@ -35,3 +35,31 @@
         </div>
     </ng-template>
 </div>
+
+<p-dialog
+    header="Decrypt paste"
+    [(visible)]="decryptModalVisible"
+    [modal]="true"
+    [draggable]="false"
+    [resizable]="false"
+    [closable]="false"
+    [dismissableMask]="false"
+>
+    <div class="flex items-end gap-3">
+        <div class="flex flex-col gap-2 ml-2">
+            <label class="font-semibold">Password</label>
+            <div class="inline-flex items-end">
+                <p-password
+                    [(ngModel)]="password"
+                    [feedback]="false"
+                    [toggleMask]="true"
+                ></p-password>
+            </div>
+        </div>
+        <p-button
+            [disabled]="!password"
+            (click)="decrypt()"
+            label="Decrypt"
+        ></p-button>
+    </div>
+</p-dialog>

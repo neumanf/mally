@@ -10,6 +10,8 @@ import { SelectButtonModule } from 'primeng/selectbutton';
 import { ButtonModule } from 'primeng/button';
 import { QRCodeModule } from 'angularx-qrcode';
 import { TooltipModule } from 'primeng/tooltip';
+import { CheckboxModule } from 'primeng/checkbox';
+import { PasswordModule } from 'primeng/password';
 
 @NgModule({
     declarations: [PastebinComponent],
@@ -25,6 +27,8 @@ import { TooltipModule } from 'primeng/tooltip';
         ButtonModule,
         QRCodeModule,
         TooltipModule,
+        CheckboxModule,
+        PasswordModule,
     ],
 })
 export class PastebinModule {}

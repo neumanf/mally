@@ -27,7 +27,7 @@
         style="white-space: pre-wrap"
     ></code>
 
-    <div class="grid grid-cols-1 lg:grid-cols-4 gap-3 mt-5">
+    <div class="grid grid-cols-1 lg:grid-cols-5 gap-3 mt-5">
         <div class="flex flex-col gap-2">
             <label class="font-semibold">Syntax</label>
             <p-dropdown
@@ -52,14 +52,33 @@
                 placeholder="Select an expiration"
             ></p-dropdown>
         </div>
-        <div class="flex flex-col justify-end gap-2">
-            <p-button
-                [loading]="loading"
-                [disabled]="loading || form.invalid"
-                (click)="save()"
-                icon="ti ti-device-floppy"
-                label="Save"
-            ></p-button>
+        <div class="flex flex-col lg:flex-row lg:items-center col-span-2 gap-2">
+            <div class="flex align-center">
+                <p-checkbox
+                    formControlName="encrypted"
+                    [binary]="true"
+                ></p-checkbox>
+                <label class="font-semibold ml-2">Encrypt</label>
+            </div>
+            <div *ngIf="encrypted" class="flex flex-col gap-2 lg:ml-2">
+                <label class="font-semibold">Password</label>
+                <div class="inline-flex items-end">
+                    <p-password
+                        formControlName="password"
+                        [feedback]="false"
+                        [toggleMask]="true"
+                    ></p-password>
+                </div>
+            </div>
+            <div class="flex items-end h-full gap-2">
+                <p-button
+                    [loading]="loading"
+                    [disabled]="loading || form.invalid"
+                    (click)="save()"
+                    icon="ti ti-device-floppy"
+                    label="Save"
+                ></p-button>
+            </div>
         </div>
     </div>
 

@@ -16,4 +16,7 @@ public class CreatePasteDTO {
 
     @NotNull
     private PasteSyntax syntax;
+
+    @NotNull
+    private boolean encrypted;
 }
