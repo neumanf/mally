@@ -12,6 +12,7 @@ import { DialogModule } from 'primeng/dialog';
 import { FormsModule } from '@angular/forms';
 import { PasswordModule } from 'primeng/password';
 import { EncryptionService } from '../../../shared/services/encryption/encryption.service';
+import { HighlightLineNumbers } from 'ngx-highlightjs/line-numbers';
 
 @Component({
     selector: 'app-paste',
@@ -20,6 +21,7 @@ import { EncryptionService } from '../../../shared/services/encryption/encryptio
     standalone: true,
     imports: [
         Highlight,
+        HighlightLineNumbers,
         NgIf,
         ButtonModule,
         SkeletonModule,

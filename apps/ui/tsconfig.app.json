@@ -1,10 +1,10 @@
+/* To learn more about this file see: https://www.typescriptlang.org/docs/handbook/tsconfig-json.html. */
 {
-    "extends": "./tsconfig.json",
-    "compilerOptions": {
-        "outDir": "../../dist/out-tsc",
-        "types": []
-    },
-    "files": ["src/main.ts"],
-    "include": ["src/**/*.d.ts"],
-    "exclude": ["jest.config.ts", "src/**/*.test.ts", "src/**/*.spec.ts"]
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./out-tsc/app",
+    "types": []
+  },
+  "files": ["src/main.ts"],
+  "include": ["src/**/*.d.ts"]
 }
