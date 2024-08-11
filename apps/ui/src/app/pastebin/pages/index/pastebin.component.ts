@@ -86,7 +86,7 @@ export class PastebinComponent implements OnInit {
 
         const data: PasteRequest = {
             text: formData.text ?? '',
-            syntax: formData.syntax ?? 'PLAIN_TEXT',
+            syntax: formData.syntax ?? 'PLAINTEXT',
             encrypted: formData.encrypted ?? false,
         };
 

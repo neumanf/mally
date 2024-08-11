@@ -30,7 +30,7 @@ public class Paste {
 
     @Column
     @Enumerated(EnumType.STRING)
-    @ColumnDefault("PLAIN_TEXT")
+    @ColumnDefault("PLAINTEXT")
     @NotNull
     private PasteSyntax syntax;
 

@@ -30,6 +30,7 @@ import { provideHighlightOptions } from 'ngx-highlightjs';
             coreLibraryLoader: () => import('highlight.js/lib/core'),
             lineNumbersLoader: () => import('ngx-highlightjs/line-numbers'),
             languages: {
+                plaintext: () => import('highlight.js/lib/languages/plaintext'),
                 typescript: () =>
                     import('highlight.js/lib/languages/typescript'),
                 css: () => import('highlight.js/lib/languages/css'),

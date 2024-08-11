@@ -1,7 +1,7 @@
 export const SYNTAXES = [
     {
         label: 'Plain text',
-        value: 'PLAIN_TEXT',
+        value: 'PLAINTEXT',
     },
     {
         label: 'Typescript',

@@ -1,7 +1,7 @@
 package com.mally.api.pastebin.entities;
 
 public enum PasteSyntax {
-    PLAIN_TEXT,
+    PLAINTEXT,
     TYPESCRIPT,
     CSS,
     C,
