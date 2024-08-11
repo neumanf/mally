@@ -13,8 +13,8 @@
         *ngIf="paste; else loading"
         class="my-5"
         [highlight]="text"
-        [languages]="[paste.syntax]"
-        [lineNumbers]="true"
+        [language]="paste.syntax"
+        lineNumbers
         style="white-space: pre-wrap"
     ></code>
 

@@ -1,28 +1,24 @@
 # Use an official Gradle image to build the application
-FROM gradle:8.5-jdk17 AS BUILD
+FROM maven:3.9.8-eclipse-temurin-21-alpine AS builder
 
-ENV APP_HOME=/usr/app/
+ENV APP_HOME=/app
+
 WORKDIR $APP_HOME
-COPY build.gradle settings.gradle $APP_HOME
 
-COPY gradle $APP_HOME/gradle
-COPY --chown=gradle:gradle . /home/gradle/src
-USER root
-RUN chown -R gradle /home/gradle/src
-
-COPY . .
-
-RUN gradle clean build --no-daemon
+COPY pom.xml .
+RUN mvn dependency:go-offline -B
+COPY src ./src
+RUN mvn package -DskipTests
 
 # Use an official OpenJDK runtime as a parent image
-FROM openjdk:17-slim
+FROM eclipse-temurin:21-jre-alpine
 
 ENV ARTIFACT_NAME=api-0.0.1-SNAPSHOT.jar
-ENV APP_HOME=/usr/app/
+ENV APP_HOME=/app
 
 WORKDIR $APP_HOME
 
-COPY --from=BUILD $APP_HOME/build/libs/$ARTIFACT_NAME .
-COPY --from=BUILD /home/gradle/src/src/main/resources/application.prod.yml /app/application.prod.yml
+COPY --from=builder $APP_HOME/target/$ARTIFACT_NAME .
+COPY --from=builder /app/src/main/resources/application.prod.yml ./application.prod.yml
 
 ENTRYPOINT exec java -jar ${ARTIFACT_NAME} --spring.config.location=file:/app/application.prod.yml

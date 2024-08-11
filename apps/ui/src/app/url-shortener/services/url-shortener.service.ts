@@ -22,13 +22,13 @@ export class UrlShortenerService {
     shorten(url: string) {
         return this.httpClient.post<ShortenResponse>(
             UrlShortenerService.SHORTEN_URL + '/shorten',
-            { url }
+            { url },
         );
     }
 
     redirect(slug: string) {
         return this.httpClient.get<RedirectResponse>(
-            UrlShortenerService.SHORTEN_URL + '/redirect/' + slug
+            UrlShortenerService.SHORTEN_URL + '/redirect/' + slug,
         );
     }
 }

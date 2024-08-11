@@ -1,9 +1,13 @@
 package com.mally.api;
 
-
+import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class ApplicationTests {
+class ApiApplicationTests {
+
+	@Test
+	void contextLoads() {
+	}
 
 }

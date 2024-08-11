@@ -6,9 +6,13 @@ on:
 jobs:
     format:
         runs-on: ubuntu-latest
-
+        defaults:
+            run:
+                working-directory: ./apps/ui
         steps:
             - uses: actions/checkout@v3
             - uses: actions/setup-node@v3
-            - run: npm install --only=dev
-            - run: npm run format
+            - name: Install dependencies
+              run: npm install --only=dev
+            - name: Format frontend code
+              run: npm run format

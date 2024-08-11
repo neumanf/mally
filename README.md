@@ -1,7 +1,7 @@
 <!--suppress HtmlDeprecatedAttribute -->
 <p align="center">
   <a href="">
-    <img src="./apps/ui/src/assets/logo.svg" height="220">
+    <img src="apps/ui/src/assets/logo.svg" height="220">
   </a>
 </p>
 

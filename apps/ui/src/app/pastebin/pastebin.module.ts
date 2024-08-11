@@ -12,6 +12,7 @@ import { QRCodeModule } from 'angularx-qrcode';
 import { TooltipModule } from 'primeng/tooltip';
 import { CheckboxModule } from 'primeng/checkbox';
 import { PasswordModule } from 'primeng/password';
+import { HighlightLineNumbers } from 'ngx-highlightjs/line-numbers';
 
 @NgModule({
     declarations: [PastebinComponent],
@@ -29,6 +30,7 @@ import { PasswordModule } from 'primeng/password';
         TooltipModule,
         CheckboxModule,
         PasswordModule,
+        HighlightLineNumbers,
     ],
 })
 export class PastebinModule {}

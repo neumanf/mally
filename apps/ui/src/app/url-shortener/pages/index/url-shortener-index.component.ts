@@ -27,7 +27,7 @@ export class UrlShortenerIndexComponent {
         private readonly formBuilder: FormBuilder,
         private readonly urlShortenerService: UrlShortenerService,
         private readonly clipboardService: ClipboardService,
-        private readonly toastService: ToastService
+        private readonly toastService: ToastService,
     ) {}
 
     protected shorten() {

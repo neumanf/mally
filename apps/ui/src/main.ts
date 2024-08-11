@@ -1,12 +1,20 @@
 import { AppModule } from './app/app.module';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { platformBrowser } from '@angular/platform-browser';
 import { environment } from './environment/environment';
 import { enableProdMode } from '@angular/core';
+import { provideHighlightOptions } from 'ngx-highlightjs';
 
 if (environment.production) {
     enableProdMode();
 }
 
-platformBrowserDynamic()
-    .bootstrapModule(AppModule)
-    .catch((err) => console.error(err));
+platformBrowser()
+    .bootstrapModule(AppModule, {
+        providers: [
+            provideHighlightOptions({
+                fullLibraryLoader: () => import('highlight.js'),
+                lineNumbersLoader: () => import('ngx-highlightjs/line-numbers'),
+            }),
+        ],
+    })
+    .catch((err: any) => console.error(err));
