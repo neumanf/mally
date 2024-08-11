@@ -45,7 +45,7 @@ export class PastebinComponent implements OnInit {
         private readonly pastebinService: PastebinService,
         private readonly toastService: ToastService,
         private readonly clipboardService: ClipboardService,
-        private readonly encryptionService: EncryptionService
+        private readonly encryptionService: EncryptionService,
     ) {}
 
     ngOnInit() {
@@ -93,7 +93,7 @@ export class PastebinComponent implements OnInit {
         if (formData.encrypted && formData.password && formData.text) {
             const encryptedText = this.encryptionService.encrypt(
                 formData.text,
-                formData.password
+                formData.password,
             );
 
             data.text = encryptedText;

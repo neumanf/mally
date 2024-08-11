@@ -44,7 +44,7 @@ export class PasteComponent implements OnInit {
         private readonly pastebinService: PastebinService,
         private readonly clipboardService: ClipboardService,
         private readonly toastService: ToastService,
-        private readonly encryptionService: EncryptionService
+        private readonly encryptionService: EncryptionService,
     ) {}
 
     ngOnInit() {
@@ -91,7 +91,7 @@ export class PasteComponent implements OnInit {
         try {
             const decryptedText = this.encryptionService.decrypt(
                 this.paste.text,
-                this.password
+                this.password,
             );
 
             this.paste.text = decryptedText;

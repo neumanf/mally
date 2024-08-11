@@ -15,7 +15,7 @@ export class UrlShortenerRedirectComponent {
     constructor(
         private readonly urlShortenerService: UrlShortenerService,
         private readonly route: ActivatedRoute,
-        private readonly toastService: ToastService
+        private readonly toastService: ToastService,
     ) {
         this.route.params.subscribe((params) => {
             if (!params['slug']) {

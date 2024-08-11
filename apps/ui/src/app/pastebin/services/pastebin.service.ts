@@ -30,14 +30,14 @@ export class PastebinService {
 
     get(slug: string) {
         return this.httpClient.get<PasteResponse>(
-            PastebinService.API_URL + '/paste/' + slug
+            PastebinService.API_URL + '/paste/' + slug,
         );
     }
 
     save(data: PasteRequest) {
         return this.httpClient.post<PasteResponse>(
             PastebinService.API_URL + '/paste',
-            data
+            data,
         );
     }
 }

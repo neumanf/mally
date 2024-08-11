@@ -44,7 +44,7 @@ import { provideHighlightOptions } from 'ngx-highlightjs';
                 shell: () => import('highlight.js/lib/languages/shell'),
                 ruby: () => import('highlight.js/lib/languages/ruby'),
             },
-        })
+        }),
     ],
 })
 export class AppModule {}

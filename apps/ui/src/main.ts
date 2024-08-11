@@ -15,6 +15,6 @@ platformBrowser()
                 fullLibraryLoader: () => import('highlight.js'),
                 lineNumbersLoader: () => import('ngx-highlightjs/line-numbers'),
             }),
-        ]
+        ],
     })
     .catch((err: any) => console.error(err));

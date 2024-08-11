@@ -30,7 +30,7 @@ import { HighlightLineNumbers } from 'ngx-highlightjs/line-numbers';
         TooltipModule,
         CheckboxModule,
         PasswordModule,
-        HighlightLineNumbers
-    ]
+        HighlightLineNumbers,
+    ],
 })
 export class PastebinModule {}

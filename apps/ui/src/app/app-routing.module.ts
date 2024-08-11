@@ -6,7 +6,7 @@ const routes: Routes = [
         path: 'url-shortener',
         loadChildren: () =>
             import('./url-shortener/url-shortener.module').then(
-                (m) => m.UrlShortenerModule
+                (m) => m.UrlShortenerModule,
             ),
     },
     {
@@ -27,7 +27,7 @@ const routes: Routes = [
         title: 'Paste - Mally',
         loadComponent: () =>
             import('./pastebin/pages/paste/paste.component').then(
-                (m) => m.PasteComponent
+                (m) => m.PasteComponent,
             ),
     },
     {
