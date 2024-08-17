@@ -48,7 +48,7 @@ export const SYNTAXES = [
         value: 'SHELL',
     },
     {
-        label: 'Rust',
+        label: 'Ruby',
         value: 'RUBY',
     },
 ];
