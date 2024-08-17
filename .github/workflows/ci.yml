@@ -16,3 +16,43 @@ jobs:
               run: npm install --only=dev
             - name: Format frontend code
               run: npm run format
+
+    test:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v2
+
+            - name: Set up JDK 21
+              uses: actions/setup-java@v3
+              with:
+                  java-version: '21'
+                  distribution: 'temurin'
+
+            - name: Set up the Maven dependencies caching
+              uses: actions/cache@v3
+              with:
+                path: ~/.m2
+                key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+                restore-keys: ${{ runner.os }}-m2
+
+            - name: Install Maven dependencies
+              working-directory: ./apps/api
+              run: mvn install -Dmaven.test.skip=true
+
+            - name: Run API
+              uses: JarvusInnovations/background-action@v1
+              with:
+                working-directory: ./apps/api
+                run: mvn spring-boot:run -Dspring-boot.run.arguments="--spring.config.location=classpath:/application.testing.yml" &
+                wait-on: http://localhost:8080/health/
+                wait-for: 2m
+
+            - name: Run Cypress
+              uses: cypress-io/github-action@v3
+              with:
+                  working-directory: ./apps/ui
+                  browser: chrome
+                  build: npm run build
+                  start: npm start
+                  wait-on: "http://localhost:4200"

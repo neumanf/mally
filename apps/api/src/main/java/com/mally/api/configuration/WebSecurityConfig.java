@@ -30,6 +30,7 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/url-shortener/**").permitAll()
                         .requestMatchers("/pastebin/paste/**").permitAll()
+                        .requestMatchers("/health/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .build();

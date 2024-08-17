@@ -15,8 +15,7 @@ import java.time.ZonedDateTime;
 @Setter
 public class Url {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "url_id_seq")
-    @SequenceGenerator(name = "url_id_seq", sequenceName = "url_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column

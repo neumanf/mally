@@ -9,7 +9,8 @@
         "dev": "ng serve --host 0.0.0.0",
         "format": "prettier --write --cache .",
         "lint": "eslint .",
-        "cy:open": "cypress open"
+        "cy:open": "cypress open",
+        "cy:run": "cypress run"
     },
     "private": true,
     "dependencies": {
@@ -44,6 +45,7 @@
         "@types/node": "^16.11.35",
         "autoprefixer": "^10.4.19",
         "copyfiles": "^2.4.1",
+        "cypress": "^13.13.3",
         "eslint": "^9.9.0",
         "eslint-config-prettier": "^9.1.0",
         "globals": "^15.9.0",
