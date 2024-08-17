@@ -1,0 +1,26 @@
+spring:
+    datasource:
+        url: jdbc:h2:mem:mally
+        driverClassName: org.h2.Driver
+        username: mally
+        password: mally
+
+    jpa:
+        database-platform: org.hibernate.dialect.H2Dialect
+
+    main:
+        allow-bean-definition-overriding: true
+
+    cache:
+        jcache:
+            provider: com.hazelcast.cache.impl.HazelcastServerCachingProvider
+            config: classpath:hazelcast.xml
+
+bucket4j:
+    enabled: true
+    filter-config-caching-enabled: true
+    filter-config-cache-name: filterConfigCache
+
+mally:
+    client:
+        url: 'http://localhost:4200'
