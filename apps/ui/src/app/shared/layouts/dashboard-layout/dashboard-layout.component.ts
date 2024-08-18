@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { KeycloakService } from '../../../auth/services/keycloak.service';
+import { User } from '../../../auth/interfaces/user';
 
 type SidebarItem = {
     label: string;
@@ -17,6 +19,7 @@ type SidebarItem = {
 export class DashboardLayoutComponent {
     isSidebarOpen = true;
     userMenu = undefined;
+    user?: User;
 
     sidebarItems: SidebarItem[] = [
         {
@@ -38,11 +41,22 @@ export class DashboardLayoutComponent {
         },
     ];
 
-    constructor(protected router: Router) {}
+    constructor(
+        protected router: Router,
+        private readonly keycloakService: KeycloakService,
+    ) {
+        this.user = keycloakService.user;
+    }
 
     toggleSidebar() {
         this.isSidebarOpen = !this.isSidebarOpen;
     }
 
-    logout() {}
+    logout() {
+        return this.keycloakService.logout();
+    }
+
+    profile() {
+        return this.keycloakService.accountManagement();
+    }
 }

@@ -1,16 +1,18 @@
 layout {
 	pane split_direction="vertical" {
 		pane {
+		    cwd "../apps/ui"
 			command "npm"
-			args "run" "start:ui"
+			args "run" "dev"
 		}
 		pane {
 			command "docker-compose"
-			args "-f" "../docker/docker-compose.yml" "up"
+			args "-f" "../docker-compose.yml" "up"
 		}
 	}
 	pane {
-		command "npm"
-		args "run" "start:api"
+	    cwd "../apps/api"
+		command "mvn"
+		args "spring-boot:run"
 	}
 }

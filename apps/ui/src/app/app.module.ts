@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AppComponent } from './app.component';
 import { RouterModule } from '@angular/router';
@@ -10,6 +10,10 @@ import { UrlShortenerModule } from './url-shortener/url-shortener.module';
 import { AppRoutingModule } from './app-routing.module';
 import { ToastModule } from 'primeng/toast';
 import { provideHighlightOptions } from 'ngx-highlightjs';
+import {
+    keycloakFactory,
+    KeycloakService,
+} from './auth/services/keycloak.service';
 
 @NgModule({
     bootstrap: [AppComponent],
@@ -46,6 +50,12 @@ import { provideHighlightOptions } from 'ngx-highlightjs';
                 ruby: () => import('highlight.js/lib/languages/ruby'),
             },
         }),
+        {
+            provide: APP_INITIALIZER,
+            deps: [KeycloakService],
+            useFactory: keycloakFactory,
+            multi: true,
+        },
     ],
 })
 export class AppModule {}

@@ -4,15 +4,22 @@ import { DashboardLayoutComponent } from './shared/layouts/dashboard-layout/dash
 import { LandingLayoutComponent } from './shared/layouts/landing-layout/landing-layout.component';
 import { UrlShortenerRedirectComponent } from './url-shortener/pages/redirect/url-shortener-redirect.component';
 import { PasteComponent } from './pastebin/pages/paste/paste.component';
+import { authGuard } from './auth/guards/auth.guard';
 
 const routes: Routes = [
     {
         path: 'dashboard',
         component: DashboardLayoutComponent,
+        canActivate: [authGuard],
         loadChildren: () =>
             import('./dashboard/dashboard.module').then(
                 (m) => m.DashboardModule,
             ),
+    },
+    {
+        path: 'auth',
+        loadChildren: () =>
+            import('./auth/auth.module').then((m) => m.AuthModule),
     },
     {
         path: 'url-shortener',

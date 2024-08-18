@@ -51,19 +51,26 @@
                         >
                             <div class="px-4 py-3" role="none">
                                 <p class="text-sm font-bold text-zinc-900 dark:text-white" role="none">
-                                    <!--                                    {{ user?.name }}--> name
+                                    {{ user?.firstName }}
                                 </p>
                                 <p
                                     class="text-sm font-medium text-zinc-900 truncate dark:text-zinc-300"
                                     role="none"
                                 >
-                                    <!--                                    {{ user?.email }}--> email
+                                    {{ user?.email }}
                                 </p>
                             </div>
                             <ul class="py-1" role="none">
                                 <li>
                                     <a
-                                        href="#"
+                                        (click)="profile()"
+                                        class="cursor-pointer block px-4 py-2 text-sm text-zinc-700 hover:bg-zinc-100 dark:text-zinc-300 dark:hover:bg-zinc-600 dark:hover:text-white"
+                                        role="menuitem"
+                                    >Profile</a
+                                    >
+                                </li>
+                                <li>
+                                    <a
                                         (click)="logout()"
                                         class="cursor-pointer block px-4 py-2 text-sm text-zinc-700 hover:bg-zinc-100 dark:text-zinc-300 dark:hover:bg-zinc-600 dark:hover:text-white"
                                         role="menuitem"

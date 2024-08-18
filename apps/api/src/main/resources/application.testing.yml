@@ -1,12 +1,11 @@
 spring:
     datasource:
-        url: jdbc:h2:mem:mally
-        driverClassName: org.h2.Driver
-        username: mally
-        password: mally
+        url: jdbc:postgresql://postgres:5432/mally
+        username: postgres
+        password: postgres
 
     jpa:
-        database-platform: org.hibernate.dialect.H2Dialect
+        database-platform: org.hibernate.dialect.PostgreSQLDialect
 
     main:
         allow-bean-definition-overriding: true
@@ -15,6 +14,12 @@ spring:
         jcache:
             provider: com.hazelcast.cache.impl.HazelcastServerCachingProvider
             config: classpath:hazelcast.xml
+
+    security:
+        oauth2:
+            resourceserver:
+                jwt:
+                    issuer-uri: "http://keycloak:9090/realms/mally"
 
 bucket4j:
     enabled: true
