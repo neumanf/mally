@@ -1,0 +1,106 @@
+services:
+    postgres:
+        container_name: mally-postgres
+        image: ghcr.io/neumanf/mally-postgres
+        restart: unless-stopped
+        healthcheck:
+            test: [ "CMD", "pg_isready", "-q", "-d", "keycloak", "-U", "postgres" ]
+            timeout: 45s
+            interval: 10s
+            retries: 5
+        environment:
+            POSTGRES_DBS: 'mally,keycloak'
+            POSTGRES_USER: ${POSTGRES_USER}
+            POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+        networks:
+            - mally-network
+        volumes:
+            - postgres:/var/lib/postgresql/data
+
+    keycloak:
+        container_name: mally-keycloak
+        image: ghcr.io/neumanf/mally-keycloak
+        restart: unless-stopped
+        healthcheck:
+            test: ["CMD", "curl", "-f", "http://0.0.0.0:9000/health/ready"]
+            timeout: 45s
+            interval: 10s
+            retries: 15
+        environment:
+            JAVA_OPTS_APPEND: -Dkeycloak.profile.feature.upload_scripts=enabled
+            KC_DB: postgres
+            KC_DB_URL: jdbc:postgresql://postgres/keycloak
+            KC_DB_USERNAME: ${POSTGRES_USER}
+            KC_DB_PASSWORD: ${POSTGRES_PASSWORD}
+            KC_HEALTH_ENABLED: 'true'
+            KC_HTTP_ENABLED: 'true'
+            KC_METRICS_ENABLED: 'true'
+            KC_HOSTNAME_STRICT_HTTPS: 'false'
+            KC_HOSTNAME_URL: ${KEYCLOAK_URL}
+            KC_PROXY: reencrypt
+            KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN}
+            KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
+        depends_on:
+            postgres:
+                condition: service_healthy
+        networks:
+            - mally-network
+        command: start --hostname ${KEYCLOAK_URL} --import-realm
+
+    api:
+        container_name: mally-api
+        image: ghcr.io/neumanf/mally-api
+        restart: unless-stopped
+        healthcheck:
+            test: [ "CMD", "curl", "-f", "http://0.0.0.0:8080/health/" ]
+            timeout: 45s
+            interval: 10s
+            retries: 15
+        environment:
+            DATABASE_URL: ${POSTGRES_URL}
+            DATABASE_USERNAME: ${POSTGRES_USER}
+            DATABASE_PASSWORD: ${POSTGRES_PASSWORD}
+            KEYCLOAK_ISSUER_URL: ${KEYCLOAK_ISSUER_URL}
+            FRONTEND_URL: ${FRONTEND_URL}
+        networks:
+            - mally-network
+        depends_on:
+            postgres:
+                condition: service_healthy
+            keycloak:
+                condition: service_healthy
+
+    ui:
+        container_name: mally-ui
+        image: ghcr.io/neumanf/mally-ui
+        restart: unless-stopped
+        networks:
+            - mally-network
+        depends_on:
+            api:
+                condition: service_healthy
+            keycloak:
+                condition: service_healthy
+
+    nginx:
+        container_name: mally-nginx
+        image: ghcr.io/neumanf/mally-nginx
+        restart: unless-stopped
+        networks:
+            - mally-network
+        depends_on:
+            - api
+            - ui
+        ports:
+            - '80:80'
+            - '443:443'
+        volumes:
+            - ./certbot/www/:/var/www/certbot/:rw
+            - ./certbot/conf/:/etc/letsencrypt/:rw
+
+volumes:
+    postgres:
+
+networks:
+    mally-network:
+        name: mally-network

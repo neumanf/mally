@@ -28,17 +28,6 @@ export class DashboardLayoutComponent {
             path: '/dashboard',
             new: false,
         },
-        {
-            label: 'Admin',
-            children: [
-                {
-                    label: 'Users',
-                    icon: 'ti ti-user',
-                    path: '/dashboard/admin/users',
-                    new: false,
-                },
-            ],
-        },
     ];
 
     constructor(

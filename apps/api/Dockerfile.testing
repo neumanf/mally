@@ -5,8 +5,8 @@ ENV APP_HOME=/app
 
 WORKDIR $APP_HOME
 
-COPY pom.xml .
-COPY src ./src
+COPY ./apps/api/pom.xml .
+COPY ./apps/api/src ./src
 RUN mvn package -T4 -DskipTests -Dmaven.test.skip
 
 # Use an official OpenJDK runtime as a parent image

@@ -15,6 +15,12 @@ spring:
             provider: com.hazelcast.cache.impl.HazelcastServerCachingProvider
             config: classpath:hazelcast.xml
 
+    security:
+        oauth2:
+            resourceserver:
+                jwt:
+                    issuer-uri: ${KEYCLOAK_ISSUER_URL}
+
 bucket4j:
     enabled: true
     filter-config-caching-enabled: true

@@ -23,9 +23,8 @@ services:
     keycloak:
         container_name: mally-keycloak
         build:
-            context: ./infra/keycloak
-            args:
-                KEYCLOAK_VERSION: 25.0.4
+            context: .
+            dockerfile: ./infra/keycloak/Dockerfile
         restart: unless-stopped
         healthcheck:
             test: ["CMD", "curl", "-f", "http://0.0.0.0:9000/health/ready"]
@@ -62,8 +61,8 @@ services:
     api:
         container_name: mally-api
         build:
-            context: ./apps/api
-            dockerfile: Dockerfile.testing
+            context: .
+            dockerfile: ./apps/api/Dockerfile.testing
         restart: unless-stopped
         networks:
             - mally-network
