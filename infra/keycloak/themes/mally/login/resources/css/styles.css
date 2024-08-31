@@ -1,0 +1,4 @@
+:root {
+    --pf-global--primary-color--100: var(--pf-global--palette--red-100);
+    --pf-global--primary-color--200: var(--pf-global--palette--red-200);
+}

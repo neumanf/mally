@@ -3,14 +3,64 @@ services:
         container_name: mally-postgres
         image: postgres:15.1
         restart: unless-stopped
+        healthcheck:
+            test: [ "CMD", "pg_isready", "-q", "-d", "keycloak", "-U", "postgres" ]
+            timeout: 45s
+            interval: 10s
+            retries: 10
         environment:
-            POSTGRES_DB: 'mally'
-            POSTGRES_USER: 'mally'
-            POSTGRES_PASSWORD: 'mally'
+            POSTGRES_DBS: 'mally,keycloak'
+            POSTGRES_USER: ${POSTGRES_USER:-postgres}
+            POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+        networks:
+            - mally-network
         ports:
             - '5432:5432'
         volumes:
+            - ./infra/postgres/init:/docker-entrypoint-initdb.d
             - postgres:/var/lib/postgresql/data
+
+    keycloak:
+        container_name: mally-keycloak
+        build:
+            context: .
+            dockerfile: ./infra/keycloak/Dockerfile
+        restart: unless-stopped
+        healthcheck:
+            test: ["CMD", "curl", "-f", "http://0.0.0.0:9000/health/ready"]
+            timeout: 45s
+            interval: 10s
+            retries: 15
+        environment:
+            JAVA_OPTS_APPEND: -Dkeycloak.profile.feature.upload_scripts=enabled
+            KC_DB: postgres
+            KC_DB_URL: jdbc:postgresql://postgres/keycloak
+            KC_DB_USERNAME: ${POSTGRES_USER:-postgres}
+            KC_DB_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+            KC_HEALTH_ENABLED: 'true'
+            KC_HTTP_ENABLED: 'true'
+            KC_METRICS_ENABLED: 'true'
+            KC_HOSTNAME_STRICT_HTTPS: 'false'
+            KC_HOSTNAME_URL: ${KEYCLOAK_URL:-http://0.0.0.0:9090}
+            KC_PROXY: reencrypt
+            KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN:-admin}
+            KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD:-admin}
+        depends_on:
+            postgres:
+                condition: service_healthy
+        networks:
+            - mally-network
+        volumes:
+            - ./infra/keycloak/themes/mally:/opt/keycloak/themes/mally
+            - ./infra/keycloak/realms/mally.json:/opt/keycloak/data/import/mally.json
+        ports:
+            - '9090:8080'
+            - '9000:9000'
+        command: start --hostname http://localhost:9090 --import-realm
 
 volumes:
     postgres:
+
+networks:
+    mally-network:
+        name: mally-network

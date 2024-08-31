@@ -5,16 +5,17 @@ ENV APP_HOME=/app
 
 WORKDIR $APP_HOME
 
-COPY pom.xml .
-RUN mvn dependency:go-offline -B
-COPY src ./src
-RUN mvn package -DskipTests
+COPY ./apps/api/pom.xml .
+COPY ./apps/api/src ./src
+RUN mvn package -T4 -DskipTests -Dmaven.test.skip
 
 # Use an official OpenJDK runtime as a parent image
 FROM eclipse-temurin:21-jre-alpine
 
 ENV ARTIFACT_NAME=api-0.0.1-SNAPSHOT.jar
 ENV APP_HOME=/app
+
+RUN apk add curl
 
 WORKDIR $APP_HOME
 
