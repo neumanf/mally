@@ -12,8 +12,7 @@ spring:
 
     cache:
         jcache:
-            provider: com.hazelcast.cache.impl.HazelcastServerCachingProvider
-            config: classpath:hazelcast.xml
+            config: classpath:ehcache.xml
 
     security:
       oauth2:

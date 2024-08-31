@@ -12,8 +12,7 @@ spring:
 
     cache:
         jcache:
-            provider: com.hazelcast.cache.impl.HazelcastServerCachingProvider
-            config: classpath:hazelcast.xml
+          config: classpath:ehcache.xml
 
     security:
         oauth2:
@@ -30,40 +29,48 @@ bucket4j:
           cache-name: buckets
           http-response-body: '{ "status": "error", "message": "Too many requests", "data": null, "errors": [] }'
           url: /url-shortener/redirect/.*
+          http-response-headers:
+            Access-Control-Allow-Origin: ${FRONTEND_URL}
           rate-limits:
               - cache-key: getRemoteAddr()
                 bandwidths:
-                    - capacity: 20
+                    - capacity: 50
                       time: 1
                       unit: minutes
         - id: url_shortener_shorten
           cache-name: buckets
           http-response-body: '{ "status": "error", "message": "Too many requests", "data": null, "errors": [] }'
           url: /url-shortener/shorten
+          http-response-headers:
+            Access-Control-Allow-Origin: ${FRONTEND_URL}
           rate-limits:
               - cache-key: getRemoteAddr()
                 bandwidths:
-                    - capacity: 10
+                    - capacity: 30
                       time: 1
                       unit: hours
         - id: pastebin_get_paste
           cache-name: buckets
           http-response-body: '{ "status": "error", "message": "Too many requests", "data": null, "errors": [] }'
           url: /pastebin/paste/.*
+          http-response-headers:
+            Access-Control-Allow-Origin: ${FRONTEND_URL}
           rate-limits:
               - cache-key: getRemoteAddr()
                 bandwidths:
-                    - capacity: 20
+                    - capacity: 50
                       time: 1
                       unit: minutes
         - id: pastebin_paste
           cache-name: buckets
           http-response-body: '{ "status": "error", "message": "Too many requests", "data": null, "errors": [] }'
           url: /url-shortener/shorten
+          http-response-headers:
+            Access-Control-Allow-Origin: ${FRONTEND_URL}
           rate-limits:
               - cache-key: getRemoteAddr()
                 bandwidths:
-                    - capacity: 10
+                    - capacity: 30
                       time: 1
                       unit: hours
 
