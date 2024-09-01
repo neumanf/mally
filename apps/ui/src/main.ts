@@ -3,10 +3,14 @@ import { platformBrowser } from '@angular/platform-browser';
 import { environment } from './environment/environment';
 import { enableProdMode } from '@angular/core';
 import { provideHighlightOptions } from 'ngx-highlightjs';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
 
 if (environment.production) {
     enableProdMode();
 }
+
+dayjs.extend(relativeTime);
 
 platformBrowser()
     .bootstrapModule(AppModule, {

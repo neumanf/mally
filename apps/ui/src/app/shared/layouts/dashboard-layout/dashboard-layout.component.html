@@ -1,5 +1,5 @@
-<nav class="fixed top-0 z-50 w-full border-b bg-zinc-950 border-zinc-700">
-    <div class="px-3 py-3 lg:px-5 lg:pl-3">
+<nav class="fixed top-0 z-30 w-full bg-zinc-900">
+    <div class="px-3 py-3 lg:px-5 lg:pl-3 border-0 border-b border-solid border-zinc-600">
         <div class="flex items-center justify-between">
             <div class="flex items-center justify-start rtl:justify-end">
                 <button
@@ -22,59 +22,35 @@
                         ></path>
                     </svg>
                 </button>
-                <a href="/" class="flex ms-2 md:me-24">
-                    <img src="/assets/logo.svg" class="h-8 me-3" alt="Logo" />
-                </a>
             </div>
             <div class="flex items-center">
                 <div class="flex items-center ms-3">
-                    <div>
-                        <button
-                            type="button"
-                            class="flex text-sm bg-zinc-800 rounded-full focus:ring-4 focus:ring-zinc-300 dark:focus:ring-zinc-600"
-                            (click)="userMenu.toggle($event)"
-                        >
-                            <span class="sr-only">Open user menu</span>
-                            <p-avatar
-                                icon="ti ti-user"
-                                size="normal"
-                                shape="circle"
-                                [style]="{'background-color': '#ef4444'}"
-                            />
-                        </button>
+                    <div (click)="userMenu.toggle($event)" class="flex items-center gap-2 hover:bg-zinc-700 p-2 rounded-lg transition cursor-pointer">
+                        <p-avatar
+                            class="rounded-3xl"
+                            icon="ti ti-user"
+                            size="normal"
+                            shape="square"
+                            [style]="{'background-color': '#ef4444'}"
+                        />
+                        <div class="flex flex-col">
+                            <span class="font-semibold">{{ user?.fullName }}</span>
+                            <span>{{ user?.formattedRole }}</span>
+                        </div>
                     </div>
 
                     <p-overlayPanel #userMenu>
                         <div
-                            class="text-base list-none divide-y rounded shadow bg-zinc-700 divide-zinc-600"
+                            class="text-base list-none divide-y rounded shadow divide-zinc-600 w-64"
                             id="dropdown-user"
                         >
-                            <div class="px-4 py-3" role="none">
-                                <p class="text-sm font-bold text-zinc-900 dark:text-white" role="none">
-                                    {{ user?.firstName }}
-                                </p>
-                                <p
-                                    class="text-sm font-medium text-zinc-900 truncate dark:text-zinc-300"
-                                    role="none"
-                                >
-                                    {{ user?.email }}
-                                </p>
-                            </div>
                             <ul class="py-1" role="none">
                                 <li>
                                     <a
                                         (click)="profile()"
-                                        class="cursor-pointer block px-4 py-2 text-sm text-zinc-700 hover:bg-zinc-100 dark:text-zinc-300 dark:hover:bg-zinc-600 dark:hover:text-white"
+                                        class="flex items-center gap-2 cursor-pointer px-4 py-2 text-sm text-zinc-700 hover:bg-zinc-100 dark:text-zinc-300 dark:hover:bg-zinc-600 dark:hover:text-white"
                                         role="menuitem"
-                                    >Profile</a
-                                    >
-                                </li>
-                                <li>
-                                    <a
-                                        (click)="logout()"
-                                        class="cursor-pointer block px-4 py-2 text-sm text-zinc-700 hover:bg-zinc-100 dark:text-zinc-300 dark:hover:bg-zinc-600 dark:hover:text-white"
-                                        role="menuitem"
-                                    >Sign out</a
+                                    ><i class="ti ti-user"></i> Profile</a
                                     >
                                 </li>
                             </ul>
@@ -88,23 +64,28 @@
 
 <aside
     id="logo-sidebar"
-    class="fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform -tranzinc-x-full border-r sm:tranzinc-x-0 bg-zinc-950 border-zinc-700"
+    class="fixed top-0 left-0 z-40 w-64 h-screen pt-5 transition-transform -tranzinc-x-full border-0 border-solid border-r sm:tranzinc-x-0 bg-zinc-800 border-zinc-600"
     [ngClass]="{
         hidden: !isSidebarOpen,
     }"
     aria-label="Sidebar"
 >
-    <div class="flex text-white flex-col justify-between h-full px-3 pb-4 overflow-y-auto bg-zinc-950">
+    <a routerLink="/" class="flex items-center ms-8">
+        <img src="/assets/logo.svg" class="h-10 me-3" alt="Logo" />
+
+        <span class="font-bold text-white text-2xl">Mally</span>
+    </a>
+    <div class="flex flex-col justify-between text-white h-full px-5 mt-10 overflow-y-auto">
         <ul class="space-y-2 font-medium">
             <li *ngFor="let item of sidebarItems">
                 <div *ngIf="item.children">
-                    <p class="mb-2">{{ item.label }}</p>
+                    <p class="mb-2 text-zinc-400">{{ item.label }}</p>
                     <div *ngFor="let child of item.children">
                         <a
-                            [href]="child.path"
-                            class="flex items-center p-2 my-2 rounded-lg text-white hover:text-primary-300 group"
+                            [routerLink]="child.path"
+                            class="flex items-center p-2 my-2 rounded-lg text-white hover:bg-zinc-700 group"
                             [ngClass]="{
-                                    'bg-zinc-700': router.url === child.path,
+                                    'bg-zinc-600': router.url === child.path,
                                 }"
                         >
                             <i [class]="child.icon"></i>
@@ -115,13 +96,14 @@
                 <a
                     *ngIf="!item.children"
                     [href]="item.path"
-                    class="flex items-center p-2 rounded-lg text-white hover:text-primary-300 group"
+                    class="flex items-center p-3 rounded-lg text-white hover:text-primary-300 group"
                     [ngClass]="{
                             'bg-zinc-700': router.url === item.path,
+                            'font-bold': router.url === item.path
                         }"
                 >
                     <i [class]="item.icon"></i>
-                    <span class="ms-3 mt-1">{{ item.label }}</span>
+                    <span class="ms-3">{{ item.label }}</span>
                     <span
                         *ngIf="item.new"
                         class="inline-flex items-center justify-center px-2 ms-3 text-sm font-medium text-green-800 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-300"
@@ -130,6 +112,15 @@
                 </a>
             </li>
         </ul>
+        <div>
+            <a
+                class="mb-28 flex cursor-pointer items-center p-3 rounded-lg text-white hover:bg-zinc-700 transition group"
+                (click)="logout()"
+            >
+                <i class="ti ti-logout-2"></i>
+                <span class="ms-3">Log out</span>
+            </a>
+        </div>
     </div>
 </aside>
 

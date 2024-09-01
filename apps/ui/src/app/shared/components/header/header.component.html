@@ -1,7 +1,7 @@
 <div class="mx-auto max-w-screen-2xl px-4 md:px-8">
     <header class="flex items-center justify-between py-4">
         <a
-            href="/"
+            routerLink="/"
             class="inline-flex items-center gap-2.5 text-2xl font-bold text-red-500 md:text-3xl"
             aria-label="logo"
         >
@@ -10,7 +10,7 @@
 
         <nav class="hidden gap-12 lg:flex">
             <a
-                href="/"
+                routerLink="/"
                 class="text-lg font-semibold text-white transition duration-100 hover:text-red-500 active:text-red-700"
                 >Home</a
             >
@@ -31,13 +31,13 @@
             class="-ml-8 hidden flex-col gap-2.5 sm:flex-row sm:justify-center lg:flex lg:justify-start"
         >
             <a
-                href="/auth/login"
+                routerLink="/auth/login"
                 class="inline-block rounded-lg px-4 py-3 text-center text-sm font-semibold text-white outline-none ring-red-300 transition duration-100 hover:text-red-500 focus-visible:ring active:text-red-600 md:text-base"
                 >Sign in</a
             >
 
             <a
-                href="/auth/register"
+                routerLink="/auth/register"
                 class="inline-block rounded-lg bg-red-500 px-8 py-3 text-center text-sm font-semibold text-white outline-none ring-red-300 transition duration-100 hover:bg-red-600 focus-visible:ring active:bg-red-700 md:text-base"
                 >Sign up</a
             >
@@ -61,7 +61,7 @@
     <p-sidebar [(visible)]="isSidebarOpen" position="right" appendTo="body">
         <nav class="gap-4 flex flex-col">
             <a
-                href="/"
+                routerLink="/"
                 class="text-lg font-semibold text-black transition duration-100 hover:text-red-500 active:text-red-700"
                 >Home
             </a>
@@ -71,13 +71,13 @@
             </a>
 
             <a
-                href="/url-shortener"
+                routerLink="/url-shortener"
                 class="pl-4 text-lg font-semibold text-black transition duration-100 hover:text-red-500 active:text-red-700"
                 >URL Shortener
             </a>
 
             <a
-                href="/pastebin"
+                routerLink="/pastebin"
                 class="pl-4 text-lg font-semibold text-black transition duration-100 hover:text-red-500 active:text-red-700"
                 >Pastebin
             </a>

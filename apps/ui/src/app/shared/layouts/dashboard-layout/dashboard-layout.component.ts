@@ -18,15 +18,25 @@ type SidebarItem = {
 })
 export class DashboardLayoutComponent {
     isSidebarOpen = true;
-    userMenu = undefined;
     user?: User;
 
     sidebarItems: SidebarItem[] = [
         {
-            label: 'Dashboard',
-            icon: 'ti ti-dashboard',
-            path: '/dashboard',
-            new: false,
+            label: 'MAIN',
+            children: [
+                {
+                    label: 'Dashboard',
+                    icon: 'ti ti-layout-dashboard',
+                    path: '/dashboard',
+                    new: false,
+                },
+                {
+                    label: 'Short URLs',
+                    icon: 'ti ti-link',
+                    path: '/dashboard/short-urls',
+                    new: false,
+                },
+            ],
         },
     ];
 

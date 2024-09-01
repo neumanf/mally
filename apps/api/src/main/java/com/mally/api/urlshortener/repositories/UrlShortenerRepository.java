@@ -2,6 +2,8 @@ package com.mally.api.urlshortener.repositories;
 
 import com.mally.api.urlshortener.entities.Url;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -13,6 +15,9 @@ import java.util.Optional;
 
 @Repository
 public interface UrlShortenerRepository extends CrudRepository<Url, Long> {
+
+    Page<Url> findAllByUserId(String userId, Pageable pageable);
+
     Optional<Url> findBySlug(String slug);
 
     @Transactional

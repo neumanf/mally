@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../../environment/environment';
 import { HttpClient } from '@angular/common/http';
 import { ApiResponse } from '../../shared/interfaces/http';
+import { HttpService } from '../../shared/services/http/http.service';
 
 export type Paste = {
     id: number;
@@ -24,19 +25,19 @@ export type PasteResponse = ApiResponse<Paste>;
     providedIn: 'root',
 })
 export class PastebinService {
-    static readonly API_URL = environment.apiUrl + '/pastebin';
+    private readonly BASE_PATH = '/pastebin';
 
-    constructor(private readonly httpClient: HttpClient) {}
+    constructor(private readonly httpService: HttpService) {}
 
     get(slug: string) {
-        return this.httpClient.get<PasteResponse>(
-            PastebinService.API_URL + '/paste/' + slug,
+        return this.httpService.get<PasteResponse>(
+            this.BASE_PATH + '/paste/' + slug,
         );
     }
 
     save(data: PasteRequest) {
-        return this.httpClient.post<PasteResponse>(
-            PastebinService.API_URL + '/paste',
+        return this.httpService.post<PasteResponse>(
+            this.BASE_PATH + '/paste',
             data,
         );
     }

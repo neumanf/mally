@@ -2,6 +2,9 @@ package com.mally.api.pastebin.repositories;
 
 import com.mally.api.pastebin.entities.Paste;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -12,7 +15,12 @@ import java.time.ZonedDateTime;
 import java.util.Optional;
 
 @Repository
-public interface PastebinRepository extends CrudRepository<Paste, Long> {
+public interface PastebinRepository extends CrudRepository<Paste, Long>, JpaSpecificationExecutor<Paste> {
+
+    Page<Paste> findAll(Pageable pageable);
+
+    Page<Paste> findAllByUserId(String userId, Pageable pageable);
+
     Optional<Paste> findBySlug(String slug);
 
     @Transactional

@@ -36,7 +36,7 @@ public class WebSecurityConfig {
                 .cors(httpSecurityCorsConfigurer -> httpSecurityCorsConfigurer.configurationSource(corsConfigurationSource()))
                 .exceptionHandling(customizer -> customizer.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/url-shortener/**").permitAll()
+                        .requestMatchers( "/url-shortener/shorten", "/url-shortener/redirect/**").permitAll()
                         .requestMatchers("/pastebin/paste/**").permitAll()
                         .requestMatchers("/health/**").permitAll()
                         .requestMatchers("/auth/**").permitAll()

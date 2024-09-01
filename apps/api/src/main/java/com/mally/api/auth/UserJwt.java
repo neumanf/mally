@@ -1,5 +1,7 @@
 package com.mally.api.auth;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
@@ -7,6 +9,8 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 import java.util.Collection;
 
 
+@Getter
+@Setter
 public class UserJwt extends JwtAuthenticationToken {
 
     private String firstName;
@@ -17,19 +21,7 @@ public class UserJwt extends JwtAuthenticationToken {
         super(jwt, authorities);
     }
 
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public String getId() {
+        return getName();
     }
 }

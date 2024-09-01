@@ -1,13 +1,25 @@
 package com.mally.api.pastebin.services;
 
 import com.mally.api.pastebin.dtos.CreatePasteDTO;
+import com.mally.api.pastebin.dtos.SearchPastesDTO;
 import com.mally.api.pastebin.entities.Paste;
 import com.mally.api.pastebin.repositories.PastebinRepository;
+import com.mally.api.shared.utils.PaginationUtils;
 import io.github.thibaultmeyer.cuid.CUID;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @AllArgsConstructor
@@ -17,11 +29,13 @@ public class PastebinService {
 
     private final PastebinRepository pastebinRepository;
 
+    private final EntityManager entityManager;
+
     public Optional<Paste> findBySlug(String slug) {
         return pastebinRepository.findBySlug(slug);
     }
 
-    public Paste create(CreatePasteDTO dto) {
+    public Paste create(CreatePasteDTO dto, String userId) {
         final ZonedDateTime now = ZonedDateTime.now();
         final CUID slug = CUID.randomCUID2(22);
 
@@ -30,6 +44,7 @@ public class PastebinService {
                 .syntax(dto.getSyntax())
                 .slug(slug.toString())
                 .encrypted(dto.isEncrypted())
+                .userId(userId)
                 .createdAt(now)
                 .expiresAt(now.plusDays(EXPIRES_IN_DAYS))
                 .build();
@@ -39,5 +54,11 @@ public class PastebinService {
 
     public void deleteExpiredPastes() {
         pastebinRepository.deleteExpiredPastes(ZonedDateTime.now());
+    }
+
+    public Page<Paste> search(String searchQuery, String userId, Pageable pageable) {
+        List<String> searchFields = List.of("slug", "text", "syntax", "createdAt", "expiresAt");
+
+        return PaginationUtils.paginateSearch(entityManager, Paste.class, searchFields, searchQuery, userId, pageable);
     }
 }

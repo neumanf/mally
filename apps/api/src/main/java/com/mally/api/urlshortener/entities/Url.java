@@ -1,5 +1,6 @@
 package com.mally.api.urlshortener.entities;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -29,6 +30,10 @@ public class Url {
     @Column()
     @NotNull
     private Boolean custom;
+
+    @Column()
+    @Nullable()
+    private String userId;
 
     @Column(name = "created_at")
     @CreatedDate
