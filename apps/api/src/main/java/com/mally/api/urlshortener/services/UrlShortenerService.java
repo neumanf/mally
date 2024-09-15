@@ -74,4 +74,8 @@ public class UrlShortenerService {
     public void deleteMany(List<Long> ids) {
         urlShortenerRepository.deleteAllById(ids);
     }
+
+    public Long getStats(String userId) {
+        return urlShortenerRepository.countByUserId(userId);
+    }
 }

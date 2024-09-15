@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpService } from '../../../shared/services/http/http.service';
+import {
+    DashboardStats,
+    StatsService,
+} from '../../../stats/services/stats.service';
+import { ToastService } from '../../../shared/services/toast/toast.service';
 
 @Component({
     selector: 'app-dashboard-index',
@@ -7,11 +11,29 @@ import { HttpService } from '../../../shared/services/http/http.service';
     styleUrl: './dashboard-index.component.scss',
 })
 export class DashboardIndexComponent implements OnInit {
-    constructor(private readonly httpService: HttpService) {}
+    stats?: DashboardStats;
+    loading = false;
+
+    constructor(
+        private readonly statsService: StatsService,
+        private readonly toastService: ToastService,
+    ) {}
 
     ngOnInit() {
-        this.httpService.get('/url-shortener/').subscribe((res) => {
-            console.log(res);
+        this.getDashboardStats();
+    }
+
+    getDashboardStats() {
+        this.loading = true;
+        this.statsService.getDashboardStats().subscribe({
+            next: (data) => {
+                this.stats = data.data;
+                this.loading = false;
+            },
+            error: (err) => {
+                this.toastService.error(err.error.message);
+                this.loading = false;
+            },
         });
     }
 }

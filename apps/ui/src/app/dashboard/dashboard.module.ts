@@ -12,9 +12,12 @@ import { ToolbarModule } from 'primeng/toolbar';
 import { MenuModule } from 'primeng/menu';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
+import { StatsService } from '../stats/services/stats.service';
+import { SkeletonModule } from 'primeng/skeleton';
+import { StatsCardComponent } from './pages/index/stats-card/stats-card.component';
 
 @NgModule({
-    declarations: [DashboardIndexComponent, UrlsComponent],
+    declarations: [DashboardIndexComponent, UrlsComponent, StatsCardComponent],
     imports: [
         CommonModule,
         DashboardRoutingModule,
@@ -27,7 +30,8 @@ import { ConfirmationService } from 'primeng/api';
         ToolbarModule,
         MenuModule,
         ConfirmDialogModule,
+        SkeletonModule,
     ],
-    providers: [ConfirmationService],
+    providers: [ConfirmationService, StatsService],
 })
 export class DashboardModule {}

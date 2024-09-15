@@ -61,4 +61,8 @@ public class PastebinService {
 
         return PaginationUtils.paginateSearch(entityManager, Paste.class, searchFields, searchQuery, userId, pageable);
     }
+
+    public Long getStats(String userId) {
+        return pastebinRepository.countByUserId(userId);
+    }
 }

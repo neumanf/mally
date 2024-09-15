@@ -24,4 +24,6 @@ public interface UrlShortenerRepository extends CrudRepository<Url, Long> {
     @Modifying
     @Query("DELETE FROM Url u WHERE u.expiresAt < :now")
     void deleteExpiredURLs(@Param("now") ZonedDateTime now);
+
+    Long countByUserId(String userId);
 }

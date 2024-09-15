@@ -27,4 +27,6 @@ public interface PastebinRepository extends CrudRepository<Paste, Long>, JpaSpec
     @Modifying
     @Query("DELETE FROM Paste p WHERE p.expiresAt < :now")
     void deleteExpiredPastes(@Param("now") ZonedDateTime now);
+
+    Long countByUserId(String userId);
 }
