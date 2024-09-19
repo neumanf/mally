@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import {
     PaginationParams,
     UrlShortenerService,
@@ -22,6 +22,9 @@ import { TableLazyLoadEvent } from 'primeng/table';
     styleUrl: 'urls.component.scss',
 })
 export class UrlsComponent {
+    @ViewChild('pageHeader', { static: true })
+    pageHeaderTemplate!: TemplateRef<never>;
+
     data?: Page<Url>;
     selectedUrls: Url[] = [];
     optionsItems: MenuItem[] = [

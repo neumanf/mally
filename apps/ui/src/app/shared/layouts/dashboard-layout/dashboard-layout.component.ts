@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component, TemplateRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { KeycloakService } from '../../../auth/services/keycloak.service';
 import { User } from '../../../auth/interfaces/user';
@@ -17,7 +17,9 @@ type SidebarItem = {
     styleUrl: './dashboard-layout.component.scss',
 })
 export class DashboardLayoutComponent {
-    isSidebarOpen = true;
+    pageHeader!: TemplateRef<never>;
+
+    isSidebarOpen = window.innerWidth > 640;
     user?: User;
 
     sidebarItems: SidebarItem[] = [
@@ -47,10 +49,18 @@ export class DashboardLayoutComponent {
     ];
 
     constructor(
-        protected router: Router,
+        protected readonly router: Router,
         private readonly keycloakService: KeycloakService,
+        private readonly cdr: ChangeDetectorRef,
     ) {
         this.user = keycloakService.user;
+    }
+
+    onChildActivate(component: { pageHeaderTemplate?: TemplateRef<never> }) {
+        if (component.pageHeaderTemplate) {
+            this.pageHeader = component.pageHeaderTemplate;
+            this.cdr.detectChanges();
+        }
     }
 
     toggleSidebar() {

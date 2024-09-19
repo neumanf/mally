@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import {
     DashboardStats,
     StatsService,
@@ -11,6 +11,9 @@ import { ToastService } from '../../../shared/services/toast/toast.service';
     styleUrl: './dashboard-index.component.scss',
 })
 export class DashboardIndexComponent implements OnInit {
+    @ViewChild('pageHeader', { static: true })
+    pageHeaderTemplate!: TemplateRef<never>;
+
     stats?: DashboardStats;
     loading = false;
 
