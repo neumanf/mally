@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { DashboardIndexComponent } from './pages/index/dashboard-index.component';
 import { RouterModule, Routes } from '@angular/router';
 import { UrlsComponent } from './pages/urls/urls.component';
+import { PastesComponent } from './pages/pastes/pastes.component';
 
 const routes: Routes = [
     {
@@ -11,6 +12,10 @@ const routes: Routes = [
     {
         path: 'short-urls',
         component: UrlsComponent,
+    },
+    {
+        path: 'pastes',
+        component: PastesComponent,
     },
 ];
 

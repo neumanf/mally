@@ -36,6 +36,12 @@ export class DashboardLayoutComponent {
                     path: '/dashboard/short-urls',
                     new: false,
                 },
+                {
+                    label: 'Pastes',
+                    icon: 'ti ti-clipboard',
+                    path: '/dashboard/pastes',
+                    new: false,
+                },
             ],
         },
     ];

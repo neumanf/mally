@@ -15,9 +15,15 @@ import { ConfirmationService } from 'primeng/api';
 import { StatsService } from '../stats/services/stats.service';
 import { SkeletonModule } from 'primeng/skeleton';
 import { StatsCardComponent } from './pages/index/stats-card/stats-card.component';
+import { PastesComponent } from './pages/pastes/pastes.component';
 
 @NgModule({
-    declarations: [DashboardIndexComponent, UrlsComponent, StatsCardComponent],
+    declarations: [
+        DashboardIndexComponent,
+        UrlsComponent,
+        StatsCardComponent,
+        PastesComponent,
+    ],
     imports: [
         CommonModule,
         DashboardRoutingModule,

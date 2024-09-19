@@ -1,7 +1,7 @@
 <p-toast />
 <p-confirmDialog />
 
-<p class="text-xl font-bold mb-5">URLs</p>
+<p class="text-xl font-bold mb-5">Pastes</p>
 
 <p-table
     #dt
@@ -41,14 +41,14 @@
             <th style="width: 4rem">
                 <p-tableHeaderCheckbox />
             </th>
-            <th pSortableColumn="slug" style="min-width: 15rem">
-                Short URL <p-sortIcon field="slug" />
+            <th style="min-width: 8rem" pSortableColumn="slug">
+                URL <p-sortIcon field="slug" />
             </th>
-            <th pSortableColumn="url">
-                Original URL <p-sortIcon field="url" />
+            <th style="min-width: 8rem" pSortableColumn="syntax">
+                Syntax <p-sortIcon field="syntax" />
             </th>
-            <th style="min-width: 8rem" pSortableColumn="custom">
-                Custom <p-sortIcon field="custom" />
+            <th style="width: 8rem" pSortableColumn="text">
+                Text <p-sortIcon field="text" />
             </th>
             <th style="min-width: 12rem" pSortableColumn="createdAt">
                 Created at <p-sortIcon field="createdAt" />
@@ -59,40 +59,35 @@
             <th></th>
         </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-url>
+    <ng-template pTemplate="body" let-paste>
         <tr>
             <td>
-                <p-tableCheckbox [value]="url" />
+                <p-tableCheckbox [value]="paste" />
             </td>
             <td>
                 <a
                     class="text-red-400"
-                    [href]="window.location.origin + '/s/' + url.slug"
-                    >{{ window.location.hostname + '/s/' + url.slug }}</a
+                    [href]="window.location.origin + '/p/' + paste.slug"
+                    >{{ window.location.hostname + '/p/' + paste.slug }}</a
                 >
             </td>
             <td>
-                <a class="text-red-400" [href]="url.url">{{ url.url }}</a>
+                <span class="bg-red-900 text-red-200 font-semibold p-1 rounded">
+                    {{ paste.syntax }}
+                </span>
+            </td>
+            <td class="truncate max-w-96">
+                <code>{{ paste.text }}</code>
             </td>
             <td>
-                <i
-                    *ngIf="url.custom"
-                    class="ti ti-check p-1 font-bold text-sm text-green-300 bg-green-900 rounded-full"
-                ></i>
-                <i
-                    *ngIf="!url.custom"
-                    class="ti ti-x p-1 font-bold text-sm text-red-300 bg-red-900 rounded-full"
-                ></i>
+                {{ paste.createdAt | date: 'short' }}
             </td>
             <td>
-                {{ url.createdAt | date: 'short' }}
-            </td>
-            <td>
-                <span [pTooltip]="urlExpiresIn(url.expiresAt, 'long')" tooltipPosition="top">{{ urlExpiresIn(url.expiresAt, 'humanized') }}</span>
+                <span [pTooltip]="pasteExpiresIn(paste.expiresAt, 'long')" tooltipPosition="top">{{ pasteExpiresIn(paste.expiresAt, 'humanized') }}</span>
             </td>
             <td>
                 <p-menu #options [model]="optionsItems" [popup]="true" appendTo="body" />
-                <p-button (onClick)="openOptionsMenu(options, $event, url)" icon="ti ti-dots-vertical"/>
+                <p-button (onClick)="openOptionsMenu(options, $event, paste)" icon="ti ti-dots-vertical"/>
             </td>
         </tr>
     </ng-template>

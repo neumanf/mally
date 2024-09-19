@@ -56,13 +56,25 @@ public class PastebinService {
         pastebinRepository.deleteExpiredPastes(ZonedDateTime.now());
     }
 
-    public Page<Paste> search(String searchQuery, String userId, Pageable pageable) {
-        List<String> searchFields = List.of("slug", "text", "syntax", "createdAt", "expiresAt");
-
-        return PaginationUtils.paginateSearch(entityManager, Paste.class, searchFields, searchQuery, userId, pageable);
-    }
-
     public Long getStats(String userId) {
         return pastebinRepository.countByUserId(userId);
+    }
+
+    public Page<Paste> findAll(String userId, String search, Pageable pageable) {
+        if (search != null && !search.isEmpty()) {
+            List<String> searchFields = List.of("slug", "text", "syntax");
+
+            return PaginationUtils.paginateSearch(entityManager, Paste.class, searchFields, search, userId, pageable);
+        }
+
+        return pastebinRepository.findAllByUserId(userId, pageable);
+    }
+
+    public void delete(Long id) {
+        pastebinRepository.deleteById(id);
+    }
+
+    public void deleteMany(List<Long> ids) {
+        pastebinRepository.deleteAllById(ids);
     }
 }
