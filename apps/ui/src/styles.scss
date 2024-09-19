@@ -2,21 +2,19 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 
+@import "primeng/resources/primeng.css";
+
 @layer tailwind-base, primeng, tailwind-utilities;
 
 @layer tailwind-base {
     @tailwind base;
 }
 
-@layer primeng;
-
 @layer tailwind-utilities {
     @tailwind components;
     @tailwind utilities;
 }
 
-//@import 'primeng/resources/primeng.css';
-//@import 'themes/lara-light-red/theme.css';
 @import "@tabler/icons-webfont/dist/tabler-icons.min.css";
 @import 'highlight.js/styles/tokyo-night-dark.min.css';
 
@@ -28,14 +26,30 @@ body {
     margin: 0;
     font-family: 'Montserrat', sans-serif;
 
-    background-color: #151515;
+    background-color: #18181b;
     color: white;
 }
 
 .ti {
-    font-size: 18px;
+    font-size: 22px;
 }
 
 .p-overlaypanel-content {
     padding: 0;
+}
+
+a {
+    text-decoration: none;
+}
+
+ul {
+    padding: 0;
+}
+
+li {
+    list-style-type: none;
+}
+
+.p-input-icon-left > i:first-of-type {
+    top: 1rem;
 }

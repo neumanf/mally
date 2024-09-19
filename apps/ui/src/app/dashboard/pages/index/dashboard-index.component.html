@@ -1,3 +1,19 @@
 <p class="text-xl font-bold mb-5">Dashboard</p>
 
-Nothing here yet. Coming soon...
+<div class="grid grid-cols-4 gap-4">
+    <ng-container *ngIf="!loading; else cardLoading">
+        <app-stats-card title="Total Short URLs" [data]="stats?.urlShortener?.total" link="/dashboard/short-urls"></app-stats-card>
+        <app-stats-card title="Total Pastes" [data]="stats?.pastebin?.total" link="/dashboard/pastes"></app-stats-card>
+    </ng-container>
+</div>
+
+<ng-template #cardLoading>
+    <div class="flex flex-col justify-between bg-zinc-700 rounded p-3">
+        <p-skeleton width="10rem" height="1.2rem" styleClass="mb-2" borderRadius="16px" />
+        <p-skeleton width="4rem" height="2rem" styleClass="mb-2" borderRadius="16px" />
+    </div>
+    <div class="flex flex-col justify-between bg-zinc-700 rounded p-3">
+        <p-skeleton width="10rem" height="1.2rem" styleClass="mb-2" borderRadius="16px" />
+        <p-skeleton width="4rem" height="2rem" styleClass="mb-2" borderRadius="16px" />
+    </div>
+</ng-template>

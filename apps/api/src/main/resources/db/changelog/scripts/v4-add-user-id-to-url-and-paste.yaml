@@ -1,0 +1,25 @@
+databaseChangeLog:
+    - changeSet:
+          id: 4-1
+          author: Neuman F.
+          changes:
+              - addColumn:
+                  tableName: url
+                  columns:
+                    - column:
+                        name: user_id
+                        type: VARCHAR
+                        constraints:
+                          nullable: true
+    - changeSet:
+        id: 4-2
+        author: Neuman F.
+        changes:
+          - addColumn:
+              tableName: paste
+              columns:
+                - column:
+                    name: user_id
+                    type: VARCHAR
+                    constraints:
+                      nullable: true

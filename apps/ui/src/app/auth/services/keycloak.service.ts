@@ -31,7 +31,10 @@ export class KeycloakService {
         });
 
         if (authenticated) {
-            this._user = await this.keycloak?.loadUserProfile();
+            const userProfile = await this.keycloak.loadUserProfile();
+            const jwt = this.keycloak.tokenParsed;
+
+            this._user = User.fromKeycloak(userProfile, jwt);
         }
     }
 

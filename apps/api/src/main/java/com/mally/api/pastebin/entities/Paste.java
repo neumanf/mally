@@ -1,5 +1,6 @@
 package com.mally.api.pastebin.entities;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -37,6 +38,10 @@ public class Paste {
     @ColumnDefault("false")
     @NotNull
     private boolean encrypted;
+
+    @Column()
+    @Nullable()
+    private String userId;
 
     @Column(name = "created_at")
     @CreatedDate

@@ -1,4 +1,4 @@
-import { APP_INITIALIZER, NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AppComponent } from './app.component';
 import { RouterModule } from '@angular/router';
@@ -14,6 +14,7 @@ import {
     keycloakFactory,
     KeycloakService,
 } from './auth/services/keycloak.service';
+import { PrimeNGConfig } from 'primeng/api';
 
 @NgModule({
     bootstrap: [AppComponent],
@@ -58,4 +59,10 @@ import {
         },
     ],
 })
-export class AppModule {}
+export class AppModule implements OnInit {
+    constructor(private primengConfig: PrimeNGConfig) {}
+
+    ngOnInit() {
+        this.primengConfig.ripple = true;
+    }
+}

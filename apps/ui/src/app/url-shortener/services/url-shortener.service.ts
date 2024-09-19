@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../environment/environment';
-import { ApiResponse } from '../../shared/interfaces/http';
+import { ApiResponse, Page } from '../../shared/interfaces/http';
+import { HttpService } from '../../shared/services/http/http.service';
+import { Url } from '../../shared/interfaces/url';
+import { ObjectUtils } from '../../shared/utils/object';
 
 export type ShortenResponse = ApiResponse<{
     id: number;
@@ -13,22 +14,52 @@ export type ShortenResponse = ApiResponse<{
 
 export type RedirectResponse = ApiResponse<{ url: string }>;
 
+export type UrlsResponse = Page<Url>;
+
+export type PaginationParams = {
+    search?: string;
+    sortBy?: string;
+    orderBy?: string;
+    pageNumber?: string;
+    pageSize?: string;
+};
+
 @Injectable()
 export class UrlShortenerService {
-    static readonly SHORTEN_URL = environment.apiUrl + '/url-shortener';
+    private readonly BASE_PATH = '/url-shortener';
 
-    constructor(private readonly httpClient: HttpClient) {}
+    constructor(private readonly httpService: HttpService) {}
+
+    findAll(options: PaginationParams = {}) {
+        const params = ObjectUtils.filterDefinedValues(options);
+
+        return this.httpService.get<UrlsResponse>(this.BASE_PATH + '/', {
+            params,
+        });
+    }
 
     shorten(url: string) {
-        return this.httpClient.post<ShortenResponse>(
-            UrlShortenerService.SHORTEN_URL + '/shorten',
+        return this.httpService.post<ShortenResponse>(
+            this.BASE_PATH + '/shorten',
             { url },
         );
     }
 
     redirect(slug: string) {
-        return this.httpClient.get<RedirectResponse>(
-            UrlShortenerService.SHORTEN_URL + '/redirect/' + slug,
+        return this.httpService.get<RedirectResponse>(
+            this.BASE_PATH + '/redirect/' + slug,
         );
+    }
+
+    delete(id: number) {
+        return this.httpService.delete(this.BASE_PATH + '/' + id);
+    }
+
+    deleteMany(ids: number[]) {
+        return this.httpService.delete(this.BASE_PATH + '/bulk', {
+            params: {
+                id: ids.map((id) => id.toString()),
+            },
+        });
     }
 }

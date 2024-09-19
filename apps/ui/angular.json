@@ -50,8 +50,7 @@
                         "assets": ["src/favicon.ico", "src/assets"],
                         "styles": [
                             "src/styles.scss",
-                            "src/themes/lara-light-red/theme.css",
-                            "node_modules/primeng/resources/primeng.min.css"
+                            "src/themes/dark-theme.css"
                         ],
                         "scripts": [],
                         "allowedCommonJsDependencies": [
