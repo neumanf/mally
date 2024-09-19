@@ -1,8 +1,8 @@
 <nav class="fixed top-0 z-30 w-full bg-zinc-900">
     <div class="px-3 py-3 lg:px-5 lg:pl-3 border-0 border-b border-solid border-zinc-600">
         <div class="flex items-center justify-between">
-            <div class="flex items-center justify-start rtl:justify-end">
-                <button
+            <div class="flex md:ml-64 md:pl-3">
+                <a
                     type="button"
                     class="inline-flex items-center p-2 text-sm text-zinc-500 rounded-lg sm:hidden hover:bg-zinc-100 focus:outline-none focus:ring-2 focus:ring-zinc-200 dark:text-zinc-400 dark:hover:bg-zinc-700 dark:focus:ring-zinc-600"
                     (click)="toggleSidebar()"
@@ -21,7 +21,8 @@
                             d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"
                         ></path>
                     </svg>
-                </button>
+                </a>
+                <ng-container *ngTemplateOutlet="pageHeader"></ng-container>
             </div>
             <div class="flex items-center">
                 <div class="flex items-center ms-3">
@@ -33,7 +34,7 @@
                             shape="square"
                             [style]="{'background-color': '#ef4444'}"
                         />
-                        <div class="flex flex-col">
+                        <div class="hidden md:flex flex-col">
                             <span class="font-semibold">{{ user?.fullName }}</span>
                             <span>{{ user?.formattedRole }}</span>
                         </div>
@@ -70,11 +71,34 @@
     }"
     aria-label="Sidebar"
 >
-    <a routerLink="/" class="flex items-center ms-8">
-        <img src="/assets/logo.svg" class="h-10 me-3" alt="Logo" />
+    <div class="flex justify-between">
+        <a routerLink="/" class="flex items-center ms-8">
+            <img src="/assets/logo.svg" class="h-10 me-3" alt="Logo" />
 
-        <span class="font-bold text-white text-2xl">Mally</span>
-    </a>
+            <span class="font-bold text-white text-2xl">Mally</span>
+        </a>
+        <a
+            type="button"
+            class="mr-3 inline-flex md:hidden items-center p-2 text-sm text-zinc-500 rounded-lg hover:bg-zinc-100 focus:outline-none focus:ring-2 focus:ring-zinc-200 dark:text-zinc-400 dark:hover:bg-zinc-700 dark:focus:ring-zinc-600"
+            (click)="toggleSidebar()"
+        >
+            <span class="sr-only">Open sidebar</span>
+            <svg
+                class="w-6 h-6"
+                aria-hidden="true"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+            >
+                <path
+                    clip-rule="evenodd"
+                    fill-rule="evenodd"
+                    d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"
+                ></path>
+            </svg>
+        </a>
+    </div>
+
     <div class="flex flex-col justify-between text-white h-full px-5 mt-10 overflow-y-auto">
         <ul class="space-y-2 font-medium">
             <li *ngFor="let item of sidebarItems">
@@ -124,6 +148,6 @@
     </div>
 </aside>
 
-<div class="p-6 sm:ml-64 mt-14 text-white">
-    <router-outlet></router-outlet>
+<div class="p-6 sm:ml-64 mt-24 text-white">
+    <router-outlet (activate)="onChildActivate($event)"></router-outlet>
 </div>

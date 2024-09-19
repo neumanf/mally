@@ -1,6 +1,8 @@
-<p class="text-xl font-bold mb-5">Dashboard</p>
+<ng-template #pageHeader>
+    <p class="text-2xl font-bold mb-5">Dashboard</p>
+</ng-template>
 
-<div class="grid grid-cols-4 gap-4">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
     <ng-container *ngIf="!loading; else cardLoading">
         <app-stats-card title="Total Short URLs" [data]="stats?.urlShortener?.total" link="/dashboard/short-urls"></app-stats-card>
         <app-stats-card title="Total Pastes" [data]="stats?.pastebin?.total" link="/dashboard/pastes"></app-stats-card>

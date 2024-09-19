@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, TemplateRef, ViewChild } from '@angular/core';
 import { PaginationParams } from '../../../url-shortener/services/url-shortener.service';
 import { Url } from '../../../shared/interfaces/url';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -23,6 +23,9 @@ import {
     styleUrl: 'pastes.component.scss',
 })
 export class PastesComponent {
+    @ViewChild('pageHeader', { static: true })
+    pageHeaderTemplate!: TemplateRef<never>;
+
     data?: Page<Paste>;
     selectedUrls: Url[] = [];
     optionsItems: MenuItem[] = [
