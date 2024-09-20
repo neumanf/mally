@@ -37,7 +37,8 @@ services:
             KC_METRICS_ENABLED: 'true'
             KC_HOSTNAME_STRICT_HTTPS: 'false'
             KC_HOSTNAME_URL: ${KEYCLOAK_URL}
-            KC_PROXY: reencrypt
+            KC_PROXY: edge
+            KC_PROXY_HEADERS: xforwarded
             KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN}
             KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
         depends_on:
