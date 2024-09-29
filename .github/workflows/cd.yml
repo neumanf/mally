@@ -18,6 +18,10 @@ jobs:
                     - infra/postgres
                     - infra/keycloak
                     - infra/nginx
+                    - infra/promtail
+                    - infra/loki
+                    - infra/prometheus
+                    - infra/grafana
                     - apps/api
                     - apps/ui
         steps:
@@ -53,5 +57,4 @@ jobs:
             cd $HOME/mally && 
             docker compose -f docker-compose.prod.yml down && 
             docker compose -f docker-compose.prod.yml pull && 
-            source .env && 
             docker compose -f docker-compose.prod.yml up -d

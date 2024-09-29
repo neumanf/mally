@@ -1,7 +1,9 @@
 services:
     postgres:
         container_name: mally-postgres
-        image: ghcr.io/neumanf/mally-postgres
+        build:
+            context: .
+            dockerfile: ./infra/postgres/Dockerfile
         restart: unless-stopped
         healthcheck:
             test: [ "CMD", "pg_isready", "-q", "-d", "keycloak", "-U", "postgres" ]
@@ -21,7 +23,9 @@ services:
 
     keycloak:
         container_name: mally-keycloak
-        image: ghcr.io/neumanf/mally-keycloak
+        build:
+            context: .
+            dockerfile: ./infra/keycloak/Dockerfile
         restart: unless-stopped
         healthcheck:
             test: ["CMD", "curl", "-f", "http://0.0.0.0:9000/health/ready"]
@@ -54,7 +58,9 @@ services:
 
     api:
         container_name: mally-api
-        image: ghcr.io/neumanf/mally-api
+        build:
+            context: .
+            dockerfile: ./apps/api/Dockerfile
         restart: unless-stopped
         healthcheck:
             test: [ "CMD", "curl", "-f", "http://0.0.0.0:8080/health/" ]
@@ -68,7 +74,7 @@ services:
             KEYCLOAK_ISSUER_URL: ${KEYCLOAK_ISSUER_URL}
             FRONTEND_URL: ${FRONTEND_URL}
         env_file:
-            - .env
+            -  .env
         volumes:
             - ./logs/api:/app/logs/api
         networks:
@@ -81,7 +87,9 @@ services:
 
     ui:
         container_name: mally-ui
-        image: ghcr.io/neumanf/mally-ui
+        build:
+            context: .
+            dockerfile: ./apps/ui/Dockerfile
         restart: unless-stopped
         networks:
             - mally-network
@@ -93,7 +101,9 @@ services:
 
     nginx:
         container_name: mally-nginx
-        image: ghcr.io/neumanf/mally-nginx
+        build:
+            context: .
+            dockerfile: ./infra/nginx/Dockerfile
         restart: unless-stopped
         networks:
             - mally-network
@@ -109,7 +119,9 @@ services:
 
     loki:
         container_name: mally-loki
-        image: ghcr.io/neumanf/mally-loki
+        build:
+            context: .
+            dockerfile: ./infra/loki/Dockerfile
         restart: unless-stopped
         command: -config.file=/etc/loki/loki.yml
         networks:
@@ -117,7 +129,9 @@ services:
 
     promtail:
         container_name: mally-promtail
-        image: ghcr.io/neumanf/mally-promtail
+        build:
+            context: .
+            dockerfile: ./infra/promtail/Dockerfile
         restart: unless-stopped
         volumes:
             - ./logs/api/:/var/log/
@@ -127,7 +141,9 @@ services:
 
     prometheus:
         container_name: mally-prometheus
-        image: ghcr.io/neumanf/mally-prometheus
+        build:
+            context: .
+            dockerfile: ./infra/prometheus/Dockerfile
         restart: unless-stopped
         command: '--config.file=/etc/prometheus/config.yml'
         networks:
@@ -135,7 +151,9 @@ services:
 
     grafana:
         container_name: mally-grafana
-        image: ghcr.io/neumanf/mally-grafana
+        build:
+            context: .
+            dockerfile: ./infra/grafana/Dockerfile
         restart: unless-stopped
         environment:
             GF_SECURITY_ADMIN_USER: ${GRAFANA_USER}
