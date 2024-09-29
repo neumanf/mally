@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, TemplateRef, ViewChild } from '@angular/core';
 import {
     PaginationParams,
     UrlShortenerService,
@@ -10,11 +10,11 @@ import {
     MenuItem,
     MenuItemCommandEvent,
 } from 'primeng/api';
-import dayjs from 'dayjs';
 import { Menu } from 'primeng/menu';
 import { ToastService } from '../../../shared/services/toast/toast.service';
 import { Page } from '../../../shared/interfaces/http';
 import { TableLazyLoadEvent } from 'primeng/table';
+import { DateUtils } from '../../../shared/utils/date';
 
 @Component({
     selector: 'app-urls',
@@ -100,19 +100,6 @@ export class UrlsComponent {
         });
     }
 
-    urlExpiresIn(expiresAt: string, format: 'humanized' | 'long') {
-        if (format === 'humanized') {
-            const expiration = dayjs(expiresAt);
-            if (expiration < dayjs()) {
-                return 'Expired';
-            } else {
-                return expiration.fromNow();
-            }
-        } else {
-            return dayjs(expiresAt).format('MMMM D, YYYY h:mm A');
-        }
-    }
-
     delete(id: number) {
         this.urlShortenerService.delete(id).subscribe({
             next: () => {
@@ -163,4 +150,6 @@ export class UrlsComponent {
         });
         menu.toggle(event);
     }
+
+    protected readonly DateUtils = DateUtils;
 }

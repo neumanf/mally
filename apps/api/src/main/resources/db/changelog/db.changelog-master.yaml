@@ -7,3 +7,5 @@ databaseChangeLog:
         file: 'db/changelog/scripts/v3-add-encrypted-field-to-paste.yaml'
     - include:
         file: 'db/changelog/scripts/v4-add-user-id-to-url-and-paste.yaml'
+    - include:
+        file: 'db/changelog/scripts/v5-add-title-to-paste.yaml'

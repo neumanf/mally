@@ -6,6 +6,7 @@ import { PaginationParams } from '../../url-shortener/services/url-shortener.ser
 
 export type Paste = {
     id: number;
+    title: string;
     text: string;
     syntax: string;
     slug: string;
@@ -14,9 +15,11 @@ export type Paste = {
     expiresAt: string;
 };
 export type PasteRequest = {
+    title: string;
     text: string;
     syntax: string;
     encrypted: boolean;
+    expiration: string;
 };
 
 export type PasteResponse = ApiResponse<Paste>;

@@ -13,6 +13,7 @@ import { TooltipModule } from 'primeng/tooltip';
 import { CheckboxModule } from 'primeng/checkbox';
 import { PasswordModule } from 'primeng/password';
 import { HighlightLineNumbers } from 'ngx-highlightjs/line-numbers';
+import { InputTextModule } from 'primeng/inputtext';
 
 @NgModule({
     declarations: [PastebinComponent],
@@ -31,6 +32,7 @@ import { HighlightLineNumbers } from 'ngx-highlightjs/line-numbers';
         CheckboxModule,
         PasswordModule,
         HighlightLineNumbers,
+        InputTextModule,
     ],
 })
 export class PastebinModule {}
