@@ -51,6 +51,7 @@ export class PastebinComponent implements OnInit {
     expiration = '1h';
 
     form = this.formBuilder.group({
+        title: new FormControl<string | null>(null),
         text: new FormControl<string | null>(null, [Validators.required]),
         syntax: new FormControl<string | null>(null, [Validators.required]),
         encrypted: new FormControl<boolean>(false, [Validators.required]),
@@ -110,6 +111,7 @@ export class PastebinComponent implements OnInit {
         const formData = this.form.getRawValue();
 
         const data: PasteRequest = {
+            title: formData.title ?? 'Untitled',
             text: formData.text ?? '',
             syntax: formData.syntax ?? 'PLAINTEXT',
             encrypted: formData.encrypted ?? false,

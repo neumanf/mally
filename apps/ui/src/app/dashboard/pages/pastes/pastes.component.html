@@ -44,6 +44,9 @@
                 <p-tableHeaderCheckbox />
             </th>
             <th style="min-width: 8rem" pSortableColumn="slug">
+                Title <p-sortIcon field="title" />
+            </th>
+            <th style="min-width: 8rem" pSortableColumn="slug">
                 URL <p-sortIcon field="slug" />
             </th>
             <th style="min-width: 8rem" pSortableColumn="syntax">
@@ -65,6 +68,9 @@
         <tr>
             <td>
                 <p-tableCheckbox [value]="paste" />
+            </td>
+            <td class="truncate max-w-96">
+                <code>{{ paste.title }}</code>
             </td>
             <td>
                 <a

@@ -12,6 +12,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CreatePasteDTO {
+    private String title;
+
     @NotBlank
     private String text;
 

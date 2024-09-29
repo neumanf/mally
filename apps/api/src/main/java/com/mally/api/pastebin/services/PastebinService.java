@@ -31,6 +31,7 @@ public class PastebinService {
         final CUID slug = CUID.randomCUID2(22);
 
         Paste paste = Paste.builder()
+                .title(dto.getTitle())
                 .text(dto.getText())
                 .syntax(dto.getSyntax())
                 .slug(slug.toString())

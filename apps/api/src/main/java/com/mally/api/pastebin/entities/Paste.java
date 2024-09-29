@@ -20,6 +20,11 @@ public class Paste {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column
+    @ColumnDefault("Untitled")
+    @NotNull
+    private String title;
+
     @Column(unique = true)
     @NotNull
     private String slug;

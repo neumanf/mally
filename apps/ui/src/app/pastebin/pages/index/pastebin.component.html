@@ -30,6 +30,15 @@
 
     <div class="grid grid-cols-1 lg:grid-cols-5 gap-3 mt-5">
         <div class="flex flex-col gap-2">
+            <label class="font-semibold">Title</label>
+            <input
+                pInputText
+                [disabled]="mode === 'PREVIEW'"
+                formControlName="title"
+                placeholder="Untitled"
+            />
+        </div>
+        <div class="flex flex-col gap-2">
             <label class="font-semibold">Syntax</label>
             <p-dropdown
                 styleClass="w-full"
