@@ -1,4 +1,5 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
+import { KeycloakService } from '../../../auth/services/keycloak.service';
 
 @Component({
     selector: 'app-header',
@@ -11,6 +12,11 @@ export class HeaderComponent {
 
     isFeaturesMenuOpen = false;
     isSidebarOpen = false;
+    userIsAuthenticated = false;
+
+    constructor(private readonly keycloakService: KeycloakService) {
+        this.userIsAuthenticated = keycloakService.isAuthenticated();
+    }
 
     openFeatures() {
         this.isFeaturesMenuOpen = true;
