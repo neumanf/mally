@@ -85,7 +85,7 @@
                 {{ paste.createdAt | date: 'short' }}
             </td>
             <td>
-                <span [pTooltip]="pasteExpiresIn(paste.expiresAt, 'long')" tooltipPosition="top">{{ pasteExpiresIn(paste.expiresAt, 'humanized') }}</span>
+                <span [pTooltip]="DateUtils.expiresIn(paste.expiresAt, 'long')" tooltipPosition="top">{{ DateUtils.expiresIn(paste.expiresAt, 'humanized') }}</span>
             </td>
             <td>
                 <p-menu #options [model]="optionsItems" [popup]="true" appendTo="body" />

@@ -12,11 +12,25 @@ import { ToastService } from '../../../shared/services/toast/toast.service';
 import { ClipboardService } from 'ngx-clipboard';
 import { EncryptionService } from '../../../shared/services/encryption/encryption.service';
 import { KeycloakService } from '../../../auth/services/keycloak.service';
+import { animate, style, transition, trigger } from '@angular/animations';
+import { DateUtils } from '../../../shared/utils/date';
 
 @Component({
     selector: 'app-pastebin',
     templateUrl: './pastebin.component.html',
     styleUrl: './pastebin.component.css',
+    animations: [
+        trigger('inOutAnimation', [
+            transition(':enter', [
+                style({ opacity: 0 }),
+                animate('0.5s ease-out', style({ opacity: 1 })),
+            ]),
+            transition(':leave', [
+                style({ opacity: 1 }),
+                animate('0.5s ease-in', style({ opacity: 0 })),
+            ]),
+        ]),
+    ],
 })
 export class PastebinComponent implements OnInit {
     protected readonly modes: SelectOption<string>[] = [
@@ -112,6 +126,7 @@ export class PastebinComponent implements OnInit {
         }
 
         this.loading = true;
+        this.paste = undefined;
         this.pastebinService.save(data).subscribe({
             next: ({ data }) => {
                 this.paste = data;
@@ -129,4 +144,6 @@ export class PastebinComponent implements OnInit {
         this.clipboardService.copyFromContent(this.URL);
         this.toastService.success('URL copied to clipboard');
     }
+
+    protected readonly DateUtils = DateUtils;
 }

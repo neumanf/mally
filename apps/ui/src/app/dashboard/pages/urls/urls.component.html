@@ -90,7 +90,7 @@
                 {{ url.createdAt | date: 'short' }}
             </td>
             <td>
-                <span [pTooltip]="urlExpiresIn(url.expiresAt, 'long')" tooltipPosition="top">{{ urlExpiresIn(url.expiresAt, 'humanized') }}</span>
+                <span [pTooltip]="DateUtils.expiresIn(url.expiresAt, 'long')" tooltipPosition="top">{{ DateUtils.expiresIn(url.expiresAt, 'humanized') }}</span>
             </td>
             <td>
                 <p-menu #options [model]="optionsItems" [popup]="true" appendTo="body" />
