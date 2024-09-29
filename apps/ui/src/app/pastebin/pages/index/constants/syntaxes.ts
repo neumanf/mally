@@ -51,4 +51,40 @@ export const SYNTAXES = [
         label: 'Ruby',
         value: 'RUBY',
     },
+    {
+        label: 'HTML',
+        value: 'HTML',
+    },
+    {
+        label: 'Markdown',
+        value: 'MD',
+    },
+    {
+        label: 'SQL',
+        value: 'SQL',
+    },
+    {
+        label: 'VBScript',
+        value: 'VBSCRIPT',
+    },
+    {
+        label: 'Swift',
+        value: 'SWIFT',
+    },
+    {
+        label: 'Diff',
+        value: 'DIFF',
+    },
+    {
+        label: 'Clojure',
+        value: 'CLOJURE',
+    },
+    {
+        label: 'Haskell',
+        value: 'HASKELL',
+    },
+    {
+        label: 'OCaml',
+        value: 'OCAML',
+    },
 ];

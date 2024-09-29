@@ -13,5 +13,14 @@ public enum PasteSyntax {
     PYTHON,
     PHP,
     SHELL,
-    RUBY
+    RUBY,
+    HTML,
+    MD,
+    SQL,
+    VBSCRIPT,
+    SWIFT,
+    DIFF,
+    CLOJURE,
+    HASKELL,
+    OCAML
 }
