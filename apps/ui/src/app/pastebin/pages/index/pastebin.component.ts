@@ -27,7 +27,7 @@ export class PastebinComponent implements OnInit {
     ];
     protected readonly syntaxes: SelectOption<string>[] = SYNTAXES;
 
-    mode = 'CONTENT';
+    mode: 'CONTENT' | 'PREVIEW' = 'CONTENT';
     expiration = '7d';
 
     form = this.formBuilder.group({
@@ -103,7 +103,7 @@ export class PastebinComponent implements OnInit {
         this.pastebinService.save(data).subscribe({
             next: ({ data }) => {
                 this.paste = data;
-                this.form.reset();
+                this.form.reset({ encrypted: false });
                 this.loading = false;
             },
             error: (error: HttpErrorResponse) => {
