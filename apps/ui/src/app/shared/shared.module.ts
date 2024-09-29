@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { HeaderComponent } from './components/header/header.component';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { FeaturesMenuComponent } from './components/header/components/features-menu.component';
@@ -26,6 +26,7 @@ import { LandingLayoutComponent } from './layouts/landing-layout/landing-layout.
         OverlayPanelModule,
         AvatarModule,
         RouterOutlet,
+        NgOptimizedImage,
     ],
     exports: [HeaderComponent, FooterComponent],
     providers: [MessageService],
