@@ -38,6 +38,10 @@ export class KeycloakService {
         }
     }
 
+    isAuthenticated() {
+        return !!this.user;
+    }
+
     login() {
         return this.keycloak?.login({
             redirectUri: environment.clientUrl + '/dashboard',

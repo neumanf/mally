@@ -11,6 +11,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ToastService } from '../../../shared/services/toast/toast.service';
 import { ClipboardService } from 'ngx-clipboard';
 import { EncryptionService } from '../../../shared/services/encryption/encryption.service';
+import { KeycloakService } from '../../../auth/services/keycloak.service';
 
 @Component({
     selector: 'app-pastebin',
@@ -23,12 +24,17 @@ export class PastebinComponent implements OnInit {
         { label: 'Preview', value: 'PREVIEW' },
     ];
     protected readonly expirations: SelectOption<string>[] = [
+        { label: '1 hour', value: '1h' },
+        { label: '6 hours', value: '6h' },
+        { label: '1 day', value: '1d' },
+        { label: '3 days', value: '3d' },
         { label: '7 days', value: '7d' },
+        { label: '1 month', value: '1m' },
     ];
     protected readonly syntaxes: SelectOption<string>[] = SYNTAXES;
 
     mode: 'CONTENT' | 'PREVIEW' = 'CONTENT';
-    expiration = '7d';
+    expiration = '1h';
 
     form = this.formBuilder.group({
         text: new FormControl<string | null>(null, [Validators.required]),
@@ -46,6 +52,7 @@ export class PastebinComponent implements OnInit {
         private readonly toastService: ToastService,
         private readonly clipboardService: ClipboardService,
         private readonly encryptionService: EncryptionService,
+        private readonly keycloakService: KeycloakService,
     ) {}
 
     ngOnInit() {
@@ -81,6 +88,10 @@ export class PastebinComponent implements OnInit {
         return window.location.origin + '/p/' + this.paste?.slug;
     }
 
+    userIsAuthenticated() {
+        return this.keycloakService.isAuthenticated();
+    }
+
     save() {
         const formData = this.form.getRawValue();
 
@@ -88,6 +99,7 @@ export class PastebinComponent implements OnInit {
             text: formData.text ?? '',
             syntax: formData.syntax ?? 'PLAINTEXT',
             encrypted: formData.encrypted ?? false,
+            expiration: this.expiration,
         };
 
         if (formData.encrypted && formData.password && formData.text) {

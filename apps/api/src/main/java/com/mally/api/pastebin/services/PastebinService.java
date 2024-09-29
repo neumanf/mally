@@ -1,32 +1,23 @@
 package com.mally.api.pastebin.services;
 
 import com.mally.api.pastebin.dtos.CreatePasteDTO;
-import com.mally.api.pastebin.dtos.SearchPastesDTO;
 import com.mally.api.pastebin.entities.Paste;
 import com.mally.api.pastebin.repositories.PastebinRepository;
 import com.mally.api.shared.utils.PaginationUtils;
 import io.github.thibaultmeyer.cuid.CUID;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Predicate;
-import jakarta.persistence.criteria.Root;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @AllArgsConstructor
 @Service
 public class PastebinService {
-    private static final Integer EXPIRES_IN_DAYS = 7;
-
     private final PastebinRepository pastebinRepository;
 
     private final EntityManager entityManager;
@@ -46,7 +37,7 @@ public class PastebinService {
                 .encrypted(dto.isEncrypted())
                 .userId(userId)
                 .createdAt(now)
-                .expiresAt(now.plusDays(EXPIRES_IN_DAYS))
+                .expiresAt(dto.getExpiration())
                 .build();
 
         return pastebinRepository.save(paste);

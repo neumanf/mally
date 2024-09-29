@@ -8,6 +8,7 @@
         [allowEmpty]="false"
         optionLabel="label"
         optionValue="value"
+        [disabled]="!syntax"
         [ngModelOptions]="{ standalone: true }"
     ></p-selectButton>
 
@@ -43,8 +44,10 @@
         <div class="flex flex-col gap-2">
             <label class="font-semibold">Expiration</label>
             <p-dropdown
+                [pTooltip]="userIsAuthenticated() ? '' : 'Sign up to choose the expiration time'"
+                tooltipPosition="top"
                 styleClass="w-full"
-                [disabled]="true"
+                [disabled]="!userIsAuthenticated()"
                 [(ngModel)]="expiration"
                 [ngModelOptions]="{ standalone: true }"
                 [options]="expirations"

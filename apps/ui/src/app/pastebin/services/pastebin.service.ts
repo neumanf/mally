@@ -17,6 +17,7 @@ export type PasteRequest = {
     text: string;
     syntax: string;
     encrypted: boolean;
+    expiration: string;
 };
 
 export type PasteResponse = ApiResponse<Paste>;
