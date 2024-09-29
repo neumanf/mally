@@ -40,6 +40,7 @@ public class WebSecurityConfig {
                         .requestMatchers("/pastebin/paste/**").permitAll()
                         .requestMatchers("/health/**").permitAll()
                         .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/actuator/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(

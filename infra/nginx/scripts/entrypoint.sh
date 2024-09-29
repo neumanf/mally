@@ -17,7 +17,7 @@ if [ ! -f /etc/letsencrypt/live/mally.neumanf.com/fullchain.pem ]; then
     # Request a certificate for the domain
     certbot certonly --webroot --webroot-path=/var/www/certbot \
         --email fabricionewman@gmail.com --agree-tos --no-eff-email \
-        -d mally.neumanf.com -d api.mally.neumanf.com -d auth.mally.neumanf.com
+        -d mally.neumanf.com -d api.mally.neumanf.com -d auth.mally.neumanf.com -d g.mally.neumanf.com
 
     # Replace Nginx configuration with the SSL version
     cp /conf/nginx.conf /etc/nginx/conf.d/default.conf

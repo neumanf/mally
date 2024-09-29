@@ -20,6 +20,15 @@ spring:
                 jwt:
                     issuer-uri: ${KEYCLOAK_ISSUER_URL}
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "metrics,prometheus"
+  metrics:
+    tags:
+      application: 'Mally'
+
 bucket4j:
     enabled: true
     filter-config-caching-enabled: true
