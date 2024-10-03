@@ -1,1 +1,2 @@
 apps/ui/src/themes/** linguist-vendored
+infra/keycloak/themes/theme-generator/src/themes/** linguist-vendored
