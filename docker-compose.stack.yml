@@ -1,10 +1,10 @@
+version: '3.7'
+
 services:
     postgres:
-        container_name: mally-postgres
         image: ghcr.io/neumanf/mally-postgres
-        restart: unless-stopped
         healthcheck:
-            test: [ "CMD", "pg_isready", "-q", "-d", "keycloak", "-U", "postgres" ]
+            test: pg_isready -q -d keycloak -U postgres
             timeout: 45s
             interval: 10s
             retries: 5
@@ -20,11 +20,9 @@ services:
             - postgres:/var/lib/postgresql/data
 
     keycloak:
-        container_name: mally-keycloak
         image: ghcr.io/neumanf/mally-keycloak
-        restart: unless-stopped
         healthcheck:
-            test: ["CMD", "curl", "-f", "http://0.0.0.0:9000/health/ready"]
+            test: curl -f http://localhost:9000/health/ready
             timeout: 45s
             interval: 10s
             retries: 15
@@ -45,19 +43,14 @@ services:
             KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
         env_file:
             - .env
-        depends_on:
-            postgres:
-                condition: service_healthy
         networks:
             - mally-network
         command: start --hostname ${KEYCLOAK_URL} --import-realm
 
     api:
-        container_name: mally-api
         image: ghcr.io/neumanf/mally-api
-        restart: unless-stopped
         healthcheck:
-            test: [ "CMD", "curl", "-f", "http://0.0.0.0:8080/health/" ]
+            test: curl -f http://localhost:8080/health/
             timeout: 45s
             interval: 10s
             retries: 15
@@ -73,52 +66,76 @@ services:
             - ./logs/api:/app/logs/api
         networks:
             - mally-network
-        depends_on:
-            postgres:
-                condition: service_healthy
-            keycloak:
-                condition: service_healthy
+        deploy:
+            mode: replicated
+            replicas: 2
+            update_config:
+                order: start-first
+                failure_action: rollback
+                delay: 5s
+            placement:
+                constraints:
+                    - node.role == manager
 
     ui:
-        container_name: mally-ui
         image: ghcr.io/neumanf/mally-ui
-        restart: unless-stopped
+        healthcheck:
+            test: curl -f http://localhost || exit 1
+            timeout: 45s
+            interval: 10s
+            retries: 15
         networks:
             - mally-network
-        depends_on:
-            api:
-                condition: service_healthy
-            keycloak:
-                condition: service_healthy
+        deploy:
+            mode: replicated
+            replicas: 2
+            update_config:
+                order: start-first
+                failure_action: rollback
+                delay: 5s
 
     nginx:
-        container_name: mally-nginx
         image: ghcr.io/neumanf/mally-nginx
-        restart: unless-stopped
+        healthcheck:
+            test: curl -f http://localhost || exit 1
+            timeout: 45s
+            interval: 10s
+            retries: 15
         networks:
             - mally-network
-        depends_on:
-            - api
-            - ui
         ports:
             - '80:80'
             - '443:443'
         volumes:
             - ./certbot/www/:/var/www/certbot/:rw
             - ./certbot/conf/:/etc/letsencrypt/:rw
+        deploy:
+            restart_policy:
+                condition: on-failure
+                delay: 10s
+                max_attempts: 15
+            placement:
+                constraints:
+                    - node.role == manager
 
     loki:
-        container_name: mally-loki
         image: ghcr.io/neumanf/mally-loki
-        restart: unless-stopped
+        healthcheck:
+            test: wget --no-verbose --tries=1 --spider http://localhost:3100/ready || exit 1
+            timeout: 45s
+            interval: 10s
+            retries: 15
         command: -config.file=/etc/loki/loki.yml
         networks:
             - mally-network
 
     promtail:
-        container_name: mally-promtail
         image: ghcr.io/neumanf/mally-promtail
-        restart: unless-stopped
+        healthcheck:
+            test: wget --no-verbose --tries=1 --spider http://localhost:9080/ready || exit 1
+            timeout: 45s
+            interval: 10s
+            retries: 15
         volumes:
             - ./logs/api/:/var/log/
         command: -config.file=/etc/promtail/promtail.yml
@@ -126,17 +143,23 @@ services:
             - mally-network
 
     prometheus:
-        container_name: mally-prometheus
         image: ghcr.io/neumanf/mally-prometheus
-        restart: unless-stopped
+        healthcheck:
+            test: wget --no-verbose --tries=1 --spider http://localhost:9090 || exit 1
+            timeout: 45s
+            interval: 10s
+            retries: 15
         command: '--config.file=/etc/prometheus/config.yml'
         networks:
             - mally-network
 
     grafana:
-        container_name: mally-grafana
         image: ghcr.io/neumanf/mally-grafana
-        restart: unless-stopped
+        healthcheck:
+            test: curl -f http://localhost:3000/
+            timeout: 45s
+            interval: 10s
+            retries: 15
         environment:
             GF_SECURITY_ADMIN_USER: ${GRAFANA_USER}
             GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_PASSWORD}

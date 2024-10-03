@@ -55,6 +55,6 @@ jobs:
         - name: Deploy
           run: |
             cd $HOME/mally && 
-            docker compose -f docker-compose.prod.yml down && 
-            docker compose -f docker-compose.prod.yml pull && 
-            docker compose -f docker-compose.prod.yml up -d
+            docker compose -f docker-compose.stack.yml pull && 
+            export $(cat .env) &&
+            docker stack deploy -c docker-compose.stack.yml mally
