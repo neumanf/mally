@@ -3,6 +3,7 @@ spring:
         url: jdbc:${DATABASE_URL}
         username: ${DATABASE_USERNAME}
         password: ${DATABASE_PASSWORD}
+        driverClassName: org.postgresql.Driver
 
     jpa:
         database-platform: org.hibernate.dialect.PostgreSQLDialect
