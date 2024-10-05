@@ -19,6 +19,7 @@ FROM quay.io/keycloak/keycloak:25.0.4
 COPY --from=ubi-micro-build /mnt/rootfs /
 COPY --from=builder /opt/keycloak/ /opt/keycloak/
 
+COPY ./infra/keycloak/themes/mally/keycloak-theme-for-kc-22-and-above.jar /opt/keycloak/providers/keycloak-theme.jar
 COPY ./infra/keycloak/themes/mally /opt/keycloak/themes/mally
 COPY ./infra/keycloak/realms/mally.json /opt/keycloak/data/import/mally.json
 
