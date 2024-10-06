@@ -25,7 +25,7 @@ export default function Register(props: RegisterProps) {
 
     const { msg, msgStr } = i18n;
 
-    const [isFormSubmittable, setIsFormSubmittable] = useState(false);
+    const [_isFormSubmittable, setIsFormSubmittable] = useState(false);
     const [areTermsAccepted, setAreTermsAccepted] = useState(false);
 
     return (
