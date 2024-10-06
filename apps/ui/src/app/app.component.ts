@@ -1,30 +1,12 @@
 import { AfterViewInit, Component } from '@angular/core';
-import {
-    animate,
-    state,
-    style,
-    transition,
-    trigger,
-} from '@angular/animations';
+import { fadeInAnimation } from './shared/animations/fadeIn';
+import { fadeOutAnimation } from './shared/animations/fadeOut';
 
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrl: './app.component.scss',
-    animations: [
-        trigger('fadeIn', [
-            state('void', style({ opacity: 0 })), // Initial state: hidden
-            transition(':enter', [
-                animate('1s ease-in', style({ opacity: 1 })), // Animate to visible state
-            ]),
-        ]),
-        trigger('fadeOut', [
-            state('void', style({ opacity: 1 })), // Initial state: visible
-            transition(':leave', [
-                animate('0.25s ease-out', style({ opacity: 0 })), // Fade-out animation
-            ]),
-        ]),
-    ],
+    animations: [fadeInAnimation(1), fadeOutAnimation(0.25)],
 })
 export class AppComponent implements AfterViewInit {
     title = 'ui';
@@ -32,7 +14,7 @@ export class AppComponent implements AfterViewInit {
 
     ngAfterViewInit() {
         setTimeout(() => {
-            this.splashVisible = false; // Trigger fade-out after timeout
+            this.splashVisible = false;
         }, 250);
     }
 }
