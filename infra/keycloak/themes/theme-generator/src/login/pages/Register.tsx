@@ -35,9 +35,9 @@ export default function Register(props: RegisterProps) {
             doUseDefaultCss={doUseDefaultCss}
             classes={classes}
             headerNode={
-                <div>
-                    <img className="ml-5" src="https://mally.neumanf.com/assets/logo.svg" width={60} alt="Logo" />
-                </div>
+                <a href="http://mally.neumanf.com">
+                    <img className="ml-10" src="https://mally.neumanf.com/assets/logo.svg" width={60} alt="Logo" />
+                </a>
             }
             displayMessage={messagesPerField.exists("global")}
             displayRequiredFields
