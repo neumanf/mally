@@ -8,6 +8,38 @@
         <link rel="icon" type="image/svg" href="assets/logo.svg" />
     </head>
     <body>
-        <app-root></app-root>
+        <app-root>
+            <div id="splash-screen" class="w-screen h-screen flex items-center justify-center">
+                <img id="splash-image" src="assets/logo.svg" alt="Logo" height="300">
+                <img class="absolute opacity-75" src="assets/logo.svg" alt="Logo" height="300">
+            </div>
+        </app-root>
     </body>
+    <style>
+        #splash-screen {
+            animation: fadeIn 1s;
+        }
+
+        #splash-image {
+            animation: ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+            margin: auto;
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        @keyframes ping {
+            75%, 100% {
+                transform: scale(1.25);
+                opacity: 0;
+            }
+        }
+    </style>
 </html>

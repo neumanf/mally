@@ -6,7 +6,7 @@ services:
         healthcheck:
             test: [ "CMD", "pg_isready", "-q", "-d", "keycloak", "-U", "postgres" ]
             timeout: 45s
-            interval: 10s
+            interval: 3s
             retries: 10
         environment:
             POSTGRES_DBS: 'mally,keycloak'

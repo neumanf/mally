@@ -52,7 +52,7 @@ services:
         healthcheck:
             test: curl -f http://localhost:8080/health/
             timeout: 45s
-            interval: 10s
+            interval: 3s
             retries: 15
         environment:
             DATABASE_URL: ${POSTGRES_URL}

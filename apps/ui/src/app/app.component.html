@@ -1,3 +1,21 @@
 <p-toast></p-toast>
 
-<router-outlet></router-outlet>
+<div
+    *ngIf="splashVisible"
+    @fadeOut
+    id="splash-screen"
+    class="w-screen h-screen flex items-center justify-center"
+>
+    <img src="assets/logo.svg" alt="Logo" height="300" />
+    <img
+        id="splash-image"
+        class="absolute opacity-75"
+        src="assets/logo.svg"
+        alt="Logo"
+        height="300"
+    />
+</div>
+
+<div *ngIf="!splashVisible" @fadeIn>
+    <router-outlet></router-outlet>
+</div>
