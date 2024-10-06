@@ -5,10 +5,19 @@
             class="inline-flex items-center gap-2.5 text-2xl font-bold text-red-500 md:text-3xl"
             aria-label="logo"
         >
-            <img ngSrc="assets/logo-full.svg" loading="lazy" alt="Logo" height="70" width="97" />
+            <img
+                ngSrc="assets/logo-full.svg"
+                loading="lazy"
+                alt="Logo"
+                height="70"
+                width="97"
+            />
         </a>
 
-        <nav class="hidden gap-12 lg:flex bg-zinc-800 py-3 px-10 rounded-full border-solid border-zinc-700" style="border-width: 0.5px">
+        <nav
+            class="hidden gap-12 lg:flex bg-zinc-800 py-3 px-10 rounded-full border-solid border-zinc-700"
+            style="border-width: 0.5px"
+        >
             <a
                 routerLink="/"
                 class="text-lg font-semibold text-white transition duration-100 hover:text-red-500 active:text-red-700"
@@ -34,19 +43,22 @@
                 *ngIf="userIsAuthenticated; else signButtons"
                 routerLink="/dashboard"
                 class="inline-block rounded-lg bg-red-500 px-5 py-2 text-center text-sm font-semibold text-white outline-none ring-red-300 transition duration-100 hover:bg-red-600 focus-visible:ring active:bg-red-700 md:text-base"
-            >Dashboard</a>
+                >Dashboard</a
+            >
         </div>
 
         <ng-template #signButtons>
             <a
                 routerLink="/auth/login"
                 class="inline-block rounded-lg px-4 py-3 text-center text-sm font-semibold text-white outline-none ring-red-300 transition duration-100 hover:text-red-500 focus-visible:ring active:text-red-600 md:text-base"
-            >Sign in</a>
+                >Sign in</a
+            >
 
             <a
                 routerLink="/auth/register"
                 class="inline-flex items-center rounded-lg bg-red-500 px-5 py-2 text-center text-sm font-semibold text-white outline-none ring-red-300 transition duration-100 hover:bg-red-600 focus-visible:ring active:bg-red-700 md:text-base"
-            >Sign up</a>
+                >Sign up</a
+            >
         </ng-template>
 
         <a
@@ -58,7 +70,12 @@
         </a>
     </header>
 
-    <div *ngIf="isFeaturesMenuOpen" (mouseleave)="closeFeatures()">
+    <div
+        *ngIf="isFeaturesMenuOpen"
+        @fadeIn
+        @fadeOut
+        (mouseleave)="closeFeatures()"
+    >
         <app-features-menu #featuresMenu></app-features-menu>
     </div>
 </div>
@@ -70,7 +87,7 @@
                 <a
                     routerLink="/"
                     class="text-lg font-semibold transition duration-100 hover:text-red-500 active:text-red-700"
-                >Home
+                    >Home
                 </a>
 
                 <a class="font-semibold">FEATURES</a>
@@ -78,13 +95,13 @@
                 <a
                     routerLink="/url-shortener"
                     class="pl-4 text-lg font-semibold transition duration-100 hover:text-red-500 active:text-red-700"
-                >URL Shortener
+                    >URL Shortener
                 </a>
 
                 <a
                     routerLink="/pastebin"
                     class="pl-4 text-lg font-semibold transition duration-100 hover:text-red-500 active:text-red-700"
-                >Pastebin
+                    >Pastebin
                 </a>
             </div>
 
@@ -92,13 +109,13 @@
                 <a
                     routerLink="/auth/login"
                     class="inline-block rounded-lg px-4 py-3 text-center text-sm font-semibold text-white outline-none ring-red-300 transition duration-100 hover:text-red-500 focus-visible:ring active:text-red-600 md:text-base"
-                >Sign in</a
+                    >Sign in</a
                 >
 
                 <a
                     routerLink="/auth/register"
                     class="inline-block rounded-lg bg-red-500 px-8 py-3 text-center text-sm font-semibold text-white outline-none ring-red-300 transition duration-100 hover:bg-red-600 focus-visible:ring active:bg-red-700 md:text-base"
-                >Sign up</a
+                    >Sign up</a
                 >
             </div>
         </nav>

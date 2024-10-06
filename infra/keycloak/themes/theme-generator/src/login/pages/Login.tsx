@@ -41,9 +41,9 @@ export default function Login(props: PageProps<Extract<KcContext, { pageId: "log
             classes={classes}
             displayMessage={!messagesPerField.existsError("username", "password")}
             headerNode={
-                <div>
+                <a href="http://mally.neumanf.com">
                     <img src="https://mally.neumanf.com/assets/logo.svg" width={60} alt="Logo" />
-                </div>
+                </a>
             }
             displayInfo={realm.password && realm.registrationAllowed && !registrationDisabled}
             infoNode={

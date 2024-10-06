@@ -24,7 +24,7 @@
                     class="flex flex-col gap-2.5 sm:flex-row sm:justify-center lg:justify-start"
                 >
                     <a
-                        href="#features"
+                        href="/auth/login"
                         class="inline-block rounded-lg bg-red-500 px-8 py-3 text-center text-sm font-semibold text-white outline-none ring-red-300 transition duration-100 hover:bg-red-600 focus-visible:ring active:bg-red-700 md:text-base"
                         >Start now</a
                     >
@@ -34,10 +34,10 @@
             <div class="h-48 overflow-hidden lg:h-auto xl:w-5/12">
                 <img
                     ngSrc="assets/logo.svg"
-                    loading="lazy"
                     alt="Logo"
-                    width="300"
-                    height="400"
+                    width="250"
+                    height="442"
+                    priority
                 />
             </div>
         </section>
@@ -50,76 +50,199 @@
 
 <div id="features" class="py-6 sm:py-8 lg:py-32">
     <div class="mx-auto max-w-screen-2xl px-4 md:px-8">
-        <div class="mb-10 md:mb-16">
+        <div class="mb-10 md:mb-24">
             <h2
                 class="mb-4 text-center text-2xl font-bold text-white md:mb-6 lg:text-3xl"
             >
                 Our services
             </h2>
+            <div>
+                <div
+                    id="url-shortener"
+                    class="grid gap-4 grid-cols-1 md:grid-cols-2 mt-36"
+                >
+                    <div class="flex bg-zinc-700 rounded-lg p-4 justify-center">
+                        <img
+                            class="rounded-lg shadow-2xl max-w-full"
+                            ngSrc="assets/images/url-shortener.png"
+                            alt="URL Shortener preview"
+                            width="600"
+                            height="232"
+                        />
+                    </div>
+                    <div class="flex flex-col justify-center px-10">
+                        <span class="text-3xl font-bold">URL Shortener</span>
+                        <p class="text-lg pe-24">
+                            Transform massive links into short and easy to share
+                            ones, while being able to track its stats.
+                        </p>
+                        <div class="flex gap-2">
+                            <p-tag
+                                severity="danger"
+                                [rounded]="true"
+                                value="QR Code"
+                            />
+                            <p-tag
+                                severity="danger"
+                                [rounded]="true"
+                                value="Expiration"
+                            />
+                            <p-tag
+                                severity="danger"
+                                [rounded]="true"
+                                value="Analytics"
+                            />
+                        </div>
+                        <div class="mt-10">
+                            <a
+                                routerLink="/url-shortener"
+                                class="p-button font-bold"
+                                >Try now</a
+                            >
+                        </div>
+                    </div>
+                </div>
+
+                <div
+                    id="pastebin"
+                    class="grid gap-4 grid-cols-1 md:grid-cols-2 mt-52"
+                >
+                    <div class="flex flex-col justify-center px-10">
+                        <span class="text-3xl font-bold">Pastebin</span>
+                        <p class="text-lg pe-24">
+                            Share any text or piece of code over the web easily,
+                            supporting over 15 programming languages.
+                        </p>
+                        <div class="flex gap-2">
+                            <p-tag
+                                severity="danger"
+                                [rounded]="true"
+                                value="QR Code"
+                            />
+                            <p-tag
+                                severity="danger"
+                                [rounded]="true"
+                                value="Expiration"
+                            />
+                            <p-tag
+                                severity="danger"
+                                [rounded]="true"
+                                value="Encryption"
+                            />
+                            <p-tag
+                                severity="danger"
+                                [rounded]="true"
+                                value="Programming Languages support"
+                            />
+                        </div>
+                        <div class="mt-10">
+                            <a routerLink="/pastebin" class="p-button font-bold"
+                                >Try now</a
+                            >
+                        </div>
+                    </div>
+                    <div class="flex bg-zinc-700 rounded-lg p-4 justify-center">
+                        <img
+                            class="rounded-lg shadow-2xl max-w-full"
+                            ngSrc="assets/images/pastebin.png"
+                            alt="Pastebin preview"
+                            width="600"
+                            height="232"
+                        />
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <div
-            class="grid gap-8 sm:grid-cols-2 md:gap-12 xl:grid-cols-3 xl:gap-16"
-        >
-            <div class="flex gap-4 md:gap-6">
-                <div
-                    class="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-red-500 text-white shadow-lg md:h-14 md:w-14 md:rounded-xl"
-                >
-                    <i class="ti ti-link"></i>
-                </div>
-
-                <div>
-                    <h3 class="mb-2 text-lg font-semibold md:text-xl">
-                        URL Shortener
-                    </h3>
-                    <p class="mb-2 text-gray-200">
-                        Transform massive links into short and easy to share
-                        ones, while being able to track its stats.
-                    </p>
-                    <a
-                        routerLink="/url-shortener"
-                        class="font-bold text-red-500 transition duration-100 hover:text-red-600 active:text-red-700"
-                        >Try it now</a
-                    >
-                </div>
-            </div>
-
-            <div class="flex gap-4 md:gap-6">
-                <div
-                    class="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-red-500 text-white shadow-lg md:h-14 md:w-14 md:rounded-xl"
-                >
-                    <i class="ti ti-notes"></i>
-                </div>
-
-                <div>
-                    <h3 class="mb-2 text-lg font-semibold md:text-xl">
-                        Pastebin
-                    </h3>
-                    <p class="mb-2 text-gray-200">
-                        Share any text or piece of code over the web easily.
-                    </p>
-                    <a
-                        routerLink="/pastebin"
-                        class="font-bold text-red-500 transition duration-100 hover:text-red-600 active:text-red-700"
-                        >Try it now</a
-                    >
-                </div>
-            </div>
-
-            <div class="flex gap-4 md:gap-6">
-                <div
-                    class="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-red-500 text-white shadow-lg md:h-14 md:w-14 md:rounded-xl"
-                >
-                    ...
-                </div>
-
-                <div>
-                    <h3 class="mb-2 text-lg font-semibold md:text-xl">
-                        And more
-                    </h3>
-                    <p class="mb-2 text-gray-200">Soon ™️...</p>
-                </div>
-            </div>
+        <div class="mb-10 md:mb-24">
+            <h2
+                class="mb-4 text-center text-2xl font-bold text-white md:mb-6 lg:text-3xl"
+            >
+                FAQ
+            </h2>
         </div>
+
+        <p-accordion>
+            <p-accordionTab header="Is Mally free?">
+                <p>
+                    Yes, all services are free, but there are limitations for
+                    users who haven't signed up.
+                </p>
+            </p-accordionTab>
+            <p-accordionTab header="Is Mally private?">
+                <p>Yes, we do not read or sell your data to anyone.</p>
+            </p-accordionTab>
+            <p-accordionTab header="How can I delete my account?">
+                <p>
+                    Sign in into your account, click on your name on the right
+                    corner of the screen, and click on Profile. Then, you will
+                    be able to edit your profile or delete your account.
+                </p>
+            </p-accordionTab>
+        </p-accordion>
+
+        <!--        <div-->
+        <!--            class="grid gap-8 sm:grid-cols-2 md:gap-12 xl:grid-cols-3 xl:gap-16"-->
+        <!--        >-->
+        <!--            <div class="flex gap-4 md:gap-6">-->
+        <!--                <div-->
+        <!--                    class="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-red-500 text-white shadow-lg md:h-14 md:w-14 md:rounded-xl"-->
+        <!--                >-->
+        <!--                    <i class="ti ti-link"></i>-->
+        <!--                </div>-->
+
+        <!--                <div>-->
+        <!--                    <h3 class="mb-2 text-lg font-semibold md:text-xl">-->
+        <!--                        URL Shortener-->
+        <!--                    </h3>-->
+        <!--                    <p class="mb-2 text-gray-200">-->
+        <!--                        Transform massive links into short and easy to share-->
+        <!--                        ones, while being able to track its stats.-->
+        <!--                    </p>-->
+        <!--                    <a-->
+        <!--                        routerLink="/url-shortener"-->
+        <!--                        class="font-bold text-red-500 transition duration-100 hover:text-red-600 active:text-red-700"-->
+        <!--                        >Try it now</a-->
+        <!--                    >-->
+        <!--                </div>-->
+        <!--            </div>-->
+
+        <!--            <div class="flex gap-4 md:gap-6">-->
+        <!--                <div-->
+        <!--                    class="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-red-500 text-white shadow-lg md:h-14 md:w-14 md:rounded-xl"-->
+        <!--                >-->
+        <!--                    <i class="ti ti-notes"></i>-->
+        <!--                </div>-->
+
+        <!--                <div>-->
+        <!--                    <h3 class="mb-2 text-lg font-semibold md:text-xl">-->
+        <!--                        Pastebin-->
+        <!--                    </h3>-->
+        <!--                    <p class="mb-2 text-gray-200">-->
+        <!--                        Share any text or piece of code over the web easily.-->
+        <!--                    </p>-->
+        <!--                    <a-->
+        <!--                        routerLink="/pastebin"-->
+        <!--                        class="font-bold text-red-500 transition duration-100 hover:text-red-600 active:text-red-700"-->
+        <!--                        >Try it now</a-->
+        <!--                    >-->
+        <!--                </div>-->
+        <!--            </div>-->
+
+        <!--            <div class="flex gap-4 md:gap-6">-->
+        <!--                <div-->
+        <!--                    class="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-red-500 text-white shadow-lg md:h-14 md:w-14 md:rounded-xl"-->
+        <!--                >-->
+        <!--                    ...-->
+        <!--                </div>-->
+
+        <!--                <div>-->
+        <!--                    <h3 class="mb-2 text-lg font-semibold md:text-xl">-->
+        <!--                        And more-->
+        <!--                    </h3>-->
+        <!--                    <p class="mb-2 text-gray-200">Soon ™️...</p>-->
+        <!--                </div>-->
+        <!--            </div>-->
+        <!--        </div>-->
     </div>
 </div>
