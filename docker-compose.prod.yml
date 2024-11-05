@@ -1,8 +1,7 @@
-version: '3.7'
-
 services:
     postgres:
         image: ghcr.io/neumanf/mally-postgres
+        restart: unless-stopped
         healthcheck:
             test: pg_isready -q -d keycloak -U postgres
             timeout: 45s
@@ -21,10 +20,11 @@ services:
 
     keycloak:
         image: ghcr.io/neumanf/mally-keycloak
+        restart: unless-stopped
         healthcheck:
-            test: curl -f http://localhost:9000/health/ready
-            timeout: 45s
-            interval: 10s
+            test: curl -f http://0.0.0.0:9000/health/ready
+            timeout: 20s
+            interval: 5s
             retries: 15
         environment:
             JAVA_OPTS_APPEND: -Dkeycloak.profile.feature.upload_scripts=enabled
@@ -43,6 +43,9 @@ services:
             KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
         env_file:
             - .env
+        depends_on:
+            postgres:
+                condition: service_healthy
         networks:
             - public
             - private
@@ -50,10 +53,11 @@ services:
 
     api:
         image: ghcr.io/neumanf/mally-api
+        restart: unless-stopped
         healthcheck:
-            test: curl -f http://localhost:8080/health/
-            timeout: 45s
-            interval: 10s
+            test: curl -f http://0.0.0.0:8080/health
+            timeout: 20s
+            interval: 5s
             retries: 15
         environment:
             DATABASE_URL: ${POSTGRES_URL}
@@ -62,60 +66,56 @@ services:
             KEYCLOAK_ISSUER_URL: ${KEYCLOAK_ISSUER_URL}
             FRONTEND_URL: ${FRONTEND_URL}
         env_file:
-            - .env
+            -  .env
         networks:
             - public
             - private
-        deploy:
-            mode: replicated
-            replicas: 2
-            update_config:
-                order: start-first
-                failure_action: rollback
-                delay: 5s
+#        extra_hosts:
+#            - "auth.localhost:nginx"
+        depends_on:
+            postgres:
+                condition: service_healthy
+            keycloak:
+                condition: service_healthy
 
     ui:
         image: ghcr.io/neumanf/mally-ui
         healthcheck:
-            test: service nginx status || exit 1
+            test: curl -f http://localhost || exit 1
             timeout: 45s
             interval: 10s
             retries: 15
+        restart: unless-stopped
         networks:
             - public
             - private
-        deploy:
-            mode: replicated
-            replicas: 2
-            update_config:
-                order: start-first
-                failure_action: rollback
-                delay: 5s
+        depends_on:
+            api:
+                condition: service_healthy
+            keycloak:
+                condition: service_healthy
 
     nginx:
         image: ghcr.io/neumanf/mally-nginx
         healthcheck:
-            test: service nginx status || exit 1
-            timeout: 45s
-            interval: 10s
+            test: curl -f http://localhost || exit 1
+            timeout: 20s
+            interval: 5s
             retries: 15
-        networks:
-            - public
+        restart: unless-stopped
         env_file:
             - .env
+        networks:
+            - public
+        depends_on:
+            - api
+            - ui
         ports:
             - '80:80'
             - '443:443'
         volumes:
             - letsencrypt:/etc/letsencrypt
-        deploy:
-            restart_policy:
-                condition: on-failure
-                delay: 10s
-                max_attempts: 15
-            placement:
-                constraints:
-                    - node.role == manager
+            - ./local_ca/:/etc/local_ca
 
     loki:
         image: ghcr.io/neumanf/mally-loki
@@ -124,12 +124,20 @@ services:
             timeout: 45s
             interval: 10s
             retries: 15
+        restart: unless-stopped
         command: -config.file=/etc/loki/loki.yml
         networks:
             - private
 
     node-exporter:
+        container_name: mally-node-exporter
         image: bitnami/node-exporter:1.8.2
+        healthcheck:
+            test: curl -f http://localhost:9100/metrics || exit 1
+            timeout: 45s
+            interval: 10s
+            retries: 15
+        restart: unless-stopped
         networks:
             - private
 
@@ -140,6 +148,7 @@ services:
             timeout: 45s
             interval: 10s
             retries: 15
+        restart: unless-stopped
         command: '--config.file=/etc/prometheus/config.yml'
         networks:
             - private
@@ -151,6 +160,7 @@ services:
             timeout: 45s
             interval: 10s
             retries: 15
+        restart: unless-stopped
         environment:
             GF_SECURITY_ADMIN_USER: ${GRAFANA_USER}
             GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_PASSWORD}
@@ -169,7 +179,9 @@ volumes:
 
 networks:
     public:
-        driver: overlay
     private:
-        driver: overlay
-        internal: true
+        driver: bridge
+        ipam:
+            config:
+                - subnet: "10.0.0.0/19"
+                  gateway: "10.0.0.1"

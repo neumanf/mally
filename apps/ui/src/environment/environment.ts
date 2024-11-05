@@ -1,8 +1,8 @@
 export const environment = {
     production: false,
-    clientUrl: 'http://localhost:4200',
-    apiUrl: 'http://localhost:8080',
-    keycloakUrl: 'http://localhost:9090',
+    clientUrl: 'https://localhost',
+    apiUrl: 'https://api.localhost',
+    keycloakUrl: 'https://auth.localhost',
     keycloakRealm: 'mally',
     keycloadClientId: 'mally',
 };

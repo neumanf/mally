@@ -1,17 +1,16 @@
-FROM nginx:1.27-alpine
+ARG environment=production
 
-# Install Certbot and openssl
-RUN apk add --no-cache certbot openssl bash
+FROM jonasal/nginx-certbot:5.4.0-nginx1.27.2-alpine AS base
 
-# Copy Nginx configuration files
-COPY ./infra/nginx/conf/ /conf
-COPY ./infra/nginx/scripts/entrypoint.sh /entrypoint.sh
 
-# Ensure the entrypoint script has execute permissions
-RUN chmod +x /entrypoint.sh
+FROM base AS build-development
 
-# Expose ports
-EXPOSE 80 443
+COPY ./infra/nginx/conf/development.conf /etc/nginx/user_conf.d/default.conf
 
-# Set up the entrypoint script to handle SSL configuration
-ENTRYPOINT ["/entrypoint.sh"]
+
+FROM base AS build-production
+
+COPY ./infra/nginx/conf/production.conf /etc/nginx/user_conf.d/default.conf
+
+
+FROM build-${environment} AS final

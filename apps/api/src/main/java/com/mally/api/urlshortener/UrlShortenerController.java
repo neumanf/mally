@@ -2,10 +2,7 @@ package com.mally.api.urlshortener;
 
 import com.mally.api.auth.AuthenticationManager;
 import com.mally.api.auth.UserJwt;
-import com.mally.api.pastebin.dtos.SearchPastesDTO;
-import com.mally.api.pastebin.entities.Paste;
 import com.mally.api.shared.rest.dtos.ApiResponseDTO;
-import com.mally.api.urlshortener.dtos.SearchUrlsDTO;
 import com.mally.api.urlshortener.dtos.ShortenUrlDTO;
 import com.mally.api.urlshortener.entities.Url;
 import com.mally.api.urlshortener.services.UrlShortenerService;
@@ -13,10 +10,8 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,7 +25,7 @@ public class UrlShortenerController {
 
     private final UrlShortenerService urlShortenerService;
 
-    @GetMapping("/")
+    @GetMapping()
     public ResponseEntity<Page<Url>> findAll(
             @RequestParam(required = false) String search,
             @RequestParam(defaultValue = "0") int pageNumber,

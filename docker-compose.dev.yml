@@ -6,7 +6,7 @@ services:
             dockerfile: ./infra/postgres/Dockerfile
         restart: unless-stopped
         healthcheck:
-            test: [ "CMD", "pg_isready", "-q", "-d", "keycloak", "-U", "postgres" ]
+            test: pg_isready -q -d keycloak -U postgres
             timeout: 45s
             interval: 10s
             retries: 5
@@ -17,7 +17,7 @@ services:
         env_file:
             - .env
         networks:
-            - mally-network
+            - private
         volumes:
             - postgres:/var/lib/postgresql/data
 
@@ -28,9 +28,9 @@ services:
             dockerfile: ./infra/keycloak/Dockerfile
         restart: unless-stopped
         healthcheck:
-            test: ["CMD", "curl", "-f", "http://0.0.0.0:9000/health/ready"]
-            timeout: 45s
-            interval: 10s
+            test: curl -f http://0.0.0.0:9000/health/ready
+            timeout: 20s
+            interval: 5s
             retries: 15
         environment:
             JAVA_OPTS_APPEND: -Dkeycloak.profile.feature.upload_scripts=enabled
@@ -53,7 +53,8 @@ services:
             postgres:
                 condition: service_healthy
         networks:
-            - mally-network
+            - public
+            - private
         command: start --hostname ${KEYCLOAK_URL} --import-realm
 
     api:
@@ -63,9 +64,9 @@ services:
             dockerfile: ./apps/api/Dockerfile
         restart: unless-stopped
         healthcheck:
-            test: [ "CMD", "curl", "-f", "http://0.0.0.0:8080/health/" ]
-            timeout: 45s
-            interval: 10s
+            test: curl -f http://0.0.0.0:8080/health
+            timeout: 20s
+            interval: 5s
             retries: 15
         environment:
             DATABASE_URL: ${POSTGRES_URL}
@@ -75,10 +76,11 @@ services:
             FRONTEND_URL: ${FRONTEND_URL}
         env_file:
             -  .env
-        volumes:
-            - ./logs/api:/app/logs/api
         networks:
-            - mally-network
+            - public
+            - private
+#        extra_hosts:
+#            - "auth.localhost:nginx"
         depends_on:
             postgres:
                 condition: service_healthy
@@ -89,10 +91,16 @@ services:
         container_name: mally-ui
         build:
             context: .
-            dockerfile: ./apps/ui/Dockerfile
+            dockerfile: ./apps/ui/dev.Dockerfile
+        healthcheck:
+            test: curl -f http://localhost || exit 1
+            timeout: 45s
+            interval: 10s
+            retries: 15
         restart: unless-stopped
         networks:
-            - mally-network
+            - public
+            - private
         depends_on:
             api:
                 condition: service_healthy
@@ -103,10 +111,19 @@ services:
         container_name: mally-nginx
         build:
             context: .
+            args:
+                - environment=development
             dockerfile: ./infra/nginx/Dockerfile
+        healthcheck:
+            test: curl -f http://localhost || exit 1
+            timeout: 20s
+            interval: 5s
+            retries: 15
         restart: unless-stopped
+        env_file:
+            - .env
         networks:
-            - mally-network
+            - public
         depends_on:
             - api
             - ui
@@ -114,46 +131,61 @@ services:
             - '80:80'
             - '443:443'
         volumes:
-            - ./certbot/www/:/var/www/certbot/:rw
-            - ./certbot/conf/:/etc/letsencrypt/:rw
+            - letsencrypt:/etc/letsencrypt
+            - ./local_ca/:/etc/local_ca
 
     loki:
         container_name: mally-loki
         build:
             context: .
             dockerfile: ./infra/loki/Dockerfile
+        healthcheck:
+            test: wget --no-verbose --tries=1 --spider http://localhost:3100/ready || exit 1
+            timeout: 45s
+            interval: 10s
+            retries: 15
         restart: unless-stopped
         command: -config.file=/etc/loki/loki.yml
         networks:
-            - mally-network
+            - private
 
-    promtail:
-        container_name: mally-promtail
-        build:
-            context: .
-            dockerfile: ./infra/promtail/Dockerfile
+    node-exporter:
+        container_name: mally-node-exporter
+        image: bitnami/node-exporter:1.8.2
+        healthcheck:
+            test: curl -f http://localhost:9100/metrics || exit 1
+            timeout: 45s
+            interval: 10s
+            retries: 15
         restart: unless-stopped
-        volumes:
-            - ./logs/api/:/var/log/
-        command: -config.file=/etc/promtail/promtail.yml
         networks:
-            - mally-network
+            - private
 
     prometheus:
         container_name: mally-prometheus
         build:
             context: .
             dockerfile: ./infra/prometheus/Dockerfile
+        healthcheck:
+            test: wget --no-verbose --tries=1 --spider http://localhost:9090 || exit 1
+            timeout: 45s
+            interval: 10s
+            retries: 15
         restart: unless-stopped
         command: '--config.file=/etc/prometheus/config.yml'
         networks:
-            - mally-network
+            - private
 
     grafana:
         container_name: mally-grafana
         build:
             context: .
             dockerfile: ./infra/grafana/Dockerfile
+        healthcheck:
+            test: curl -f http://localhost:3000/
+            timeout: 45s
+            interval: 10s
+            retries: 15
         restart: unless-stopped
         environment:
             GF_SECURITY_ADMIN_USER: ${GRAFANA_USER}
@@ -163,12 +195,19 @@ services:
         volumes:
             - grafana:/var/lib/grafana
         networks:
-            - mally-network
+            - public
+            - private
 
 volumes:
     postgres:
     grafana:
+    letsencrypt:
 
 networks:
-    mally-network:
-        name: mally-network
+    public:
+    private:
+        driver: bridge
+        ipam:
+            config:
+                - subnet: "10.0.0.0/19"
+                  gateway: "10.0.0.1"

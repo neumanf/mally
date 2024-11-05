@@ -2,6 +2,8 @@ package com.mally.api.configuration;
 
 import com.mally.api.auth.UserJwtConverter;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
@@ -26,6 +28,8 @@ import java.util.List;
 @EnableMethodSecurity
 @RequiredArgsConstructor
 public class WebSecurityConfig {
+    Logger log = LoggerFactory.getLogger(WebSecurityConfig.class);
+
     @Value("${mally.client.url}")
     private String clientUrl;
 
