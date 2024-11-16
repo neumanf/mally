@@ -14,7 +14,7 @@ FROM eclipse-temurin:21-jre-alpine
 
 ENV ARTIFACT_NAME=api-0.0.1-SNAPSHOT.jar
 ENV APP_HOME=/app
-ENV CONFIGURATION_FILE=application.prod.yml
+ENV CONFIGURATION_FILE=application.testing.yml
 
 RUN apk add curl
 

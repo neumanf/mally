@@ -33,7 +33,7 @@ export class UrlShortenerService {
     findAll(options: PaginationParams = {}) {
         const params = ObjectUtils.filterDefinedValues(options);
 
-        return this.httpService.get<UrlsResponse>(this.BASE_PATH + '/', {
+        return this.httpService.get<UrlsResponse>(this.BASE_PATH, {
             params,
         });
     }

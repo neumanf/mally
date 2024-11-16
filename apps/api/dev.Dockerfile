@@ -14,10 +14,13 @@ FROM eclipse-temurin:21-jre-alpine
 
 ENV ARTIFACT_NAME=api-0.0.1-SNAPSHOT.jar
 ENV APP_HOME=/app
+ENV CONFIGURATION_FILE=application.dev.yml
+
+RUN apk add curl
 
 WORKDIR $APP_HOME
 
 COPY --from=builder $APP_HOME/target/$ARTIFACT_NAME .
-COPY --from=builder /app/src/main/resources/application.testing.yml ./application.testing.yml
+COPY --from=builder /app/src/main/resources/$CONFIGURATION_FILE ./$CONFIGURATION_FILE
 
-ENTRYPOINT exec java -jar ${ARTIFACT_NAME} --spring.config.location=file:/app/application.testing.yml
+ENTRYPOINT exec java -jar ${ARTIFACT_NAME} --spring.config.location=file:/app/$CONFIGURATION_FILE

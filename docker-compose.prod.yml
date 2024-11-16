@@ -1,9 +1,6 @@
 services:
     postgres:
-        container_name: mally-postgres
-        build:
-            context: .
-            dockerfile: ./infra/postgres/Dockerfile
+        image: ghcr.io/neumanf/mally-postgres
         restart: unless-stopped
         healthcheck:
             test: pg_isready -q -d keycloak -U postgres
@@ -22,10 +19,7 @@ services:
             - postgres:/var/lib/postgresql/data
 
     keycloak:
-        container_name: mally-keycloak
-        build:
-            context: .
-            dockerfile: ./infra/keycloak/Dockerfile
+        image: ghcr.io/neumanf/mally-keycloak
         restart: unless-stopped
         healthcheck:
             test: curl -f http://0.0.0.0:9000/health/ready
@@ -58,10 +52,7 @@ services:
         command: start --hostname ${KEYCLOAK_URL} --import-realm
 
     api:
-        container_name: mally-api
-        build:
-            context: .
-            dockerfile: ./apps/api/Dockerfile
+        image: ghcr.io/neumanf/mally-api
         restart: unless-stopped
         healthcheck:
             test: curl -f http://0.0.0.0:8080/health
@@ -88,10 +79,7 @@ services:
                 condition: service_healthy
 
     ui:
-        container_name: mally-ui
-        build:
-            context: .
-            dockerfile: ./apps/ui/dev.Dockerfile
+        image: ghcr.io/neumanf/mally-ui
         healthcheck:
             test: curl -f http://localhost || exit 1
             timeout: 45s
@@ -108,12 +96,7 @@ services:
                 condition: service_healthy
 
     nginx:
-        container_name: mally-nginx
-        build:
-            context: .
-            args:
-                - environment=development
-            dockerfile: ./infra/nginx/Dockerfile
+        image: ghcr.io/neumanf/mally-nginx
         healthcheck:
             test: curl -f http://localhost || exit 1
             timeout: 20s
@@ -135,10 +118,7 @@ services:
             - ./local_ca/:/etc/local_ca
 
     loki:
-        container_name: mally-loki
-        build:
-            context: .
-            dockerfile: ./infra/loki/Dockerfile
+        image: ghcr.io/neumanf/mally-loki
         healthcheck:
             test: wget --no-verbose --tries=1 --spider http://localhost:3100/ready || exit 1
             timeout: 45s
@@ -162,10 +142,7 @@ services:
             - private
 
     prometheus:
-        container_name: mally-prometheus
-        build:
-            context: .
-            dockerfile: ./infra/prometheus/Dockerfile
+        image: ghcr.io/neumanf/mally-prometheus
         healthcheck:
             test: wget --no-verbose --tries=1 --spider http://localhost:9090 || exit 1
             timeout: 45s
@@ -177,10 +154,7 @@ services:
             - private
 
     grafana:
-        container_name: mally-grafana
-        build:
-            context: .
-            dockerfile: ./infra/grafana/Dockerfile
+        image: ghcr.io/neumanf/mally-grafana
         healthcheck:
             test: curl -f http://localhost:3000/
             timeout: 45s

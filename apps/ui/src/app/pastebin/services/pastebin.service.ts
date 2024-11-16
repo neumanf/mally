@@ -36,7 +36,7 @@ export class PastebinService {
     findAll(options: PaginationParams = {}) {
         const params = ObjectUtils.filterDefinedValues(options);
 
-        return this.httpService.get<PastesReponse>(this.BASE_PATH + '/', {
+        return this.httpService.get<PastesReponse>(this.BASE_PATH, {
             params,
         });
     }

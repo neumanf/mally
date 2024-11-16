@@ -18,7 +18,6 @@ jobs:
                     - infra/postgres
                     - infra/keycloak
                     - infra/nginx
-                    - infra/promtail
                     - infra/loki
                     - infra/prometheus
                     - infra/grafana
@@ -55,6 +54,5 @@ jobs:
         - name: Deploy
           run: |
             cd $HOME/mally && 
-            docker compose -f docker-compose.stack.yml pull && 
-            export $(cat .env) &&
-            docker stack deploy -c docker-compose.stack.yml mally
+            docker compose pull && 
+            docker compose up -d

@@ -15,7 +15,7 @@ services:
         env_file:
             - .env
         networks:
-            - mally-network
+            - private
         volumes:
             - postgres:/var/lib/postgresql/data
 
@@ -44,7 +44,8 @@ services:
         env_file:
             - .env
         networks:
-            - mally-network
+            - public
+            - private
         command: start --hostname ${KEYCLOAK_URL} --import-realm
 
     api:
@@ -62,10 +63,9 @@ services:
             FRONTEND_URL: ${FRONTEND_URL}
         env_file:
             - .env
-        volumes:
-            - ./logs/api:/app/logs/api
         networks:
-            - mally-network
+            - public
+            - private
         deploy:
             mode: replicated
             replicas: 2
@@ -73,19 +73,17 @@ services:
                 order: start-first
                 failure_action: rollback
                 delay: 5s
-            placement:
-                constraints:
-                    - node.role == manager
 
     ui:
         image: ghcr.io/neumanf/mally-ui
         healthcheck:
-            test: curl -f http://localhost || exit 1
+            test: service nginx status || exit 1
             timeout: 45s
             interval: 10s
             retries: 15
         networks:
-            - mally-network
+            - public
+            - private
         deploy:
             mode: replicated
             replicas: 2
@@ -97,18 +95,19 @@ services:
     nginx:
         image: ghcr.io/neumanf/mally-nginx
         healthcheck:
-            test: curl -f http://localhost || exit 1
+            test: service nginx status || exit 1
             timeout: 45s
             interval: 10s
             retries: 15
         networks:
-            - mally-network
+            - public
+        env_file:
+            - .env
         ports:
             - '80:80'
             - '443:443'
         volumes:
-            - ./certbot/www/:/var/www/certbot/:rw
-            - ./certbot/conf/:/etc/letsencrypt/:rw
+            - letsencrypt:/etc/letsencrypt
         deploy:
             restart_policy:
                 condition: on-failure
@@ -127,20 +126,12 @@ services:
             retries: 15
         command: -config.file=/etc/loki/loki.yml
         networks:
-            - mally-network
+            - private
 
-    promtail:
-        image: ghcr.io/neumanf/mally-promtail
-        healthcheck:
-            test: wget --no-verbose --tries=1 --spider http://localhost:9080/ready || exit 1
-            timeout: 45s
-            interval: 10s
-            retries: 15
-        volumes:
-            - ./logs/api/:/var/log/
-        command: -config.file=/etc/promtail/promtail.yml
+    node-exporter:
+        image: bitnami/node-exporter:1.8.2
         networks:
-            - mally-network
+            - private
 
     prometheus:
         image: ghcr.io/neumanf/mally-prometheus
@@ -151,7 +142,7 @@ services:
             retries: 15
         command: '--config.file=/etc/prometheus/config.yml'
         networks:
-            - mally-network
+            - private
 
     grafana:
         image: ghcr.io/neumanf/mally-grafana
@@ -168,12 +159,17 @@ services:
         volumes:
             - grafana:/var/lib/grafana
         networks:
-            - mally-network
+            - public
+            - private
 
 volumes:
     postgres:
     grafana:
+    letsencrypt:
 
 networks:
-    mally-network:
-        name: mally-network
+    public:
+        driver: overlay
+    private:
+        driver: overlay
+        internal: true

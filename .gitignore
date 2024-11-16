@@ -10,3 +10,4 @@ node_modules/
 screenshots/
 logs/
 .env
+local_ca/
