@@ -1,9 +1,9 @@
-package com.mally.api.urlshortener.services;
+package com.mally.api.urlshortener.infrastructure.services;
 
 import com.mally.api.shared.utils.PaginationUtils;
-import com.mally.api.urlshortener.dtos.ShortenUrlDTO;
-import com.mally.api.urlshortener.entities.Url;
-import com.mally.api.urlshortener.repositories.UrlShortenerRepository;
+import com.mally.api.urlshortener.application.dtos.ShortenUrlRequest;
+import com.mally.api.urlshortener.domain.entities.Url;
+import com.mally.api.urlshortener.infrastructure.persistence.repositories.UrlShortenerRepository;
 import io.github.thibaultmeyer.cuid.CUID;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.EntityManager;
@@ -11,7 +11,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
 
 import java.time.ZonedDateTime;
 import java.util.List;
@@ -47,12 +46,12 @@ public class UrlShortenerService {
         return url.map(Url::getUrl);
     }
 
-    public Url save(ShortenUrlDTO dto, String userId) {
+    public Url save(ShortenUrlRequest dto, String userId) {
         final CUID slug = CUID.randomCUID2(8);
         final ZonedDateTime createdAt = ZonedDateTime.now();
 
         final Url url = Url.builder()
-                .url(dto.getUrl())
+                .url(dto.url())
                 .slug(slug.toString())
                 .custom(false)
                 .userId(userId)

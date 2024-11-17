@@ -1,11 +1,13 @@
-package com.mally.api.urlshortener;
+package com.mally.api.urlshortener.infrastructure.web;
 
 import com.mally.api.auth.AuthenticationManager;
 import com.mally.api.auth.UserJwt;
-import com.mally.api.shared.rest.dtos.ApiResponseDTO;
-import com.mally.api.urlshortener.dtos.ShortenUrlDTO;
-import com.mally.api.urlshortener.entities.Url;
-import com.mally.api.urlshortener.services.UrlShortenerService;
+import com.mally.api.shared.rest.dtos.ApiResponse;
+import com.mally.api.urlshortener.application.dtos.RedirectUrlResponse;
+import com.mally.api.urlshortener.application.dtos.ShortenUrlRequest;
+import com.mally.api.urlshortener.application.usecases.RedirectUrlUseCase;
+import com.mally.api.urlshortener.domain.entities.Url;
+import com.mally.api.urlshortener.infrastructure.services.UrlShortenerService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -15,8 +17,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/url-shortener")
@@ -24,6 +24,8 @@ import java.util.Optional;
 public class UrlShortenerController {
 
     private final UrlShortenerService urlShortenerService;
+
+    private final RedirectUrlUseCase redirectUrlUseCase;
 
     @GetMapping()
     public ResponseEntity<Page<Url>> findAll(
@@ -44,40 +46,30 @@ public class UrlShortenerController {
     }
 
     @GetMapping("/redirect/{slug}")
-    public ResponseEntity<ApiResponseDTO> redirect(@PathVariable String slug) {
-        final Optional<String> longUrl = urlShortenerService.findLongUrl(slug);
+    public ApiResponse redirect(@PathVariable String slug) {
+        String longUrl = redirectUrlUseCase.execute(slug);
 
-        if (longUrl.isEmpty()) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(ApiResponseDTO.error("URL not found or expired.", List.of()));
-        }
-
-        Map<String, String> data = Map.of("url", longUrl.get());
-
-        return ResponseEntity
-                .ok()
-                .body(ApiResponseDTO.success("Redirected successfully.", data));
+        return ApiResponse.success("Redirected successfully.", new RedirectUrlResponse(longUrl));
     }
 
     @PostMapping("/shorten")
-    public ResponseEntity<ApiResponseDTO> shorten(@Valid @RequestBody ShortenUrlDTO dto) {
+    public ResponseEntity<ApiResponse> shorten(@Valid @RequestBody ShortenUrlRequest dto) {
         var userId = AuthenticationManager.getAuthenticatedUser().map(UserJwt::getId).orElse(null);
         final Url url = urlShortenerService.save(dto, userId);
-        return ResponseEntity.ok().body(ApiResponseDTO.success("URL shortened successfully.", url));
+        return ResponseEntity.ok().body(ApiResponse.success("URL shortened successfully.", url));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ApiResponseDTO> delete(@PathVariable Long id) {
+    public ResponseEntity<ApiResponse> delete(@PathVariable Long id) {
         urlShortenerService.delete(id);
 
-        return ResponseEntity.ok(ApiResponseDTO.success("URL deleted.", null));
+        return ResponseEntity.ok(ApiResponse.success("URL deleted.", null));
     }
 
     @DeleteMapping("bulk")
-    public ResponseEntity<ApiResponseDTO> bulkDelete(@RequestParam List<Long> id) {
+    public ResponseEntity<ApiResponse> bulkDelete(@RequestParam List<Long> id) {
         urlShortenerService.deleteMany(id);
 
-        return ResponseEntity.ok(ApiResponseDTO.success("URLs deleted.", null));
+        return ResponseEntity.ok(ApiResponse.success("URLs deleted.", null));
     }
 }

@@ -1,6 +1,6 @@
-package com.mally.api.urlshortener.repositories;
+package com.mally.api.urlshortener.infrastructure.persistence.repositories;
 
-import com.mally.api.urlshortener.entities.Url;
+import com.mally.api.urlshortener.domain.entities.Url;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

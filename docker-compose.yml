@@ -59,6 +59,16 @@ services:
             - '9000:9000'
         command: start --hostname http://localhost:9090 --import-realm
 
+    rabbitmq:
+        container_name: mally-rabbitmq
+        image: rabbitmq:4.0-management-alpine
+        environment:
+            - RABBITMQ_DEFAULT_USER=mally
+            - RABBITMQ_DEFAULT_PASS=mally
+        ports:
+            - "5672:5672"
+            - "15672:15672"
+
 volumes:
     postgres:
 

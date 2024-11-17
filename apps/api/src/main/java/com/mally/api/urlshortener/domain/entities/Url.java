@@ -1,4 +1,4 @@
-package com.mally.api.urlshortener.entities;
+package com.mally.api.urlshortener.domain.entities;
 
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;

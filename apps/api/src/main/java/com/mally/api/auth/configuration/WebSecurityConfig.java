@@ -1,4 +1,4 @@
-package com.mally.api.configuration;
+package com.mally.api.auth.configuration;
 
 import com.mally.api.auth.UserJwtConverter;
 import lombok.RequiredArgsConstructor;
