@@ -59,6 +59,32 @@ services:
             - '9000:9000'
         command: start --hostname http://localhost:9090 --import-realm
 
+    rabbitmq:
+        container_name: mally-rabbitmq
+        image: rabbitmq:4.0-management-alpine
+        environment:
+            RABBITMQ_DEFAULT_USER: ${RABBIT_USER:-mally}
+            RABBITMQ_DEFAULT_PASS: ${RABBIT_PASSWORD:-mally}
+        ports:
+            - "5672:5672"
+            - "15672:15672"
+
+    influxdb:
+        container_name: mally-influxdb
+        image: influxdb:2-alpine
+        ports:
+            - "8086:8086"
+        environment:
+            DOCKER_INFLUXDB_INIT_MODE: setup
+            DOCKER_INFLUXDB_INIT_USERNAME: ${INFLUX_USER:-mally}
+            DOCKER_INFLUXDB_INIT_PASSWORD: ${INFLUX_PASSWORD:-mally123}
+            DOCKER_INFLUXDB_INIT_ADMIN_TOKEN: ${INFLUX_TOKEN:-mally123}
+            DOCKER_INFLUXDB_INIT_ORG: ${INFLUX_ORG:-mally}
+            DOCKER_INFLUXDB_INIT_BUCKET: ${INFLUX_BUCKET:-mally}
+        volumes:
+            - influxdb2-data:/var/lib/influxdb2
+            - influxdb2-config:/etc/influxdb2
+
     api:
         container_name: mally-api
         build:
@@ -77,6 +103,8 @@ services:
 
 volumes:
     postgres:
+    influxdb2-data:
+    influxdb2-config:
 
 networks:
     mally-network:

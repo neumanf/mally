@@ -4,7 +4,7 @@ import { KeycloakService } from '../../../auth/services/keycloak.service';
 import { User } from '../../../auth/interfaces/user';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { AvatarModule } from 'primeng/avatar';
-import { NgClass, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
+import { NgClass, NgTemplateOutlet } from '@angular/common';
 import { TablerIconComponent } from 'angular-tabler-icons';
 
 type SidebarItem = {
@@ -26,8 +26,6 @@ type SidebarItem = {
         OverlayPanelModule,
         NgClass,
         RouterLink,
-        NgFor,
-        NgIf,
         RouterOutlet,
         TablerIconComponent,
     ],

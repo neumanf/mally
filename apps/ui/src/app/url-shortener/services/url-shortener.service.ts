@@ -24,6 +24,12 @@ export type PaginationParams = {
     pageSize?: string;
 };
 
+export type UrlClickHistoryPoint = {
+    timestamp: string;
+};
+
+export type UrlClickHistory = ApiResponse<UrlClickHistoryPoint[]>;
+
 @Injectable()
 export class UrlShortenerService {
     private readonly BASE_PATH = '/url-shortener';
@@ -61,5 +67,11 @@ export class UrlShortenerService {
                 id: ids.map((id) => id.toString()),
             },
         });
+    }
+
+    getHistory(id: number) {
+        return this.httpService.get<UrlClickHistory>(
+            this.BASE_PATH + '/' + id + '/history',
+        );
     }
 }

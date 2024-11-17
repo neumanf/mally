@@ -77,13 +77,13 @@
             </td>
             <td>
                 <a
-                    class="text-red-400"
+                    class="!text-red-400"
                     [href]="window.location.origin + '/s/' + url.slug"
                     >{{ window.location.hostname + '/s/' + url.slug }}</a
                 >
             </td>
             <td>
-                <a class="text-red-400" [href]="url.url">{{ url.url }}</a>
+                <a class="!text-red-400" [href]="url.url">{{ url.url }}</a>
             </td>
             <td>
                 @if (url.custom) {
@@ -114,7 +114,14 @@
                     [model]="optionsItems"
                     [popup]="true"
                     appendTo="body"
-                />
+                >
+                    <ng-template #item let-item>
+                        <a class="flex items-center p-menu-item-link">
+                            <i-tabler [name]="item.icon"></i-tabler>
+                            <span class="ml-2">{{ item.label }}</span>
+                        </a>
+                    </ng-template>
+                </p-menu>
                 <app-button
                     (click)="openOptionsMenu(options, $event, url)"
                     iconName="dots-vertical"
@@ -123,3 +130,28 @@
         </tr>
     </ng-template>
 </p-table>
+
+<p-dialog
+    header="Click history"
+    [modal]="true"
+    [(visible)]="historyVisible"
+    [style]="{ width: '70rem', height: '30rem', maxWidth: '100vw' }"
+>
+    @if (loadingHistory()) {
+        <i-tabler
+            name="loader-2"
+            class="absolute top-1/2 left-1/2 mr-24 animate-spin"
+            style="width: 24px; height: 24px"
+        ></i-tabler>
+    } @else {
+        @if (history()) {
+            <p-chart
+                type="line"
+                [data]="history()"
+                [options]="historyChartOptions()"
+            />
+        } @else {
+            <p>No data found</p>
+        }
+    }
+</p-dialog>

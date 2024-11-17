@@ -2,7 +2,7 @@ package com.mally.api.shared.schedulers;
 
 
 import com.mally.api.pastebin.services.PastebinService;
-import com.mally.api.urlshortener.services.UrlShortenerService;
+import com.mally.api.urlshortener.infrastructure.services.UrlShortenerService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.EnableScheduling;

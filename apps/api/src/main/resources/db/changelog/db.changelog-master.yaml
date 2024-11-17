@@ -9,3 +9,5 @@ databaseChangeLog:
         file: 'db/changelog/scripts/v4-add-user-id-to-url-and-paste.yaml'
     - include:
         file: 'db/changelog/scripts/v5-add-title-to-paste.yaml'
+    - include:
+        file: 'db/changelog/scripts/v6-rename-table-and-columns-url.yaml'

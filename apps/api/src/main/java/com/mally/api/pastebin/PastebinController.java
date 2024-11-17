@@ -5,7 +5,7 @@ import com.mally.api.auth.UserJwt;
 import com.mally.api.pastebin.dtos.CreatePasteDTO;
 import com.mally.api.pastebin.entities.Paste;
 import com.mally.api.pastebin.services.PastebinService;
-import com.mally.api.shared.rest.dtos.ApiResponseDTO;
+import com.mally.api.shared.rest.dtos.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -33,7 +33,7 @@ public class PastebinController {
     ) {
         var userId = AuthenticationManager.getAuthenticatedUser().map(UserJwt::getId).orElseThrow();
         var result = pastebinService.findAll(
-                userId,
+                userId.value(),
                 search,
                 PageRequest.of(pageNumber, pageSize, Sort.by(orderBy.equalsIgnoreCase("ASC") ? Sort.Direction.ASC : Sort.Direction.DESC, sortBy))
         );
@@ -42,37 +42,37 @@ public class PastebinController {
     }
 
     @GetMapping("/paste/{slug}")
-    public ResponseEntity<ApiResponseDTO> findPaste(@PathVariable String slug) {
+    public ResponseEntity<ApiResponse> findPaste(@PathVariable String slug) {
         return pastebinService.findBySlug(slug)
                     .map(p -> ResponseEntity
                             .ok()
-                            .body(ApiResponseDTO.success("Paste found successfully.", p)))
+                            .body(ApiResponse.success("Paste found successfully.", p)))
                     .orElseGet(() -> ResponseEntity
                             .badRequest()
-                            .body(ApiResponseDTO.error("Paste not found.", List.of())));
+                            .body(ApiResponse.error("Paste not found.", List.of())));
     }
 
     @PostMapping("/paste")
-    public ResponseEntity<ApiResponseDTO> paste(@Valid @RequestBody CreatePasteDTO dto) {
+    public ResponseEntity<ApiResponse> paste(@Valid @RequestBody CreatePasteDTO dto) {
         var userId = AuthenticationManager.getAuthenticatedUser().map(UserJwt::getId).orElse(null);
-        var paste = pastebinService.create(dto, userId);
+        var paste = pastebinService.create(dto, userId.value());
 
         return ResponseEntity
                     .ok()
-                    .body(ApiResponseDTO.success("Paste created successfully.", paste));
+                    .body(ApiResponse.success("Paste created successfully.", paste));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ApiResponseDTO> delete(@PathVariable Long id) {
+    public ResponseEntity<ApiResponse> delete(@PathVariable Long id) {
         pastebinService.delete(id);
 
-        return ResponseEntity.ok(ApiResponseDTO.success("Paste deleted successfully.", null));
+        return ResponseEntity.ok(ApiResponse.success("Paste deleted successfully.", null));
     }
 
     @DeleteMapping("bulk")
-    public ResponseEntity<ApiResponseDTO> bulkDelete(@RequestParam List<Long> id) {
+    public ResponseEntity<ApiResponse> bulkDelete(@RequestParam List<Long> id) {
         pastebinService.deleteMany(id);
 
-        return ResponseEntity.ok(ApiResponseDTO.success("Pastes deleted successfully.", null));
+        return ResponseEntity.ok(ApiResponse.success("Pastes deleted successfully.", null));
     }
 }

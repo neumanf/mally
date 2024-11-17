@@ -51,6 +51,27 @@ services:
             - private
         command: start --hostname ${KEYCLOAK_URL} --import-realm
 
+    rabbitmq:
+        container_name: mally-rabbitmq
+        image: rabbitmq:4.0-management-alpine
+        environment:
+            RABBITMQ_DEFAULT_USER: ${RABBIT_USER}
+            RABBITMQ_DEFAULT_PASS: ${RABBIT_PASSWORD}
+
+    influxdb:
+        container_name: mally-influxdb
+        image: influxdb:2-alpine
+        environment:
+            DOCKER_INFLUXDB_INIT_MODE: setup
+            DOCKER_INFLUXDB_INIT_USERNAME: ${INFLUX_USER}
+            DOCKER_INFLUXDB_INIT_PASSWORD: ${INFLUX_PASSWORD}
+            DOCKER_INFLUXDB_INIT_ADMIN_TOKEN: ${INFLUX_TOKEN}
+            DOCKER_INFLUXDB_INIT_ORG: ${INFLUX_ORG}
+            DOCKER_INFLUXDB_INIT_BUCKET: ${INFLUX_BUCKET:-mally}
+        volumes:
+            - influxdb2-data:/var/lib/influxdb2
+            - influxdb2-config:/etc/influxdb2
+
     api:
         image: ghcr.io/neumanf/mally-api
         restart: unless-stopped
@@ -176,6 +197,8 @@ volumes:
     postgres:
     grafana:
     letsencrypt:
+    influxdb2-data:
+    influxdb2-config:
 
 networks:
     public:

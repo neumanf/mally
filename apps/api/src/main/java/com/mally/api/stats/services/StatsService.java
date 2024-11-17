@@ -2,7 +2,7 @@ package com.mally.api.stats.services;
 
 import com.mally.api.pastebin.services.PastebinService;
 import com.mally.api.stats.dtos.DashboardStatsDTO;
-import com.mally.api.urlshortener.services.UrlShortenerService;
+import com.mally.api.urlshortener.infrastructure.services.UrlShortenerService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

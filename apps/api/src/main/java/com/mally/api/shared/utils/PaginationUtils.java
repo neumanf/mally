@@ -1,14 +1,10 @@
 package com.mally.api.shared.utils;
 
-import com.mally.api.pastebin.entities.Paste;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.criteria.*;
 import org.hibernate.query.sqm.tree.SqmCopyContext;
 import org.hibernate.query.sqm.tree.predicate.SqmPredicate;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -105,5 +101,9 @@ public class PaginationUtils {
             copyContext.registerCopy(join, joined);
             doJoins(join.getJoins(), joined, copyContext);
         }
+    }
+
+    public static Pageable buildPageable(int pageNumber, int pageSize, String orderBy, String sortBy) {
+        return PageRequest.of(pageNumber, pageSize, Sort.by(orderBy.equalsIgnoreCase("ASC") ? Sort.Direction.ASC : Sort.Direction.DESC, sortBy));
     }
 }

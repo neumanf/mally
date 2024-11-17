@@ -19,7 +19,6 @@ import {
 import { DateUtils } from '../../../shared/utils/date';
 import { DatePipe } from '@angular/common';
 import { TooltipModule } from 'primeng/tooltip';
-import { Button } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
@@ -39,7 +38,7 @@ import { InputIcon } from 'primeng/inputicon';
         TableModule,
         PrimeTemplate,
         InputTextModule,
-        Button,
+        ButtonComponent,
         TooltipModule,
         MenuModule,
         DatePipe,

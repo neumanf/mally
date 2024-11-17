@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Paste, PastebinService } from '../../services/pastebin.service';
 import { Highlight } from 'ngx-highlightjs';
-import { NgForOf, NgIf } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { ToastService } from '../../../shared/services/toast/toast.service';
 import { ClipboardService } from 'ngx-clipboard';
@@ -24,10 +23,8 @@ import { ButtonComponent } from '../../../shared/components/button/button.compon
     imports: [
         Highlight,
         HighlightLineNumbers,
-        NgIf,
         ButtonModule,
         SkeletonModule,
-        NgForOf,
         DialogModule,
         FormsModule,
         PasswordModule,

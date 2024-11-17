@@ -82,7 +82,7 @@
             </td>
             <td>
                 <a
-                    class="text-red-400"
+                    class="!text-red-400"
                     [href]="window.location.origin + '/p/' + paste.slug"
                     >{{ window.location.hostname + '/p/' + paste.slug }}</a
                 >
@@ -113,7 +113,14 @@
                     [model]="optionsItems"
                     [popup]="true"
                     appendTo="body"
-                />
+                >
+                    <ng-template #item let-item>
+                        <a class="flex items-center p-menu-item-link">
+                            <i-tabler [name]="item.icon"></i-tabler>
+                            <span class="ml-2">{{ item.label }}</span>
+                        </a>
+                    </ng-template>
+                </p-menu>
                 <app-button
                     (click)="openOptionsMenu(options, $event, paste)"
                     iconName="dots-vertical"

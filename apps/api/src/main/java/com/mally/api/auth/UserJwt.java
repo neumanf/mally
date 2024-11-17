@@ -1,5 +1,6 @@
 package com.mally.api.auth;
 
+import com.mally.api.auth.domain.valueobjects.UserId;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
@@ -21,7 +22,7 @@ public class UserJwt extends JwtAuthenticationToken {
         super(jwt, authorities);
     }
 
-    public String getId() {
-        return getName();
+    public UserId getId() {
+        return new UserId(getName());
     }
 }
