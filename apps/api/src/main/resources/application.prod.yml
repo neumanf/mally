@@ -21,6 +21,9 @@ spring:
                 jwt:
                     issuer-uri: ${KEYCLOAK_ISSUER_URL}
 
+logging:
+  config: classpath:logback-prod.xml
+
 management:
   endpoints:
     web:

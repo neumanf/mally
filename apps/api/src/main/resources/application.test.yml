@@ -21,6 +21,9 @@ spring:
                 jwt:
                     issuer-uri: "http://keycloak:9090/realms/mally"
 
+logging:
+    config: classpath:logback-test.xml
+
 bucket4j:
     enabled: true
     filter-config-caching-enabled: true
