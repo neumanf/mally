@@ -63,7 +63,7 @@ services:
         container_name: mally-api
         build:
             context: .
-            dockerfile: ./apps/api/testing.Dockerfile
+            dockerfile: ./apps/api/test.Dockerfile
         restart: unless-stopped
         networks:
             - mally-network
