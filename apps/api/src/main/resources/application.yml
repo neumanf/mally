@@ -21,6 +21,20 @@ spring:
           jwt:
             issuer-uri: "http://localhost:9090/realms/mally"
 
+    rabbitmq:
+        host: localhost
+        port: 5672
+        username: mally
+        password: mally
+
+influx:
+    url: http://localhost:8086
+    username: mally
+    password: mally123
+    token: mally123
+    org: mally
+    bucket: mally
+
 logging:
     config: classpath:logback-test.xml
 
