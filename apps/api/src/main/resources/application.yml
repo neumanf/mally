@@ -1,8 +1,8 @@
 spring:
     datasource:
-        url: jdbc:postgresql://localhost:5432/mally
-        username: postgres
-        password: postgres
+        url: jdbc:${POSTGRES_URL:postgresql://localhost:5432/mally}
+        username: ${POSTGRES_USER:postgres}
+        password: ${POSTGRES_PASSWORD:postgres}
         driverClassName: org.postgresql.Driver
 
     jpa:
@@ -19,7 +19,21 @@ spring:
       oauth2:
         resourceserver:
           jwt:
-            issuer-uri: "http://localhost:9090/realms/mally"
+            issuer-uri: ${KEYCLOAK_ISSUER_URL:http://localhost:9090/realms/mally}
+
+    rabbitmq:
+        host: ${RABBITMQ_HOST:localhost}
+        port: ${RABBITMQ_PORT:5672}
+        username: ${RABBITMQ_USER:mally}
+        password: ${RABBITMQ_PASSWORD:mally}
+
+influx:
+    url: ${INFLUX_URL:http://localhost:8086}
+    username: ${INFLUX_USER:mally}
+    password: ${INFLUX_PASSWORD:mally123}
+    token: ${INFLUX_TOKEN:mally123}
+    org: ${INFLUX_ORG:mally}
+    buckets: url-clicks
 
 logging:
     config: classpath:logback-test.xml
@@ -31,4 +45,4 @@ bucket4j:
 
 mally:
     client:
-        url: 'http://localhost:4200'
+        url: ${FRONTEND_URL:http://localhost:4200}

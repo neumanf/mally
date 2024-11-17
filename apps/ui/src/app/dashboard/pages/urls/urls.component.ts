@@ -1,6 +1,14 @@
-import { Component, TemplateRef, ViewChild } from '@angular/core';
+import {
+    ChangeDetectorRef,
+    Component,
+    OnInit,
+    signal,
+    TemplateRef,
+    ViewChild,
+} from '@angular/core';
 import {
     PaginationParams,
+    UrlClickHistory,
     UrlShortenerService,
 } from '../../../url-shortener/services/url-shortener.service';
 import { Url } from '../../../shared/interfaces/url';
@@ -26,6 +34,11 @@ import { TablerIconComponent } from 'angular-tabler-icons';
 import { ButtonComponent } from '../../../shared/components/button/button.component';
 import { IconField } from 'primeng/iconfield';
 import { InputIcon } from 'primeng/inputicon';
+import { Dialog } from 'primeng/dialog';
+import { UIChart } from 'primeng/chart';
+import dayjs from 'dayjs';
+import { ChartData } from 'chart.js';
+import { finalize } from 'rxjs';
 
 @Component({
     selector: 'app-urls',
@@ -49,12 +62,19 @@ import { InputIcon } from 'primeng/inputicon';
         ButtonComponent,
         IconField,
         InputIcon,
+        Dialog,
+        UIChart,
     ],
     providers: [UrlShortenerService, ConfirmationService],
 })
-export class UrlsComponent {
+export class UrlsComponent implements OnInit {
     @ViewChild('pageHeader', { static: true })
     pageHeaderTemplate!: TemplateRef<never>;
+
+    historyVisible = signal<boolean>(false);
+    loadingHistory = signal<boolean>(false);
+    history = signal<ChartData | null>(null);
+    historyChartOptions = signal({});
 
     data?: Page<Url>;
     selectedUrls: Url[] = [];
@@ -62,6 +82,31 @@ export class UrlsComponent {
         {
             label: 'Options',
             items: [
+                {
+                    label: 'Click history',
+                    icon: 'graph',
+                    command: (event: MenuItemCommandEvent) => {
+                        const id = event.item?.['data']['id'];
+
+                        if (!id) return;
+
+                        this.loadingHistory.set(true);
+                        this.urlShortenerService
+                            .getHistory(id)
+                            .pipe(
+                                finalize(() => this.loadingHistory.set(false)),
+                            )
+                            .subscribe({
+                                next: (history) => this.showHistory(history),
+                                error: (error: HttpErrorResponse) => {
+                                    this.toastService.error(
+                                        error.error.message ??
+                                            'Something went wrong',
+                                    );
+                                },
+                            });
+                    },
+                },
                 {
                     label: 'Delete',
                     icon: 'trash',
@@ -93,7 +138,56 @@ export class UrlsComponent {
         private readonly urlShortenerService: UrlShortenerService,
         private readonly confirmationService: ConfirmationService,
         private readonly toastService: ToastService,
+        private readonly changeDetector: ChangeDetectorRef,
     ) {}
+
+    ngOnInit() {
+        this.initChart();
+    }
+
+    initChart() {
+        const documentStyle = getComputedStyle(document.documentElement);
+        const textColor = documentStyle.getPropertyValue('--p-text-color');
+        const textColorSecondary = documentStyle.getPropertyValue(
+            '--p-text-muted-color',
+        );
+        const surfaceBorder = documentStyle.getPropertyValue(
+            '--p-content-border-color',
+        );
+
+        this.historyChartOptions.set({
+            maintainAspectRatio: false,
+            aspectRatio: 0.6,
+            plugins: {
+                legend: {
+                    labels: {
+                        color: textColor,
+                    },
+                },
+            },
+            scales: {
+                x: {
+                    ticks: {
+                        color: textColorSecondary,
+                    },
+                    grid: {
+                        color: surfaceBorder,
+                        drawBorder: false,
+                    },
+                },
+                y: {
+                    ticks: {
+                        color: textColorSecondary,
+                    },
+                    grid: {
+                        color: surfaceBorder,
+                        drawBorder: false,
+                    },
+                },
+            },
+        });
+        this.changeDetector.detectChanges();
+    }
 
     onLoad(event: TableLazyLoadEvent) {
         this.lastLazyLoadEvent = event;
@@ -174,6 +268,44 @@ export class UrlsComponent {
             item['data'] = url;
         });
         menu.toggle(event);
+    }
+
+    showHistory(history: UrlClickHistory) {
+        this.history.set(null);
+
+        const clicksPerDay: Record<string, number> = {};
+
+        history.data.forEach(({ timestamp }) => {
+            const dayTimestamp = dayjs(timestamp).format('YYYY-MM-DD');
+
+            if (clicksPerDay[dayTimestamp]) {
+                clicksPerDay[dayTimestamp]++;
+            } else {
+                clicksPerDay[dayTimestamp] = 1;
+            }
+        });
+
+        if (Object.entries(clicksPerDay).length === 0)
+            return this.historyVisible.set(true);
+
+        const labels = Object.keys(clicksPerDay);
+        const data = Object.values(clicksPerDay);
+
+        const documentStyle = getComputedStyle(document.documentElement);
+
+        this.history.set({
+            labels,
+            datasets: [
+                {
+                    label: 'Clicks',
+                    data,
+                    borderColor: documentStyle.getPropertyValue('--p-red-500'),
+                    hoverRadius: 12,
+                    pointRadius: 8,
+                },
+            ],
+        });
+        this.historyVisible.set(true);
     }
 
     protected readonly DateUtils = DateUtils;

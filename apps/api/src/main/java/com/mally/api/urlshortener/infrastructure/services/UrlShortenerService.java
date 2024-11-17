@@ -1,9 +1,9 @@
-package com.mally.api.urlshortener.services;
+package com.mally.api.urlshortener.infrastructure.services;
 
 import com.mally.api.shared.utils.PaginationUtils;
-import com.mally.api.urlshortener.dtos.ShortenUrlDTO;
-import com.mally.api.urlshortener.entities.Url;
-import com.mally.api.urlshortener.repositories.UrlShortenerRepository;
+import com.mally.api.urlshortener.application.dtos.ShortenUrlRequest;
+import com.mally.api.urlshortener.domain.entities.Url;
+import com.mally.api.urlshortener.infrastructure.persistence.repositories.JpaUrlShortenerRepository;
 import io.github.thibaultmeyer.cuid.CUID;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.EntityManager;
@@ -11,7 +11,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
 
 import java.time.ZonedDateTime;
 import java.util.List;
@@ -22,7 +21,7 @@ import java.util.Optional;
 public class UrlShortenerService {
     static final Integer EXPIRES_IN_DAYS = 7;
 
-    private final UrlShortenerRepository urlShortenerRepository;
+    private final JpaUrlShortenerRepository jpaUrlShortenerRepository;
     
     private final EntityManager entityManager;
 
@@ -33,11 +32,11 @@ public class UrlShortenerService {
             return PaginationUtils.paginateSearch(entityManager, Url.class, searchFields, search, userId, pageable);
         }
 
-        return urlShortenerRepository.findAllByUserId(userId, pageable);
+        return jpaUrlShortenerRepository.findAllByUserId(userId, pageable);
     }
 
     public Optional<String> findLongUrl(String slug) {
-        final Optional<Url> url = urlShortenerRepository.findBySlug(slug);
+        final Optional<Url> url = jpaUrlShortenerRepository.findBySlug(slug);
         final boolean urlExpired = url.isEmpty() || url.get().getExpiresAt().isBefore(ZonedDateTime.now());
 
         if (urlExpired) {
@@ -47,12 +46,12 @@ public class UrlShortenerService {
         return url.map(Url::getUrl);
     }
 
-    public Url save(ShortenUrlDTO dto, String userId) {
+    public Url save(ShortenUrlRequest dto, String userId) {
         final CUID slug = CUID.randomCUID2(8);
         final ZonedDateTime createdAt = ZonedDateTime.now();
 
         final Url url = Url.builder()
-                .url(dto.getUrl())
+                .url(dto.url())
                 .slug(slug.toString())
                 .custom(false)
                 .userId(userId)
@@ -60,22 +59,22 @@ public class UrlShortenerService {
                 .expiresAt(createdAt.plusDays(EXPIRES_IN_DAYS))
                 .build();
 
-        return urlShortenerRepository.save(url);
+        return jpaUrlShortenerRepository.save(url);
     }
 
     public void deleteExpiredURLs() {
-        urlShortenerRepository.deleteExpiredURLs(ZonedDateTime.now());
+        jpaUrlShortenerRepository.deleteExpiredURLs(ZonedDateTime.now());
     }
 
     public void delete(Long id) {
-        urlShortenerRepository.deleteById(id);
+        jpaUrlShortenerRepository.deleteById(id);
     }
 
     public void deleteMany(List<Long> ids) {
-        urlShortenerRepository.deleteAllById(ids);
+        jpaUrlShortenerRepository.deleteAllById(ids);
     }
 
     public Long getStats(String userId) {
-        return urlShortenerRepository.countByUserId(userId);
+        return jpaUrlShortenerRepository.countByUserId(userId);
     }
 }

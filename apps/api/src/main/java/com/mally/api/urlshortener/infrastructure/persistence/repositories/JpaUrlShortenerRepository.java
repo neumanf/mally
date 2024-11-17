@@ -1,6 +1,6 @@
-package com.mally.api.urlshortener.repositories;
+package com.mally.api.urlshortener.infrastructure.persistence.repositories;
 
-import com.mally.api.urlshortener.entities.Url;
+import com.mally.api.urlshortener.domain.entities.Url;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,9 +14,11 @@ import java.time.ZonedDateTime;
 import java.util.Optional;
 
 @Repository
-public interface UrlShortenerRepository extends CrudRepository<Url, Long> {
+public interface JpaUrlShortenerRepository extends CrudRepository<Url, Long> {
 
     Page<Url> findAllByUserId(String userId, Pageable pageable);
+
+    Optional<Url> findByIdAndUserId(Long id, String userId);
 
     Optional<Url> findBySlug(String slug);
 

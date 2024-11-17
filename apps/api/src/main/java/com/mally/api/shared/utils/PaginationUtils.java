@@ -1,6 +1,5 @@
 package com.mally.api.shared.utils;
 
-import com.mally.api.pastebin.entities.Paste;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.criteria.*;
 import org.hibernate.query.sqm.tree.SqmCopyContext;

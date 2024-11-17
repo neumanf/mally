@@ -9,13 +9,13 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 @Setter
-public class ApiResponseDTO {
+public class ApiResponse {
     private String status;
     private String message;
     private Object data;
     private List<String> errors;
 
-    public static ApiResponseDTO success(String message, Object data) {
+    public static ApiResponse success(String message, Object data) {
         return builder()
                 .status("success")
                 .message(message)
@@ -23,7 +23,7 @@ public class ApiResponseDTO {
                 .build();
     }
 
-    public static ApiResponseDTO error(String message, List<String> errors) {
+    public static ApiResponse error(String message, List<String> errors) {
         return builder()
                 .status("error")
                 .message(message)

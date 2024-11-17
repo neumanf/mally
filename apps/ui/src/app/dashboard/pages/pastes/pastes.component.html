@@ -113,7 +113,14 @@
                     [model]="optionsItems"
                     [popup]="true"
                     appendTo="body"
-                />
+                >
+                    <ng-template #item let-item>
+                        <a class="flex items-center p-menu-item-link">
+                            <i-tabler [name]="item.icon"></i-tabler>
+                            <span class="ml-2">{{ item.label }}</span>
+                        </a>
+                    </ng-template>
+                </p-menu>
                 <app-button
                     (click)="openOptionsMenu(options, $event, paste)"
                     iconName="dots-vertical"
