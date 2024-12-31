@@ -4,11 +4,17 @@ import {
     StatsService,
 } from '../../../stats/services/stats.service';
 import { ToastService } from '../../../shared/services/toast/toast.service';
+import { SkeletonModule } from 'primeng/skeleton';
+import { StatsCardComponent } from './stats-card/stats-card.component';
+import { NgIf } from '@angular/common';
 
 @Component({
     selector: 'app-dashboard-index',
     templateUrl: './dashboard-index.component.html',
     styleUrl: './dashboard-index.component.scss',
+    standalone: true,
+    imports: [NgIf, StatsCardComponent, SkeletonModule],
+    providers: [StatsService],
 })
 export class DashboardIndexComponent implements OnInit {
     @ViewChild('pageHeader', { static: true })

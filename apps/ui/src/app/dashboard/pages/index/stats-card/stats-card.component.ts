@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 @Component({
     selector: 'app-stats-card',
@@ -18,6 +19,8 @@ import { Component, Input } from '@angular/core';
         </div>
     `,
     styles: ``,
+    standalone: true,
+    imports: [RouterLink],
 })
 export class StatsCardComponent {
     @Input() title!: string;

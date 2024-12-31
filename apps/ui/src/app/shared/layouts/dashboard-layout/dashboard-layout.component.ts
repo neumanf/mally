@@ -1,7 +1,10 @@
 import { ChangeDetectorRef, Component, TemplateRef } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { KeycloakService } from '../../../auth/services/keycloak.service';
 import { User } from '../../../auth/interfaces/user';
+import { OverlayPanelModule } from 'primeng/overlaypanel';
+import { AvatarModule } from 'primeng/avatar';
+import { NgClass, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 
 type SidebarItem = {
     label: string;
@@ -15,6 +18,17 @@ type SidebarItem = {
     selector: 'app-dashboard-layout',
     templateUrl: './dashboard-layout.component.html',
     styleUrl: './dashboard-layout.component.scss',
+    standalone: true,
+    imports: [
+        NgTemplateOutlet,
+        AvatarModule,
+        OverlayPanelModule,
+        NgClass,
+        RouterLink,
+        NgFor,
+        NgIf,
+        RouterOutlet,
+    ],
 })
 export class DashboardLayoutComponent {
     pageHeader!: TemplateRef<never>;

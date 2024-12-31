@@ -1,5 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import {
+    FormBuilder,
+    FormControl,
+    FormsModule,
+    ReactiveFormsModule,
+    Validators,
+} from '@angular/forms';
 import { SYNTAXES } from './constants/syntaxes';
 import { SelectOption } from '../../../shared/interfaces/forms';
 import {
@@ -14,6 +20,18 @@ import { EncryptionService } from '../../../shared/services/encryption/encryptio
 import { KeycloakService } from '../../../auth/services/keycloak.service';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { DateUtils } from '../../../shared/utils/date';
+import { QRCodeModule } from 'angularx-qrcode';
+import { PasswordModule } from 'primeng/password';
+import { CheckboxModule } from 'primeng/checkbox';
+import { Button } from 'primeng/button';
+import { TooltipModule } from 'primeng/tooltip';
+import { DropdownModule } from 'primeng/dropdown';
+import { InputTextModule } from 'primeng/inputtext';
+import { HighlightLineNumbers } from 'ngx-highlightjs/line-numbers';
+import { Highlight } from 'ngx-highlightjs';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { NgIf, SlicePipe } from '@angular/common';
+import { SelectButtonModule } from 'primeng/selectbutton';
 
 @Component({
     selector: 'app-pastebin',
@@ -30,6 +48,24 @@ import { DateUtils } from '../../../shared/utils/date';
                 animate('0.5s ease-in', style({ opacity: 0 })),
             ]),
         ]),
+    ],
+    standalone: true,
+    imports: [
+        ReactiveFormsModule,
+        SelectButtonModule,
+        FormsModule,
+        NgIf,
+        InputTextareaModule,
+        Highlight,
+        HighlightLineNumbers,
+        InputTextModule,
+        DropdownModule,
+        TooltipModule,
+        Button,
+        CheckboxModule,
+        PasswordModule,
+        QRCodeModule,
+        SlicePipe,
     ],
 })
 export class PastebinComponent implements OnInit {

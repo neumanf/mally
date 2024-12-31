@@ -9,17 +9,38 @@ import {
     ConfirmationService,
     MenuItem,
     MenuItemCommandEvent,
+    PrimeTemplate,
 } from 'primeng/api';
-import { Menu } from 'primeng/menu';
+import { Menu, MenuModule } from 'primeng/menu';
 import { ToastService } from '../../../shared/services/toast/toast.service';
 import { Page } from '../../../shared/interfaces/http';
-import { TableLazyLoadEvent } from 'primeng/table';
+import { TableLazyLoadEvent, TableModule } from 'primeng/table';
 import { DateUtils } from '../../../shared/utils/date';
+import { TooltipModule } from 'primeng/tooltip';
+import { DatePipe, NgIf } from '@angular/common';
+import { Button } from 'primeng/button';
+import { InputTextModule } from 'primeng/inputtext';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ToastModule } from 'primeng/toast';
 
 @Component({
     selector: 'app-urls',
     templateUrl: 'urls.component.html',
     styleUrl: 'urls.component.scss',
+    standalone: true,
+    imports: [
+        ToastModule,
+        ConfirmDialogModule,
+        TableModule,
+        PrimeTemplate,
+        InputTextModule,
+        Button,
+        NgIf,
+        TooltipModule,
+        MenuModule,
+        DatePipe,
+    ],
+    providers: [UrlShortenerService, ConfirmationService],
 })
 export class UrlsComponent {
     @ViewChild('pageHeader', { static: true })

@@ -10,6 +10,7 @@ import { ToastService } from '../../../shared/services/toast/toast.service';
     styleUrl: './url-shortener-redirect.component.scss',
     standalone: true,
     imports: [],
+    providers: [UrlShortenerService],
 })
 export class UrlShortenerRedirectComponent {
     constructor(

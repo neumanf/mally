@@ -1,16 +1,38 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import {
+    FormBuilder,
+    FormControl,
+    ReactiveFormsModule,
+    Validators,
+} from '@angular/forms';
 import { UrlShortenerService } from '../../services/url-shortener.service';
 import { ClipboardService } from 'ngx-clipboard';
 import { HttpErrorResponse } from '@angular/common/http';
 import { URLRegex } from '../../../shared/validators/url';
 import { format } from 'date-fns';
 import { ToastService } from '../../../shared/services/toast/toast.service';
+import { TooltipModule } from 'primeng/tooltip';
+import { QRCodeModule } from 'angularx-qrcode';
+import { NgIf, NgOptimizedImage, SlicePipe } from '@angular/common';
+import { Button } from 'primeng/button';
+import { InputTextModule } from 'primeng/inputtext';
 
 @Component({
     selector: 'app-url-shortener-index',
     templateUrl: './url-shortener-index.component.html',
     styleUrl: './url-shortener-index.component.scss',
+    standalone: true,
+    imports: [
+        ReactiveFormsModule,
+        InputTextModule,
+        Button,
+        NgIf,
+        QRCodeModule,
+        TooltipModule,
+        NgOptimizedImage,
+        SlicePipe,
+    ],
+    providers: [UrlShortenerService],
 })
 export class UrlShortenerIndexComponent {
     protected readonly form = this.formBuilder.group({

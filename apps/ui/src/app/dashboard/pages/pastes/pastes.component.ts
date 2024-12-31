@@ -6,21 +6,41 @@ import {
     ConfirmationService,
     MenuItem,
     MenuItemCommandEvent,
+    PrimeTemplate,
 } from 'primeng/api';
-import { Menu } from 'primeng/menu';
+import { Menu, MenuModule } from 'primeng/menu';
 import { ToastService } from '../../../shared/services/toast/toast.service';
 import { Page } from '../../../shared/interfaces/http';
-import { TableLazyLoadEvent } from 'primeng/table';
+import { TableLazyLoadEvent, TableModule } from 'primeng/table';
 import {
     Paste,
     PastebinService,
 } from '../../../pastebin/services/pastebin.service';
 import { DateUtils } from '../../../shared/utils/date';
+import { DatePipe } from '@angular/common';
+import { TooltipModule } from 'primeng/tooltip';
+import { Button } from 'primeng/button';
+import { InputTextModule } from 'primeng/inputtext';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ToastModule } from 'primeng/toast';
 
 @Component({
     selector: 'app-pastes',
     templateUrl: 'pastes.component.html',
     styleUrl: 'pastes.component.scss',
+    standalone: true,
+    imports: [
+        ToastModule,
+        ConfirmDialogModule,
+        TableModule,
+        PrimeTemplate,
+        InputTextModule,
+        Button,
+        TooltipModule,
+        MenuModule,
+        DatePipe,
+    ],
+    providers: [ConfirmationService],
 })
 export class PastesComponent {
     @ViewChild('pageHeader', { static: true })
