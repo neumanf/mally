@@ -32,52 +32,48 @@
             >
                 Features
 
-                <i class="ti ti-chevron-down"></i>
+                <i-tabler name="chevron-down"></i-tabler>
             </a>
         </nav>
 
         <div
             class="-ml-8 hidden flex-col gap-2.5 sm:flex-row sm:justify-center lg:flex lg:justify-start"
         >
-            <a
-                *ngIf="userIsAuthenticated; else signButtons"
-                routerLink="/dashboard"
-                class="inline-block rounded-lg bg-red-500 px-5 py-2 text-center text-sm font-semibold text-white outline-none ring-red-300 transition duration-100 hover:bg-red-600 focus-visible:ring active:bg-red-700 md:text-base"
-                >Dashboard</a
-            >
+            @if (userIsAuthenticated) {
+                <a
+                    routerLink="/dashboard"
+                    class="inline-block rounded-lg bg-red-500 px-5 py-2 text-center text-sm font-semibold text-white outline-none ring-red-300 transition duration-100 hover:bg-red-600 focus-visible:ring active:bg-red-700 md:text-base"
+                    >Dashboard</a
+                >
+            } @else {
+                <a
+                    routerLink="/auth/login"
+                    class="inline-block rounded-lg px-4 py-3 text-center text-sm font-semibold text-white outline-none ring-red-300 transition duration-100 hover:text-red-500 focus-visible:ring active:text-red-600 md:text-base"
+                    >Sign in</a
+                >
+
+                <a
+                    routerLink="/auth/register"
+                    class="inline-flex items-center rounded-lg bg-red-500 px-5 py-2 text-center text-sm font-semibold text-white outline-none ring-red-300 transition duration-100 hover:bg-red-600 focus-visible:ring active:bg-red-700 md:text-base"
+                    >Sign up</a
+                >
+            }
         </div>
-
-        <ng-template #signButtons>
-            <a
-                routerLink="/auth/login"
-                class="inline-block rounded-lg px-4 py-3 text-center text-sm font-semibold text-white outline-none ring-red-300 transition duration-100 hover:text-red-500 focus-visible:ring active:text-red-600 md:text-base"
-                >Sign in</a
-            >
-
-            <a
-                routerLink="/auth/register"
-                class="inline-flex items-center rounded-lg bg-red-500 px-5 py-2 text-center text-sm font-semibold text-white outline-none ring-red-300 transition duration-100 hover:bg-red-600 focus-visible:ring active:bg-red-700 md:text-base"
-                >Sign up</a
-            >
-        </ng-template>
 
         <a
             (click)="openSidebar()"
             type="button"
             class="inline-flex items-center gap-2 rounded-lg px-2.5 py-2 text-sm font-semibold text-white ring-red-300 focus-visible:ring active:text-gray-200 lg:hidden"
         >
-            <i class="ti ti-menu-2 text-2xl"></i>
+            <i-tabler name="menu-2" class="text-2xl"></i-tabler>
         </a>
     </header>
 
-    <div
-        *ngIf="isFeaturesMenuOpen"
-        @fadeIn
-        @fadeOut
-        (mouseleave)="closeFeatures()"
-    >
-        <app-features-menu #featuresMenu></app-features-menu>
-    </div>
+    @if (isFeaturesMenuOpen) {
+        <div @fadeIn @fadeOut (mouseleave)="closeFeatures()">
+            <app-features-menu #featuresMenu></app-features-menu>
+        </div>
+    }
 </div>
 
 <div class="bg-white">

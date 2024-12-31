@@ -14,51 +14,62 @@
                 />
             </div>
 
-            <p-button
+            <app-button
                 id="submit"
+                iconName="link"
+                label="Submit"
                 [loading]="loading"
                 [disabled]="loading || form.invalid"
-                label="Submit"
-                icon="ti ti-link"
                 (click)="shorten()"
-            ></p-button>
+            >
+            </app-button>
         </div>
 
-        <div
-            *ngIf="slug"
-            id="result"
-            class="flex bg-red-700 mt-3 border-2 border-red-300 rounded p-3"
-        >
-            <qrcode [qrdata]="shortURL" [width]="120"></qrcode>
-            <div class="flex-1 flex flex-col justify-center px-3 text-xl">
-                <span  class="flex align-center gap-2 font-bold">
-                    <i
-                        pTooltip="Short URL"
-                        tooltipPosition="left"
-                        class="ti ti-link text-red-300"
-                        style="font-size: 28px"
-                    ></i>
-                    <a id="short-url" class="text-red-100" [href]="shortURL">{{
-                        shortURL | slice: 8
-                    }}</a>
-                </span>
-                <span id="expiration-date" class="flex align-center gap-2 font-bold">
-                    <i
-                        pTooltip="Expiration date"
-                        tooltipPosition="left"
-                        class="ti ti-calendar text-red-300"
-                        style="font-size: 28px"
-                    ></i>
-                    {{ expirationDate }}
-                </span>
+        @if (slug) {
+            <div
+                id="result"
+                class="flex bg-red-700 mt-3 border-2 border-red-300 rounded p-3"
+            >
+                <qrcode [qrdata]="shortURL" [width]="120"></qrcode>
+                <div class="flex-1 flex flex-col justify-center px-3 text-xl">
+                    <span class="flex align-center gap-2 font-bold">
+                        <i-tabler
+                            pTooltip="Short URL"
+                            tooltipPosition="left"
+                            name="link"
+                            class="text-red-300"
+                            style="font-size: 28px"
+                        ></i-tabler>
+                        <a
+                            id="short-url"
+                            class="text-red-100"
+                            [href]="shortURL"
+                            >{{ shortURL | slice: 8 }}</a
+                        >
+                    </span>
+                    <span
+                        id="expiration-date"
+                        class="flex align-center gap-2 font-bold"
+                    >
+                        <i-tabler
+                            pTooltip="Expiration date"
+                            tooltipPosition="left"
+                            name="calendar"
+                            class="text-red-300"
+                            style="width: 28px; height: 28px"
+                        ></i-tabler>
+                        {{ expirationDate }}
+                    </span>
+                </div>
+                <app-button
+                    pTooltip="Copy to clipboard"
+                    tooltipPosition="top"
+                    (click)="copyURLToClipboard()"
+                    iconName="clipboard"
+                >
+                </app-button>
             </div>
-            <p-button
-                icon="ti ti-clipboard"
-                pTooltip="Copy to clipboard"
-                tooltipPosition="top"
-                (click)="copyURLToClipboard()"
-            ></p-button>
-        </div>
+        }
     </form>
 
     <div class="flex-1 p-5 mt-56 lg:mt-0">
@@ -71,15 +82,24 @@
         />
         <div class="mt-3 px-5 py-4 text-lg">
             <div class="flex align-center">
-                <i class="ti ti-check text-green-500 text-3xl mr-2"></i
+                <i-tabler
+                    name="check"
+                    class="text-green-500 text-3xl mr-2"
+                ></i-tabler
                 ><span>Create short, quick to type URLs</span>
             </div>
             <div class="flex align-center my-2">
-                <i class="ti ti-check text-green-500 text-3xl mr-2"></i
+                <i-tabler
+                    name="check"
+                    class="text-green-500 text-3xl mr-2"
+                ></i-tabler
                 ><span>Monitor clicks over time</span>
             </div>
             <div class="flex align-center my-2">
-                <i class="ti ti-check text-green-500 text-3xl mr-2"></i
+                <i-tabler
+                    name="check"
+                    class="text-green-500 text-3xl mr-2"
+                ></i-tabler
                 ><span>Customize them with your own style</span>
             </div>
         </div>

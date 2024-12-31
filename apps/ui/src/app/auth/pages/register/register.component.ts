@@ -5,6 +5,7 @@ import { KeycloakService } from '../../services/keycloak.service';
     selector: 'app-register',
     template: ``,
     styles: ``,
+    standalone: true,
 })
 export class RegisterComponent implements OnInit {
     constructor(private readonly keycloakService: KeycloakService) {}

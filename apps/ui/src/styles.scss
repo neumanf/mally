@@ -2,8 +2,6 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 
-@import "primeng/resources/primeng.css";
-
 @layer tailwind-base, primeng, tailwind-utilities;
 
 @layer tailwind-base {
@@ -15,7 +13,6 @@
     @tailwind utilities;
 }
 
-@import "@tabler/icons-webfont/dist/tabler-icons.min.css";
 @import 'highlight.js/styles/tomorrow-night-bright.min.css';
 
 html {

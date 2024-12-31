@@ -1,32 +1,31 @@
-import { RouterModule, Routes } from '@angular/router';
-import { NgModule } from '@angular/core';
+import { Routes } from '@angular/router';
 import { DashboardLayoutComponent } from './shared/layouts/dashboard-layout/dashboard-layout.component';
 import { LandingLayoutComponent } from './shared/layouts/landing-layout/landing-layout.component';
 import { UrlShortenerRedirectComponent } from './url-shortener/pages/redirect/url-shortener-redirect.component';
 import { PasteComponent } from './pastebin/pages/paste/paste.component';
 import { authGuard } from './auth/guards/auth.guard';
 
-const routes: Routes = [
+export const APP_ROUTES: Routes = [
     {
         path: 'dashboard',
         component: DashboardLayoutComponent,
         canActivate: [authGuard],
         loadChildren: () =>
-            import('./dashboard/dashboard.module').then(
-                (m) => m.DashboardModule,
+            import('./dashboard/dashboard.routes').then(
+                (m) => m.DASHBOARD_ROUTES,
             ),
     },
     {
         path: 'auth',
         loadChildren: () =>
-            import('./auth/auth.module').then((m) => m.AuthModule),
+            import('./auth/auth.routes').then((m) => m.AUTH_ROUTES),
     },
     {
         path: 'url-shortener',
         component: LandingLayoutComponent,
         loadChildren: () =>
-            import('./url-shortener/url-shortener.module').then(
-                (m) => m.UrlShortenerModule,
+            import('./url-shortener/url-shortener.routes').then(
+                (m) => m.URL_SHORTENER_ROUTES,
             ),
     },
     {
@@ -44,7 +43,7 @@ const routes: Routes = [
         path: 'pastebin',
         component: LandingLayoutComponent,
         loadChildren: () =>
-            import('./pastebin/pastebin.module').then((m) => m.PastebinModule),
+            import('./pastebin/pastebin.routes').then((m) => m.PASTEBIN_ROUTES),
     },
     {
         path: 'p/:slug',
@@ -62,16 +61,6 @@ const routes: Routes = [
         pathMatch: 'full',
         component: LandingLayoutComponent,
         loadChildren: () =>
-            import('./landing/landing.module').then((m) => m.LandingModule),
+            import('./landing/landing.routes').then((m) => m.LANDING_ROUTES),
     },
 ];
-
-@NgModule({
-    imports: [
-        RouterModule.forRoot(routes, {
-            onSameUrlNavigation: 'reload',
-        }),
-    ],
-    exports: [RouterModule],
-})
-export class AppRoutingModule {}

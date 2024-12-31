@@ -12,21 +12,25 @@
         [ngModelOptions]="{ standalone: true }"
     ></p-selectButton>
 
-    <textarea
-        *ngIf="mode === 'CONTENT'"
-        rows="15"
-        cols="30"
-        pInputTextarea
-        formControlName="text"
-    ></textarea>
-    <code
-        *ngIf="mode === 'PREVIEW'"
-        class="min-h-96"
-        [highlight]="text"
-        [language]="syntax"
-        lineNumbers
-        style="white-space: pre-wrap"
-    ></code>
+    @switch (mode) {
+        @case ('CONTENT') {
+            <textarea
+                rows="15"
+                cols="30"
+                pInputTextarea
+                formControlName="text"
+            ></textarea>
+        }
+        @case ('PREVIEW') {
+            <code
+                class="min-h-96"
+                [highlight]="text"
+                [language]="syntax"
+                lineNumbers
+                style="white-space: pre-wrap"
+            ></code>
+        }
+    }
 
     <div class="grid grid-cols-1 lg:grid-cols-5 gap-3 mt-5">
         <div class="flex flex-col gap-2">
@@ -53,7 +57,11 @@
         <div class="flex flex-col gap-2">
             <label class="font-semibold">Expiration</label>
             <p-dropdown
-                [pTooltip]="userIsAuthenticated() ? '' : 'Sign up to choose the expiration time'"
+                [pTooltip]="
+                    userIsAuthenticated()
+                        ? ''
+                        : 'Sign up to choose the expiration time'
+                "
                 tooltipPosition="top"
                 styleClass="w-full"
                 [disabled]="!userIsAuthenticated()"
@@ -65,13 +73,13 @@
             ></p-dropdown>
         </div>
         <div class="flex items-end h-full gap-2">
-            <p-button
+            <app-button
                 [loading]="loading"
                 [disabled]="loading || form.invalid"
                 (click)="save()"
-                icon="ti ti-device-floppy"
+                iconName="device-floppy"
                 label="Save"
-            ></p-button>
+            ></app-button>
         </div>
     </div>
     <div class="flex flex-col lg:flex-row col-span-2 gap-2 mt-3">
@@ -83,51 +91,62 @@
             ></p-checkbox>
             <label class="font-semibold ml-2">Encrypt</label>
         </div>
-        <div *ngIf="encrypted" class="flex flex-col gap-2 lg:ml-2">
-            <label class="font-semibold">Password</label>
-            <div class="inline-flex items-end">
-                <p-password
-                    formControlName="password"
-                    [feedback]="false"
-                    [toggleMask]="true"
-                ></p-password>
+        @if (encrypted) {
+            <div class="flex flex-col gap-2 lg:ml-2">
+                <label class="font-semibold">Password</label>
+                <div class="inline-flex items-end">
+                    <p-password
+                        formControlName="password"
+                        [feedback]="false"
+                        [toggleMask]="true"
+                    ></p-password>
+                </div>
             </div>
-        </div>
+        }
     </div>
 
-    <div
-        *ngIf="paste"
-        [@inOutAnimation]
-        class="flex flex-col lg:flex-row bg-red-700 mt-5 border-2 border-red-300 rounded p-3"
-    >
-        <qrcode [qrdata]="URL" [width]="120"></qrcode>
-        <div class="flex-1 flex flex-col justify-center px-3 text-xl">
-            <span class="flex align-center font-bold mt-2 lg:mt-0">
-                <i
-                    pTooltip="Paste URL"
-                    tooltipPosition="left"
-                    class="ti ti-link text-red-300"
-                    style="font-size: 28px"
-                ></i>
-                <span class="text-red-300 ms-1 mr-3">URL</span>
-                <a id="paste-url" class="text-red-100" [href]="URL">{{ URL | slice: 8 }}</a>
-            </span>
-            <span class="flex align-center font-bold mt-2 lg:mt-0">
-                <i
-                    [pTooltip]="DateUtils.expiresIn(paste!.expiresAt, 'long')"
-                    tooltipPosition="left"
-                    class="ti ti-calendar text-red-300"
-                    style="font-size: 28px"
-                ></i>
-                <span class="text-red-300 ms-1 mr-3">Expires</span>
-                <span id="paste-expiration" class="text-red-100">{{ DateUtils.expiresIn(paste!.expiresAt, 'humanized') }}</span>
-            </span>
+    @if (paste) {
+        <div
+            [@inOutAnimation]
+            class="flex flex-col lg:flex-row bg-red-700 mt-5 border-2 border-red-300 rounded p-3"
+        >
+            <qrcode [qrdata]="URL" [width]="120"></qrcode>
+            <div class="flex-1 flex flex-col justify-center px-3 text-xl">
+                <span class="flex align-center font-bold mt-2 lg:mt-0">
+                    <i-tabler
+                        pTooltip="Paste URL"
+                        tooltipPosition="left"
+                        name="link"
+                        class="text-red-300"
+                        style="width: 28px; height: 28px"
+                    ></i-tabler>
+                    <span class="text-red-300 ms-1 mr-3">URL</span>
+                    <a id="paste-url" class="text-red-100" [href]="URL">{{
+                        URL | slice: 8
+                    }}</a>
+                </span>
+                <span class="flex align-center font-bold mt-2 lg:mt-0">
+                    <i-tabler
+                        [pTooltip]="
+                            DateUtils.expiresIn(paste!.expiresAt, 'long')
+                        "
+                        tooltipPosition="left"
+                        name="calendar"
+                        class="text-red-300"
+                        style="width: 28px; height: 28px"
+                    ></i-tabler>
+                    <span class="text-red-300 ms-1 mr-3">Expires</span>
+                    <span id="paste-expiration" class="text-red-100">{{
+                        DateUtils.expiresIn(paste!.expiresAt, 'humanized')
+                    }}</span>
+                </span>
+            </div>
+            <app-button
+                iconName="clipboard"
+                pTooltip="Copy to clipboard"
+                tooltipPosition="top"
+                (click)="copyURLToClipboard()"
+            ></app-button>
         </div>
-        <p-button
-            icon="ti ti-clipboard"
-            pTooltip="Copy to clipboard"
-            tooltipPosition="top"
-            (click)="copyURLToClipboard()"
-        ></p-button>
-    </div>
+    }
 </form>

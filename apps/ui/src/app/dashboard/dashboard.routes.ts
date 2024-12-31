@@ -1,10 +1,9 @@
-import { NgModule } from '@angular/core';
 import { DashboardIndexComponent } from './pages/index/dashboard-index.component';
-import { RouterModule, Routes } from '@angular/router';
+import { Routes } from '@angular/router';
 import { UrlsComponent } from './pages/urls/urls.component';
 import { PastesComponent } from './pages/pastes/pastes.component';
 
-const routes: Routes = [
+export const DASHBOARD_ROUTES: Routes = [
     {
         path: '',
         component: DashboardIndexComponent,
@@ -18,9 +17,3 @@ const routes: Routes = [
         component: PastesComponent,
     },
 ];
-
-@NgModule({
-    imports: [RouterModule.forChild(routes)],
-    exports: [RouterModule],
-})
-export class DashboardRoutingModule {}

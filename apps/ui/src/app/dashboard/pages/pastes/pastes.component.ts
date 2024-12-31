@@ -6,21 +6,49 @@ import {
     ConfirmationService,
     MenuItem,
     MenuItemCommandEvent,
+    PrimeTemplate,
 } from 'primeng/api';
-import { Menu } from 'primeng/menu';
+import { Menu, MenuModule } from 'primeng/menu';
 import { ToastService } from '../../../shared/services/toast/toast.service';
 import { Page } from '../../../shared/interfaces/http';
-import { TableLazyLoadEvent } from 'primeng/table';
+import { TableLazyLoadEvent, TableModule } from 'primeng/table';
 import {
     Paste,
     PastebinService,
 } from '../../../pastebin/services/pastebin.service';
 import { DateUtils } from '../../../shared/utils/date';
+import { DatePipe } from '@angular/common';
+import { TooltipModule } from 'primeng/tooltip';
+import { Button } from 'primeng/button';
+import { InputTextModule } from 'primeng/inputtext';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ToastModule } from 'primeng/toast';
+import { TablerIconComponent } from 'angular-tabler-icons';
+import { ButtonComponent } from '../../../shared/components/button/button.component';
+import { IconField } from 'primeng/iconfield';
+import { InputIcon } from 'primeng/inputicon';
 
 @Component({
     selector: 'app-pastes',
     templateUrl: 'pastes.component.html',
     styleUrl: 'pastes.component.scss',
+    standalone: true,
+    imports: [
+        ToastModule,
+        ConfirmDialogModule,
+        TableModule,
+        PrimeTemplate,
+        InputTextModule,
+        Button,
+        TooltipModule,
+        MenuModule,
+        DatePipe,
+        TablerIconComponent,
+        ButtonComponent,
+        IconField,
+        InputIcon,
+    ],
+    providers: [ConfirmationService],
 })
 export class PastesComponent {
     @ViewChild('pageHeader', { static: true })
@@ -34,7 +62,7 @@ export class PastesComponent {
             items: [
                 {
                     label: 'Delete',
-                    icon: 'ti ti-trash',
+                    icon: 'trash',
                     command: (event: MenuItemCommandEvent) => {
                         const id = event.item?.['data']['id'];
 
@@ -44,11 +72,8 @@ export class PastesComponent {
                             target: event.originalEvent?.target as EventTarget,
                             message:
                                 'Are you sure you want to delete this Paste?',
-                            acceptIcon: 'none',
-                            rejectIcon: 'none',
                             rejectButtonStyleClass: 'p-button-text',
                             header: 'Confirmation',
-                            icon: 'ti ti-alert-triangle',
                             accept: () => this.delete(id),
                         });
                     },
@@ -118,11 +143,8 @@ export class PastesComponent {
 
         this.confirmationService.confirm({
             message: 'Are you sure you want to delete these Pastes?',
-            acceptIcon: 'none',
-            rejectIcon: 'none',
             rejectButtonStyleClass: 'p-button-text',
             header: 'Confirmation',
-            icon: 'ti ti-alert-triangle',
             accept: () => {
                 this.pastebinService.deleteMany(ids).subscribe({
                     next: () => {

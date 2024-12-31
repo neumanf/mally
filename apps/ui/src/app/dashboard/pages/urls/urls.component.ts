@@ -9,17 +9,48 @@ import {
     ConfirmationService,
     MenuItem,
     MenuItemCommandEvent,
+    PrimeTemplate,
 } from 'primeng/api';
-import { Menu } from 'primeng/menu';
+import { Menu, MenuModule } from 'primeng/menu';
 import { ToastService } from '../../../shared/services/toast/toast.service';
 import { Page } from '../../../shared/interfaces/http';
-import { TableLazyLoadEvent } from 'primeng/table';
+import { TableLazyLoadEvent, TableModule } from 'primeng/table';
 import { DateUtils } from '../../../shared/utils/date';
+import { TooltipModule } from 'primeng/tooltip';
+import { DatePipe, NgIf } from '@angular/common';
+import { ButtonDirective, ButtonIcon, ButtonLabel } from 'primeng/button';
+import { InputTextModule } from 'primeng/inputtext';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ToastModule } from 'primeng/toast';
+import { TablerIconComponent } from 'angular-tabler-icons';
+import { ButtonComponent } from '../../../shared/components/button/button.component';
+import { IconField } from 'primeng/iconfield';
+import { InputIcon } from 'primeng/inputicon';
 
 @Component({
     selector: 'app-urls',
     templateUrl: 'urls.component.html',
     styleUrl: 'urls.component.scss',
+    standalone: true,
+    imports: [
+        ToastModule,
+        ConfirmDialogModule,
+        TableModule,
+        PrimeTemplate,
+        InputTextModule,
+        NgIf,
+        TooltipModule,
+        MenuModule,
+        DatePipe,
+        TablerIconComponent,
+        ButtonDirective,
+        ButtonIcon,
+        ButtonLabel,
+        ButtonComponent,
+        IconField,
+        InputIcon,
+    ],
+    providers: [UrlShortenerService, ConfirmationService],
 })
 export class UrlsComponent {
     @ViewChild('pageHeader', { static: true })
@@ -33,7 +64,7 @@ export class UrlsComponent {
             items: [
                 {
                     label: 'Delete',
-                    icon: 'ti ti-trash',
+                    icon: 'trash',
                     command: (event: MenuItemCommandEvent) => {
                         const id = event.item?.['data']['id'];
 
@@ -43,11 +74,8 @@ export class UrlsComponent {
                             target: event.originalEvent?.target as EventTarget,
                             message:
                                 'Are you sure you want to delete this URL?',
-                            acceptIcon: 'none',
-                            rejectIcon: 'none',
                             rejectButtonStyleClass: 'p-button-text',
                             header: 'Confirmation',
-                            icon: 'ti ti-alert-triangle',
                             accept: () => this.delete(id),
                         });
                     },
@@ -117,11 +145,8 @@ export class UrlsComponent {
 
         this.confirmationService.confirm({
             message: 'Are you sure you want to delete these URLs?',
-            acceptIcon: 'none',
-            rejectIcon: 'none',
             rejectButtonStyleClass: 'p-button-text',
             header: 'Confirmation',
-            icon: 'ti ti-alert-triangle',
             accept: () => {
                 this.urlShortenerService.deleteMany(ids).subscribe({
                     next: () => {

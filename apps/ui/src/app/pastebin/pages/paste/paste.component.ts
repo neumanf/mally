@@ -13,6 +13,8 @@ import { FormsModule } from '@angular/forms';
 import { PasswordModule } from 'primeng/password';
 import { EncryptionService } from '../../../shared/services/encryption/encryption.service';
 import { HighlightLineNumbers } from 'ngx-highlightjs/line-numbers';
+import { TablerIconComponent } from 'angular-tabler-icons';
+import { ButtonComponent } from '../../../shared/components/button/button.component';
 
 @Component({
     selector: 'app-paste',
@@ -29,6 +31,8 @@ import { HighlightLineNumbers } from 'ngx-highlightjs/line-numbers';
         DialogModule,
         FormsModule,
         PasswordModule,
+        TablerIconComponent,
+        ButtonComponent,
     ],
 })
 export class PasteComponent implements OnInit {

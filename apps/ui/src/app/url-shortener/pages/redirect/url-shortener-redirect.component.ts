@@ -3,13 +3,15 @@ import { UrlShortenerService } from '../../services/url-shortener.service';
 import { ActivatedRoute } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ToastService } from '../../../shared/services/toast/toast.service';
+import { TablerIconComponent } from 'angular-tabler-icons';
 
 @Component({
     selector: 'app-url-shortener-redirect',
     templateUrl: './url-shortener-redirect.component.html',
     styleUrl: './url-shortener-redirect.component.scss',
     standalone: true,
-    imports: [],
+    imports: [TablerIconComponent],
+    providers: [UrlShortenerService],
 })
 export class UrlShortenerRedirectComponent {
     constructor(
