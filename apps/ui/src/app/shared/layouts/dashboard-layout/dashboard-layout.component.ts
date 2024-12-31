@@ -5,6 +5,7 @@ import { User } from '../../../auth/interfaces/user';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { AvatarModule } from 'primeng/avatar';
 import { NgClass, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
+import { TablerIconComponent } from 'angular-tabler-icons';
 
 type SidebarItem = {
     label: string;
@@ -28,6 +29,7 @@ type SidebarItem = {
         NgFor,
         NgIf,
         RouterOutlet,
+        TablerIconComponent,
     ],
 })
 export class DashboardLayoutComponent {
@@ -42,19 +44,19 @@ export class DashboardLayoutComponent {
             children: [
                 {
                     label: 'Dashboard',
-                    icon: 'ti ti-layout-dashboard',
+                    icon: 'layout-dashboard',
                     path: '/dashboard',
                     new: false,
                 },
                 {
                     label: 'Short URLs',
-                    icon: 'ti ti-link',
+                    icon: 'link',
                     path: '/dashboard/short-urls',
                     new: false,
                 },
                 {
                     label: 'Pastes',
-                    icon: 'ti ti-clipboard',
+                    icon: 'clipboard',
                     path: '/dashboard/pastes',
                     new: false,
                 },

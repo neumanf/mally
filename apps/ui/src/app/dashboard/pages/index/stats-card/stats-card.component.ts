@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { TablerIconComponent } from 'angular-tabler-icons';
 
 @Component({
     selector: 'app-stats-card',
@@ -13,14 +14,15 @@ import { RouterLink } from '@angular/router';
                 <a
                     class="flex items-center text-white hover:bg-zinc-500 p-2 rounded transition"
                     [routerLink]="link"
-                    ><i class="ti ti-external-link"></i
+                    ><i-tabler name="external-link"></i-tabler
                 ></a>
             </div>
         </div>
     `,
     styles: ``,
     standalone: true,
-    imports: [RouterLink],
+    imports: [RouterLink, TablerIconComponent],
+    providers: [],
 })
 export class StatsCardComponent {
     @Input() title!: string;

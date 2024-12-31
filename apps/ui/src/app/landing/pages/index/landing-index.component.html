@@ -43,7 +43,10 @@
         </section>
 
         <span class="flex mt-36 justify-center animate-bounce">
-            <i class="ti ti-caret-down-filled" style="font-size: 64px"></i>
+            <i-tabler
+                name="caret-down-filled"
+                style="width: 64px; height: 64px"
+            ></i-tabler>
         </span>
     </div>
 </div>
@@ -95,8 +98,9 @@
                         </div>
                         <div class="mt-10">
                             <a
+                                pButton
+                                class="font-bold"
                                 routerLink="/url-shortener"
-                                class="p-button font-bold"
                                 >Try now</a
                             >
                         </div>
@@ -136,7 +140,7 @@
                             />
                         </div>
                         <div class="mt-10">
-                            <a routerLink="/pastebin" class="p-button font-bold"
+                            <a pButton class="font-bold" routerLink="/pastebin"
                                 >Try now</a
                             >
                         </div>
@@ -162,23 +166,36 @@
             </h2>
         </div>
 
-        <p-accordion>
-            <p-accordionTab header="Is Mally free?">
-                <p>
+        <p-accordion value="0">
+            <p-accordion-panel value="0">
+                <p-accordion-header>Is Mally free?</p-accordion-header>
+
+                <p-accordion-content>
                     Yes, all services are free, but there are limitations for
                     users who haven't signed up.
-                </p>
-            </p-accordionTab>
-            <p-accordionTab header="Is Mally private?">
-                <p>Yes, we do not read or sell your data to anyone.</p>
-            </p-accordionTab>
-            <p-accordionTab header="How can I delete my account?">
-                <p>
+                </p-accordion-content>
+            </p-accordion-panel>
+
+            <p-accordion-panel value="1">
+                <p-accordion-header>Is Mally private?</p-accordion-header>
+
+                <p-accordion-content
+                    >Yes, we do not read or sell your data to
+                    anyone.</p-accordion-content
+                >
+            </p-accordion-panel>
+
+            <p-accordion-panel value="2">
+                <p-accordion-header
+                    >How can I delete my account?</p-accordion-header
+                >
+
+                <p-accordion-content>
                     Sign in into your account, click on your name on the right
                     corner of the screen, and click on Profile. Then, you will
                     be able to edit your profile or delete your account.
-                </p>
-            </p-accordionTab>
+                </p-accordion-content>
+            </p-accordion-panel>
         </p-accordion>
 
         <!--        <div-->

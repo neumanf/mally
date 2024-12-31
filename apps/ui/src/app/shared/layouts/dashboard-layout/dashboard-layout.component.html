@@ -1,5 +1,7 @@
 <nav class="fixed top-0 z-30 w-full bg-zinc-900">
-    <div class="px-3 py-3 lg:px-5 lg:pl-3 border-0 border-b border-solid border-zinc-600">
+    <div
+        class="px-3 py-3 lg:px-5 lg:pl-3 border-0 border-b border-solid border-zinc-600"
+    >
         <div class="flex items-center justify-between">
             <div class="flex md:ml-64 md:pl-3">
                 <a
@@ -26,16 +28,21 @@
             </div>
             <div class="flex items-center">
                 <div class="flex items-center ms-3">
-                    <div (click)="userMenu.toggle($event)" class="flex items-center gap-2 hover:bg-zinc-700 p-2 rounded-lg transition cursor-pointer">
+                    <div
+                        (click)="userMenu.toggle($event)"
+                        class="flex items-center gap-2 hover:bg-zinc-700 p-2 rounded-lg transition cursor-pointer"
+                    >
                         <p-avatar
                             class="rounded-3xl"
-                            icon="ti ti-user"
+                            [label]="user?.firstName?.at(0)"
                             size="normal"
                             shape="square"
-                            [style]="{'background-color': '#ef4444'}"
+                            [style]="{ 'background-color': '#ef4444' }"
                         />
                         <div class="hidden md:flex flex-col">
-                            <span class="font-semibold">{{ user?.fullName }}</span>
+                            <span class="font-semibold">{{
+                                user?.fullName
+                            }}</span>
                             <span>{{ user?.formattedRole }}</span>
                         </div>
                     </div>
@@ -51,7 +58,8 @@
                                         (click)="profile()"
                                         class="flex items-center gap-2 cursor-pointer px-4 py-2 text-sm text-zinc-700 hover:bg-zinc-100 dark:text-zinc-300 dark:hover:bg-zinc-600 dark:hover:text-white"
                                         role="menuitem"
-                                    ><i class="ti ti-user"></i> Profile</a
+                                        ><i-tabler name="user"></i-tabler>
+                                        Profile</a
                                     >
                                 </li>
                             </ul>
@@ -99,49 +107,65 @@
         </a>
     </div>
 
-    <div class="flex flex-col justify-between text-white h-full px-5 mt-10 overflow-y-auto">
+    <div
+        class="flex flex-col justify-between text-white h-full px-5 mt-10 overflow-y-auto"
+    >
         <ul class="space-y-2 font-medium">
-            <li *ngFor="let item of sidebarItems">
-                <div *ngIf="item.children">
-                    <p class="mb-2 text-zinc-400">{{ item.label }}</p>
-                    <div *ngFor="let child of item.children">
+            @for (item of sidebarItems; track item.path) {
+                <li>
+                    @if (item.children) {
+                        <div>
+                            <p class="mb-2 text-zinc-400">{{ item.label }}</p>
+                            @for (child of item.children; track child.path) {
+                                <div>
+                                    <a
+                                        [routerLink]="child.path"
+                                        class="flex items-center p-2 my-2 rounded-lg text-white hover:bg-zinc-700 group"
+                                        [ngClass]="{
+                                            'bg-zinc-600':
+                                                router.url === child.path,
+                                        }"
+                                    >
+                                        @if (child.icon) {
+                                            <i-tabler
+                                                [name]="child.icon"
+                                            ></i-tabler>
+                                        }
+                                        <span class="ms-3 mt-1">{{
+                                            child.label
+                                        }}</span>
+                                    </a>
+                                </div>
+                            }
+                        </div>
+                    } @else {
                         <a
-                            [routerLink]="child.path"
-                            class="flex items-center p-2 my-2 rounded-lg text-white hover:bg-zinc-700 group"
+                            [href]="item.path"
+                            class="flex items-center p-3 rounded-lg text-white hover:text-primary-300 group"
                             [ngClass]="{
-                                    'bg-zinc-600': router.url === child.path,
-                                }"
+                                'bg-zinc-700': router.url === item.path,
+                                'font-bold': router.url === item.path,
+                            }"
                         >
-                            <i [class]="child.icon"></i>
-                            <span class="ms-3 mt-1">{{ child.label }}</span>
+                            <i [class]="item.icon"></i>
+                            <span class="ms-3">{{ item.label }}</span>
+                            @if (item.new) {
+                                <span
+                                    class="inline-flex items-center justify-center px-2 ms-3 text-sm font-medium text-green-800 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-300"
+                                    >New</span
+                                >
+                            }
                         </a>
-                    </div>
-                </div>
-                <a
-                    *ngIf="!item.children"
-                    [href]="item.path"
-                    class="flex items-center p-3 rounded-lg text-white hover:text-primary-300 group"
-                    [ngClass]="{
-                            'bg-zinc-700': router.url === item.path,
-                            'font-bold': router.url === item.path
-                        }"
-                >
-                    <i [class]="item.icon"></i>
-                    <span class="ms-3">{{ item.label }}</span>
-                    <span
-                        *ngIf="item.new"
-                        class="inline-flex items-center justify-center px-2 ms-3 text-sm font-medium text-green-800 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-300"
-                    >New</span
-                    >
-                </a>
-            </li>
+                    }
+                </li>
+            }
         </ul>
         <div>
             <a
                 class="mb-28 flex cursor-pointer items-center p-3 rounded-lg text-white hover:bg-zinc-700 transition group"
                 (click)="logout()"
             >
-                <i class="ti ti-logout-2"></i>
+                <i-tabler name="logout-2"></i-tabler>
                 <span class="ms-3">Log out</span>
             </a>
         </div>

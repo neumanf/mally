@@ -15,7 +15,6 @@ import {
     provideHttpClient,
     withInterceptorsFromDi,
 } from '@angular/common/http';
-import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import {
@@ -28,6 +27,30 @@ import { DASHBOARD_ROUTES } from './app/dashboard/dashboard.routes';
 import { LANDING_ROUTES } from './app/landing/landing.routes';
 import { PASTEBIN_ROUTES } from './app/pastebin/pastebin.routes';
 import { MessageService } from 'primeng/api';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { providePrimeNG } from 'primeng/config';
+import { RedTheme } from './themes/red';
+import { provideTablerIcons } from 'angular-tabler-icons';
+import {
+    IconAlertTriangle,
+    IconCalendar,
+    IconCheck,
+    IconChevronDown,
+    IconClipboard,
+    IconDeviceFloppy,
+    IconDotsVertical,
+    IconExternalLink,
+    IconLayoutDashboard,
+    IconLink,
+    IconLoader2,
+    IconLogout2,
+    IconMenu2,
+    IconNotes,
+    IconSearch,
+    IconTrash,
+    IconUser,
+    IconX,
+} from 'angular-tabler-icons/icons';
 
 if (environment.production) {
     enableProdMode();
@@ -85,7 +108,32 @@ bootstrapApplication(AppComponent, {
             useFactory: keycloakFactory,
             multi: true,
         },
-        provideAnimations(),
+        provideAnimationsAsync(),
+        providePrimeNG({
+            theme: {
+                preset: RedTheme,
+            },
+        }),
         provideHttpClient(withInterceptorsFromDi()),
+        provideTablerIcons({
+            IconNotes,
+            IconLink,
+            IconExternalLink,
+            IconTrash,
+            IconSearch,
+            IconCheck,
+            IconX,
+            IconDotsVertical,
+            IconClipboard,
+            IconLoader2,
+            IconChevronDown,
+            IconAlertTriangle,
+            IconLayoutDashboard,
+            IconDeviceFloppy,
+            IconMenu2,
+            IconCalendar,
+            IconLogout2,
+            IconUser,
+        }),
     ],
 }).catch((err) => console.error(err));

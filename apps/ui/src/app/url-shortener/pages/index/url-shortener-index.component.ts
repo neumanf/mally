@@ -12,10 +12,17 @@ import { URLRegex } from '../../../shared/validators/url';
 import { format } from 'date-fns';
 import { ToastService } from '../../../shared/services/toast/toast.service';
 import { TooltipModule } from 'primeng/tooltip';
-import { QRCodeModule } from 'angularx-qrcode';
+import { QRCodeComponent } from 'angularx-qrcode';
 import { NgIf, NgOptimizedImage, SlicePipe } from '@angular/common';
-import { Button } from 'primeng/button';
+import {
+    Button,
+    ButtonDirective,
+    ButtonIcon,
+    ButtonLabel,
+} from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
+import { TablerIconComponent } from 'angular-tabler-icons';
+import { ButtonComponent } from '../../../shared/components/button/button.component';
 
 @Component({
     selector: 'app-url-shortener-index',
@@ -27,10 +34,15 @@ import { InputTextModule } from 'primeng/inputtext';
         InputTextModule,
         Button,
         NgIf,
-        QRCodeModule,
+        QRCodeComponent,
         TooltipModule,
         NgOptimizedImage,
         SlicePipe,
+        ButtonDirective,
+        TablerIconComponent,
+        ButtonIcon,
+        ButtonLabel,
+        ButtonComponent,
     ],
     providers: [UrlShortenerService],
 })

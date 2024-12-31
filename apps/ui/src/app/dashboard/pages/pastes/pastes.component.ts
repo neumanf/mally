@@ -23,6 +23,10 @@ import { Button } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
+import { TablerIconComponent } from 'angular-tabler-icons';
+import { ButtonComponent } from '../../../shared/components/button/button.component';
+import { IconField } from 'primeng/iconfield';
+import { InputIcon } from 'primeng/inputicon';
 
 @Component({
     selector: 'app-pastes',
@@ -39,6 +43,10 @@ import { ToastModule } from 'primeng/toast';
         TooltipModule,
         MenuModule,
         DatePipe,
+        TablerIconComponent,
+        ButtonComponent,
+        IconField,
+        InputIcon,
     ],
     providers: [ConfirmationService],
 })
@@ -54,7 +62,7 @@ export class PastesComponent {
             items: [
                 {
                     label: 'Delete',
-                    icon: 'ti ti-trash',
+                    icon: 'trash',
                     command: (event: MenuItemCommandEvent) => {
                         const id = event.item?.['data']['id'];
 
@@ -64,11 +72,8 @@ export class PastesComponent {
                             target: event.originalEvent?.target as EventTarget,
                             message:
                                 'Are you sure you want to delete this Paste?',
-                            acceptIcon: 'none',
-                            rejectIcon: 'none',
                             rejectButtonStyleClass: 'p-button-text',
                             header: 'Confirmation',
-                            icon: 'ti ti-alert-triangle',
                             accept: () => this.delete(id),
                         });
                     },
@@ -138,11 +143,8 @@ export class PastesComponent {
 
         this.confirmationService.confirm({
             message: 'Are you sure you want to delete these Pastes?',
-            acceptIcon: 'none',
-            rejectIcon: 'none',
             rejectButtonStyleClass: 'p-button-text',
             header: 'Confirmation',
-            icon: 'ti ti-alert-triangle',
             accept: () => {
                 this.pastebinService.deleteMany(ids).subscribe({
                     next: () => {

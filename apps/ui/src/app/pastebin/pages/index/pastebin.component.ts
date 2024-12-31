@@ -20,7 +20,7 @@ import { EncryptionService } from '../../../shared/services/encryption/encryptio
 import { KeycloakService } from '../../../auth/services/keycloak.service';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { DateUtils } from '../../../shared/utils/date';
-import { QRCodeModule } from 'angularx-qrcode';
+import { QRCodeComponent } from 'angularx-qrcode';
 import { PasswordModule } from 'primeng/password';
 import { CheckboxModule } from 'primeng/checkbox';
 import { Button } from 'primeng/button';
@@ -29,9 +29,11 @@ import { DropdownModule } from 'primeng/dropdown';
 import { InputTextModule } from 'primeng/inputtext';
 import { HighlightLineNumbers } from 'ngx-highlightjs/line-numbers';
 import { Highlight } from 'ngx-highlightjs';
-import { InputTextareaModule } from 'primeng/inputtextarea';
+import { TextareaModule } from 'primeng/textarea';
 import { NgIf, SlicePipe } from '@angular/common';
 import { SelectButtonModule } from 'primeng/selectbutton';
+import { ButtonComponent } from '../../../shared/components/button/button.component';
+import { TablerIconComponent } from 'angular-tabler-icons';
 
 @Component({
     selector: 'app-pastebin',
@@ -55,7 +57,7 @@ import { SelectButtonModule } from 'primeng/selectbutton';
         SelectButtonModule,
         FormsModule,
         NgIf,
-        InputTextareaModule,
+        TextareaModule,
         Highlight,
         HighlightLineNumbers,
         InputTextModule,
@@ -64,8 +66,10 @@ import { SelectButtonModule } from 'primeng/selectbutton';
         Button,
         CheckboxModule,
         PasswordModule,
-        QRCodeModule,
+        QRCodeComponent,
         SlicePipe,
+        ButtonComponent,
+        TablerIconComponent,
     ],
 })
 export class PastebinComponent implements OnInit {

@@ -6,6 +6,7 @@ import { SidebarModule } from 'primeng/sidebar';
 import { FeaturesMenuComponent } from './components/features-menu.component';
 import { NgIf, NgOptimizedImage } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { TablerIconComponent } from 'angular-tabler-icons';
 
 @Component({
     selector: 'app-header',
@@ -19,6 +20,7 @@ import { RouterLink } from '@angular/router';
         NgIf,
         FeaturesMenuComponent,
         SidebarModule,
+        TablerIconComponent,
     ],
 })
 export class HeaderComponent {

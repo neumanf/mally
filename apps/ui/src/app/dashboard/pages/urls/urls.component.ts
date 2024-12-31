@@ -18,10 +18,14 @@ import { TableLazyLoadEvent, TableModule } from 'primeng/table';
 import { DateUtils } from '../../../shared/utils/date';
 import { TooltipModule } from 'primeng/tooltip';
 import { DatePipe, NgIf } from '@angular/common';
-import { Button } from 'primeng/button';
+import { ButtonDirective, ButtonIcon, ButtonLabel } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
+import { TablerIconComponent } from 'angular-tabler-icons';
+import { ButtonComponent } from '../../../shared/components/button/button.component';
+import { IconField } from 'primeng/iconfield';
+import { InputIcon } from 'primeng/inputicon';
 
 @Component({
     selector: 'app-urls',
@@ -34,11 +38,17 @@ import { ToastModule } from 'primeng/toast';
         TableModule,
         PrimeTemplate,
         InputTextModule,
-        Button,
         NgIf,
         TooltipModule,
         MenuModule,
         DatePipe,
+        TablerIconComponent,
+        ButtonDirective,
+        ButtonIcon,
+        ButtonLabel,
+        ButtonComponent,
+        IconField,
+        InputIcon,
     ],
     providers: [UrlShortenerService, ConfirmationService],
 })
@@ -54,7 +64,7 @@ export class UrlsComponent {
             items: [
                 {
                     label: 'Delete',
-                    icon: 'ti ti-trash',
+                    icon: 'trash',
                     command: (event: MenuItemCommandEvent) => {
                         const id = event.item?.['data']['id'];
 
@@ -64,11 +74,8 @@ export class UrlsComponent {
                             target: event.originalEvent?.target as EventTarget,
                             message:
                                 'Are you sure you want to delete this URL?',
-                            acceptIcon: 'none',
-                            rejectIcon: 'none',
                             rejectButtonStyleClass: 'p-button-text',
                             header: 'Confirmation',
-                            icon: 'ti ti-alert-triangle',
                             accept: () => this.delete(id),
                         });
                     },
@@ -138,11 +145,8 @@ export class UrlsComponent {
 
         this.confirmationService.confirm({
             message: 'Are you sure you want to delete these URLs?',
-            acceptIcon: 'none',
-            rejectIcon: 'none',
             rejectButtonStyleClass: 'p-button-text',
             header: 'Confirmation',
-            icon: 'ti ti-alert-triangle',
             accept: () => {
                 this.urlShortenerService.deleteMany(ids).subscribe({
                     next: () => {
