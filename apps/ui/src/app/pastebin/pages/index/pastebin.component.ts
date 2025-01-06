@@ -23,14 +23,13 @@ import { DateUtils } from '../../../shared/utils/date';
 import { QRCodeComponent } from 'angularx-qrcode';
 import { PasswordModule } from 'primeng/password';
 import { CheckboxModule } from 'primeng/checkbox';
-import { Button } from 'primeng/button';
 import { TooltipModule } from 'primeng/tooltip';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputTextModule } from 'primeng/inputtext';
 import { HighlightLineNumbers } from 'ngx-highlightjs/line-numbers';
 import { Highlight } from 'ngx-highlightjs';
 import { TextareaModule } from 'primeng/textarea';
-import { NgIf, SlicePipe } from '@angular/common';
+import { SlicePipe } from '@angular/common';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { ButtonComponent } from '../../../shared/components/button/button.component';
 import { TablerIconComponent } from 'angular-tabler-icons';
@@ -56,14 +55,12 @@ import { TablerIconComponent } from 'angular-tabler-icons';
         ReactiveFormsModule,
         SelectButtonModule,
         FormsModule,
-        NgIf,
         TextareaModule,
         Highlight,
         HighlightLineNumbers,
         InputTextModule,
         DropdownModule,
         TooltipModule,
-        Button,
         CheckboxModule,
         PasswordModule,
         QRCodeComponent,

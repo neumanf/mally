@@ -13,13 +13,7 @@ import { format } from 'date-fns';
 import { ToastService } from '../../../shared/services/toast/toast.service';
 import { TooltipModule } from 'primeng/tooltip';
 import { QRCodeComponent } from 'angularx-qrcode';
-import { NgIf, NgOptimizedImage, SlicePipe } from '@angular/common';
-import {
-    Button,
-    ButtonDirective,
-    ButtonIcon,
-    ButtonLabel,
-} from 'primeng/button';
+import { NgOptimizedImage, SlicePipe } from '@angular/common';
 import { InputTextModule } from 'primeng/inputtext';
 import { TablerIconComponent } from 'angular-tabler-icons';
 import { ButtonComponent } from '../../../shared/components/button/button.component';
@@ -32,16 +26,11 @@ import { ButtonComponent } from '../../../shared/components/button/button.compon
     imports: [
         ReactiveFormsModule,
         InputTextModule,
-        Button,
-        NgIf,
         QRCodeComponent,
         TooltipModule,
         NgOptimizedImage,
         SlicePipe,
-        ButtonDirective,
         TablerIconComponent,
-        ButtonIcon,
-        ButtonLabel,
         ButtonComponent,
     ],
     providers: [UrlShortenerService],

@@ -1,0 +1,48 @@
+spring:
+    datasource:
+        url: jdbc:postgresql://postgres:5432/mally
+        username: postgres
+        password: postgres
+        driverClassName: org.postgresql.Driver
+
+    jpa:
+        database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+    main:
+        allow-bean-definition-overriding: true
+
+    cache:
+        jcache:
+            config: classpath:ehcache.xml
+
+    security:
+        oauth2:
+            resourceserver:
+                jwt:
+                    issuer-uri: "http://keycloak:9090/realms/mally"
+
+    rabbitmq:
+        host: ${RABBITMQ_HOST:localhost}
+        port: ${RABBITMQ_PORT:5672}
+        username: ${RABBITMQ_USER:mally}
+        password: ${RABBITMQ_PASSWORD:mally}
+
+influx:
+    url: ${INFLUX_URL:http://localhost:8086}
+    username: ${INFLUX_USER:mally}
+    password: ${INFLUX_PASSWORD:mally123}
+    token: ${INFLUX_TOKEN:mally123}
+    org: ${INFLUX_ORG:mally}
+    buckets: url-clicks
+
+logging:
+    config: classpath:logback-test.xml
+
+bucket4j:
+    enabled: true
+    filter-config-caching-enabled: true
+    filter-config-cache-name: filterConfigCache
+
+mally:
+    client:
+        url: 'http://localhost:4200'

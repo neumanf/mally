@@ -1,0 +1,16 @@
+databaseChangeLog:
+    - changeSet:
+        id: 6-1
+        author: Neuman F.
+        changes:
+          - renameTable:
+              oldTableName: url
+              newTableName: short_url
+    - changeSet:
+        id: 6-2
+        author: Neuman F.
+        changes:
+          - renameColumn:
+              tableName: short_url
+              oldColumnName: url
+              newColumnName: long_url

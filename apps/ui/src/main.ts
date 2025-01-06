@@ -40,6 +40,7 @@ import {
     IconDeviceFloppy,
     IconDotsVertical,
     IconExternalLink,
+    IconGraph,
     IconLayoutDashboard,
     IconLink,
     IconLoader2,
@@ -134,6 +135,7 @@ bootstrapApplication(AppComponent, {
             IconCalendar,
             IconLogout2,
             IconUser,
+            IconGraph,
         }),
     ],
 }).catch((err) => console.error(err));

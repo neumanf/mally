@@ -1,6 +1,6 @@
 package com.mally.api.shared.rest.advices;
 
-import com.mally.api.shared.rest.dtos.ApiResponseDTO;
+import com.mally.api.shared.rest.dtos.ApiResponse;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
@@ -20,20 +20,20 @@ class ErrorHandlingControllerAdvice {
     @ExceptionHandler(ConstraintViolationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
-    ApiResponseDTO onConstraintValidationException(ConstraintViolationException e) {
+    ApiResponse onConstraintValidationException(ConstraintViolationException e) {
         List<String> error = new ArrayList<>();
 
         for (ConstraintViolation violation : e.getConstraintViolations()) {
             error.add(violation.getPropertyPath().toString() + ' ' + violation.getMessage());
         }
 
-        return ApiResponseDTO.error("Validation error", error);
+        return ApiResponse.error("Validation error", error);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
-    ApiResponseDTO onMethodArgumentNotValidException(
+    ApiResponse onMethodArgumentNotValidException(
             MethodArgumentNotValidException e) {
         List<String> error = new ArrayList<>();
 
@@ -41,7 +41,7 @@ class ErrorHandlingControllerAdvice {
             error.add(fieldError.getField() + ' ' + fieldError.getDefaultMessage());
         }
 
-        return ApiResponseDTO.error("Validation error", error);
+        return ApiResponse.error("Validation error", error);
     }
 
 }

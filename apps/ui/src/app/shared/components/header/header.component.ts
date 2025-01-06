@@ -4,7 +4,7 @@ import { fadeInAnimation } from '../../animations/fadeIn';
 import { fadeOutAnimation } from '../../animations/fadeOut';
 import { SidebarModule } from 'primeng/sidebar';
 import { FeaturesMenuComponent } from './components/features-menu.component';
-import { NgIf, NgOptimizedImage } from '@angular/common';
+import { NgOptimizedImage } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { TablerIconComponent } from 'angular-tabler-icons';
 
@@ -17,7 +17,6 @@ import { TablerIconComponent } from 'angular-tabler-icons';
     imports: [
         RouterLink,
         NgOptimizedImage,
-        NgIf,
         FeaturesMenuComponent,
         SidebarModule,
         TablerIconComponent,
