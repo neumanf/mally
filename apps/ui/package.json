@@ -24,6 +24,7 @@
         "@primeng/themes": "^19.0.2",
         "angular-tabler-icons": "^3.26.0",
         "angularx-qrcode": "^19.0.0",
+        "chart.js": "^4.4.7",
         "crypto-js": "^4.2.0",
         "crypto.js": "^3.2.2",
         "date-fns": "^3.6.0",
