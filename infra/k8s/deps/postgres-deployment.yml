@@ -1,0 +1,51 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-service
+spec:
+  selector:
+    app: postgres
+  ports:
+    - name: postgres
+      protocol: TCP
+      port: 5432
+      targetPort: 5432
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+        - name: postgres
+          image: ghcr.io/neumanf/mally-postgres
+          livenessProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - pg_isready -q -d keycloak -U postgres
+            initialDelaySeconds: 45
+            timeoutSeconds: 5
+          env:
+            - name: POSTGRES_DBS
+              value: mally,keycloak
+            - name: POSTGRES_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: POSTGRES_USERNAME
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: POSTGRES_PASSWORD

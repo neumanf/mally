@@ -63,11 +63,13 @@ services:
         container_name: mally-rabbitmq
         image: rabbitmq:4.0-management-alpine
         environment:
-            RABBITMQ_DEFAULT_USER: ${RABBIT_USER:-mally}
-            RABBITMQ_DEFAULT_PASS: ${RABBIT_PASSWORD:-mally}
+            RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER:-mally}
+            RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD:-mally}
         ports:
             - "5672:5672"
             - "15672:15672"
+        networks:
+            - mally-network
 
     influxdb:
         container_name: mally-influxdb
@@ -84,6 +86,8 @@ services:
         volumes:
             - influxdb2-data:/var/lib/influxdb2
             - influxdb2-config:/etc/influxdb2
+        networks:
+            - mally-network
 
     api:
         container_name: mally-api
